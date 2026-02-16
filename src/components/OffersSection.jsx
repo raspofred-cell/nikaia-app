@@ -1,0 +1,128 @@
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Search, Settings, Bot, TrendingUp, ArrowRight, Check } from "lucide-react";
+
+const offers = [
+  {
+    icon: Search,
+    title: "Diagnostic Gratuit",
+    description: "Analyse complète de vos process actuels et identification des opportunités d'automatisation.",
+    features: ["Audit de vos outils", "Cartographie des flux", "Recommandations personnalisées"],
+    cta: "Demander un diagnostic",
+    highlight: true
+  },
+  {
+    icon: Settings,
+    title: "Automatisation sur mesure",
+    description: "Workflows n8n personnalisés pour connecter tous vos outils et automatiser vos tâches répétitives.",
+    features: ["Intégration CRM/ERP", "Workflows emails", "Synchronisation données"],
+    cta: "En savoir plus"
+  },
+  {
+    icon: Bot,
+    title: "Agents IA",
+    description: "Assistants virtuels intelligents pour le support client, la qualification de leads et plus encore.",
+    features: ["Chatbot 24/7", "Qualification automatique", "Réponses personnalisées"],
+    cta: "Découvrir"
+  },
+  {
+    icon: TrendingUp,
+    title: "Optimisation continue",
+    description: "Suivi des performances et amélioration constante de vos automatisations pour maximiser le ROI.",
+    features: ["Reporting mensuel", "A/B testing", "Support prioritaire"],
+    cta: "En savoir plus"
+  }
+];
+
+export const OffersSection = ({ onSelectOffer }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section 
+      id="offres" 
+      className="relative py-24 md:py-32 bg-[#050505]"
+      data-testid="offers-section"
+    >
+      <div className="max-w-7xl mx-auto px-6 md:px-12" ref={ref}>
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          <span className="text-sm uppercase tracking-widest text-red-500 font-semibold mb-4 block">
+            Nos offres
+          </span>
+          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-6">
+            Des solutions orientées résultats
+          </h2>
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            Chaque offre est conçue pour générer un ROI mesurable et rapide.
+          </p>
+        </motion.div>
+
+        {/* Offers Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {offers.map((offer, index) => (
+            <motion.div
+              key={offer.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`relative bg-neutral-900/50 border rounded-2xl p-8 card-hover ${
+                offer.highlight 
+                  ? "border-red-500/50 shadow-[0_0_30px_rgba(220,38,38,0.15)]" 
+                  : "border-white/10"
+              }`}
+              data-testid={`offer-card-${index}`}
+            >
+              {offer.highlight && (
+                <div className="absolute -top-3 left-8 px-3 py-1 bg-red-500 rounded-full text-xs font-medium text-white">
+                  Recommandé
+                </div>
+              )}
+
+              <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
+                <offer.icon className="w-6 h-6 text-red-500" />
+              </div>
+              
+              <h3 className="text-2xl font-medium text-white mb-3">
+                {offer.title}
+              </h3>
+              
+              <p className="text-gray-400 leading-relaxed mb-6">
+                {offer.description}
+              </p>
+
+              <ul className="space-y-3 mb-8">
+                {offer.features.map((feature, i) => (
+                  <li key={i} className="flex items-center gap-3 text-gray-300">
+                    <Check className="w-5 h-5 text-red-500 flex-shrink-0" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <button
+                onClick={() => onSelectOffer(offer.title)}
+                className={`w-full flex items-center justify-center gap-2 py-3 rounded-full font-medium transition-all duration-200 ${
+                  offer.highlight 
+                    ? "bg-red-600 hover:bg-red-700 text-white glow-red-hover" 
+                    : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
+                }`}
+                data-testid={`offer-cta-${index}`}
+              >
+                {offer.cta}
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default OffersSection;
