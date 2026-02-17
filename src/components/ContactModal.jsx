@@ -47,13 +47,29 @@ export const ContactModal = ({ isOpen, onClose, selectedOffer }) => {
   };
 
   const handleSubmit = async (e) => {
+    console.log("SUBMIT TRIGGERED");
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
 
     try {
-      await axios.post(`${API}/contact`, formData);
+      console.log("FETCH START");
+      const response = await fetch("https://agent.nikaia-automations.com/webhook/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error("Erreur serveur");
+      }
+
       setIsSuccess(true);
+
       setTimeout(() => {
         onClose();
         setIsSuccess(false);
@@ -63,11 +79,12 @@ export const ContactModal = ({ isOpen, onClose, selectedOffer }) => {
           phone: "",
           company: "",
           message: "",
-          offer_type: ""
         });
       }, 2000);
-    } catch (err) {
-      setError("Une erreur s'est produite. Veuillez réessayer ou nous contacter directement.");
+
+    } catch (error) {
+      console.error(error);
+      setError("Erreur lors de l'envoi");
     } finally {
       setIsSubmitting(false);
     }
