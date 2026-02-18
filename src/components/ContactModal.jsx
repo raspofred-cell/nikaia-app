@@ -77,7 +77,6 @@ const handleSubmit = async (e) => {
     setTimeout(() => {
       onClose();
       setIsSuccess(false);
-      }, 3000);
       setFormData({
         name: "",
         email: "",
