@@ -49,17 +49,16 @@ export const ContactModal = ({ isOpen, onClose, selectedOffer }) => {
 
 const handleSubmit = async (e) => {
   console.log("SUBMIT TRIGGERED");
-  e.preventDefault();
+  e?.preventDefault();
 
   setIsSubmitting(true);
   setError("");
   setIsSuccess(false);
   setSuccessMessage("");
 
-  try {
+   try {
     console.log("FETCH START");
-
-    const response = await fetch("/api/lead", {
+    const response = await fetch("https://agent.nikaia-automations.com/webhook/lead", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,37 +66,31 @@ const handleSubmit = async (e) => {
       body: JSON.stringify(formData),
     });
 
-    // 🔥 gestion erreur HTTP
-    if (!response.ok) {
-      throw new Error("Erreur HTTP");
-    }
-
     const data = await response.json();
 
-    console.log("API RESPONSE:", data);
-
-    // 🔥 sécurité réponse
     if (!data.success) {
-      throw new Error(data.error || "Erreur serveur");
+      throw new Error("Erreur serveur");
     }
 
-    // ✅ SUCCESS
-    setSuccessMessage(data.data?.message || "Demande envoyée !");
     setIsSuccess(true);
 
-    // 🔥 reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      message: "",
-      offer_type: "",
-    });
+    setTimeout(() => {
+      onClose();
+      setIsSuccess(false);
+      }, 3000);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        message: "",
+        offer_type: "",
+      });
+    }, 2000);
 
   } catch (error) {
-    console.error("ERROR:", error);
-    setError(error.message || "Une erreur est survenue");
+    console.error(error);
+    setError("Erreur lors de l'envoi");
   } finally {
     setIsSubmitting(false);
   }
