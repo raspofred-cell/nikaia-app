@@ -53,14 +53,14 @@ export const ContactModal = ({ isOpen, onClose, selectedOffer }) => {
     setError("");
 
     try {
-      console.log("FETCH START");
-      const response = await fetch("https://agent.nikaia-automations.com/webhook/lead", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    console.log("FETCH START");
+    const response = await fetch("/api/lead", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
       const data = await response.json();
 
