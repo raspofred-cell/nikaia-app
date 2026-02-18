@@ -11,7 +11,7 @@ const solutions = [
   },
   {
     icon: Workflow,
-    title: "Workflows n8n",
+    title: "Workflows n8n - Make",
     description: "Connectez vos outils (CRM, Email, Stripe) en un écosystème fluide et automatisé.",
     color: "red"
   },

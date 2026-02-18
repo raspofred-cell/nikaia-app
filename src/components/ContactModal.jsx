@@ -20,7 +20,6 @@ const offerTypes = [
   { value: "diagnostic", label: "Diagnostic Gratuit" },
   { value: "automatisation", label: "Automatisation sur mesure" },
   { value: "agents-ia", label: "Agents IA" },
-  { value: "optimisation", label: "Optimisation continue" },
   { value: "autre", label: "Autre" },
 ];
 
@@ -85,7 +84,7 @@ const handleSubmit = async (e) => {
         message: "",
         offer_type: "",
       });
-    }, 2000);
+    }, 3000);
 
   } catch (error) {
     console.error(error);
@@ -123,8 +122,8 @@ const handleSubmit = async (e) => {
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-white/10">
                 <div>
-                  <h2 className="text-2xl font-semibold text-white">Contactez-nous</h2>
-                  <p className="text-gray-400 text-sm mt-1">Réponse sous 24h garantie</p>
+                  <h2 className="text-2xl font-semibold text-white">Merci pour votre demande</h2>
+                  <p className="text-gray-400 text-sm mt-1">Rappel sous 24h</p>
                 </div>
                 <button
                   onClick={onClose}
@@ -147,7 +146,7 @@ const handleSubmit = async (e) => {
                       <CheckCircle className="w-8 h-8 text-green-500" />
                     </div>
                     <h3 className="text-xl font-semibold text-white mb-2">Message envoyé !</h3>
-                    <p className="text-gray-400">Nous vous recontacterons très rapidement.</p>
+                    <p className="text-gray-400">Nous reviendrons vers vous très rapidement.</p>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
@@ -160,7 +159,7 @@ const handleSubmit = async (e) => {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        placeholder="Jean Dupont"
+                        placeholder="Prenom Nom"
                         className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-red-500"
                         data-testid="contact-name"
                       />
@@ -176,7 +175,7 @@ const handleSubmit = async (e) => {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        placeholder="jean@entreprise.com"
+                        placeholder="votre@email.com"
                         className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-red-500"
                         data-testid="contact-email"
                       />
