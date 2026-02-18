@@ -36,6 +36,7 @@ export const ContactModal = ({ isOpen, onClose, selectedOffer }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,14 +47,18 @@ export const ContactModal = ({ isOpen, onClose, selectedOffer }) => {
     setFormData(prev => ({ ...prev, offer_type: value }));
   };
 
-  const handleSubmit = async (e) => {
-    console.log("SUBMIT TRIGGERED");
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError("");
+const handleSubmit = async (e) => {
+  console.log("SUBMIT TRIGGERED");
+  e.preventDefault();
 
-    try {
+  setIsSubmitting(true);
+  setError("");
+  setIsSuccess(false);
+  setSuccessMessage("");
+
+  try {
     console.log("FETCH START");
+
     const response = await fetch("/api/lead", {
       method: "POST",
       headers: {
@@ -62,33 +67,41 @@ export const ContactModal = ({ isOpen, onClose, selectedOffer }) => {
       body: JSON.stringify(formData),
     });
 
-      const data = await response.json();
-
-      if (!data.success) {
-        throw new Error("Erreur serveur");
-      }
-
-      setIsSuccess(true);
-
-      setTimeout(() => {
-        onClose();
-        setIsSuccess(false);
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          company: "",
-          message: "",
-        });
-      }, 2000);
-
-    } catch (error) {
-      console.error(error);
-      setError("Erreur lors de l'envoi");
-    } finally {
-      setIsSubmitting(false);
+    // 🔥 gestion erreur HTTP
+    if (!response.ok) {
+      throw new Error("Erreur HTTP");
     }
-  };
+
+    const data = await response.json();
+
+    console.log("API RESPONSE:", data);
+
+    // 🔥 sécurité réponse
+    if (!data.success) {
+      throw new Error(data.error || "Erreur serveur");
+    }
+
+    // ✅ SUCCESS
+    setSuccessMessage(data.data?.message || "Demande envoyée !");
+    setIsSuccess(true);
+
+    // 🔥 reset form
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      message: "",
+      offer_type: "",
+    });
+
+  } catch (error) {
+    console.error("ERROR:", error);
+    setError(error.message || "Une erreur est survenue");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <AnimatePresence>
