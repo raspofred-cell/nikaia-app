@@ -23,7 +23,7 @@ const offers = [
     title: "Agents IA",
     description: "Assistants virtuels intelligents pour le support client, la qualification de leads et plus encore.",
     features: ["Chatbot 24/7", "Qualification automatique", "Réponses personnalisées"],
-    cta: "En Savoir plus"
+    cta: "En savoir plus"
   },
   {
     icon: TrendingUp,
