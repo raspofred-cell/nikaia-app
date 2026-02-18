@@ -1,0 +1,14 @@
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+Allow: /manifest.json
+Allow: /logo192.png
+Allow: /logo512.png
+
+# Indique à Google que tout le contenu peut être indexé
+Disallow: /static/js/*.js$
+Disallow: /static/css/*.css$
+
+# Si tu n'as pas encore de sitemap, tu peux laisser cette ligne ou la supprimer
+Sitemap: https://nikaia-automations.com/sitemap.xml
