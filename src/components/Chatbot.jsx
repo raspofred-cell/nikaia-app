@@ -49,14 +49,17 @@ export const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(`${API}/chat`, {
-        session_id: sessionId,
+      const response = await axios.post(
+        "https://agent.nikaia-automations.com/webhook/chatbot",
+        {
+        sessionid: sessionId,
         message: userMessage
-      });
+       }
+    );
 
       setMessages(prev => [...prev, { 
         role: "bot", 
-        content: response.data.response 
+        content: response.data.reply 
       }]);
     } catch (error) {
       console.error("Chat error:", error);

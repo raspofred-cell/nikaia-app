@@ -15,7 +15,7 @@ const faqs = [
   },
   {
     question: "Est-ce compatible avec mes outils actuels ?",
-    answer: "Oui, nous connectons tout via API et webhooks n8n. Que vous utilisiez un CRM, un ERP, des outils email, Stripe ou autre, nous créons des ponts entre tous vos systèmes."
+    answer: "Oui, nous connectons tout via API et webhooks n8n ou Make. Que vous utilisiez un CRM, un ERP, des outils email, Stripe ou autre, nous créons des ponts entre tous vos systèmes."
   },
   {
     question: "Quel est le coût d'une automatisation ?",

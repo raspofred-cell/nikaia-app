@@ -14,7 +14,7 @@ const offers = [
   {
     icon: Settings,
     title: "Automatisation sur mesure",
-    description: "Workflows n8n personnalisés pour connecter tous vos outils et automatiser vos tâches répétitives.",
+    description: "Workflows n8n ou Make personnalisés pour connecter tous vos outils et automatiser vos tâches répétitives.",
     features: ["Intégration CRM/ERP", "Workflows emails", "Synchronisation données"],
     cta: "En savoir plus"
   },
