@@ -16,14 +16,14 @@ function App() {
         style={{ 
           background: "#1a1a1a", 
           color: "#fff", 
-          fontSize: "14px", 
+          fontSize: "16px", 
           zIndex: "99999", 
           fontFamily: "Montserrat, sans-serif" 
         }}
         buttonStyle={{ 
           background: "#ff0000", 
           color: "#fff", 
-          fontSize: "14px", 
+          fontSize: "16px", 
           borderRadius: "5px", 
           padding: "10px 20px", 
           fontWeight: "bold",
@@ -33,7 +33,7 @@ function App() {
           background: "transparent", 
           border: "1px solid #fff", 
           color: "#fff", 
-          fontSize: "14px", 
+          fontSize: "16px", 
           borderRadius: "5px",
           fontFamily: "Montserrat, sans-serif" 
         }}
