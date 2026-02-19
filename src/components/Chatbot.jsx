@@ -59,7 +59,7 @@ export const Chatbot = () => {
 
       setMessages(prev => [...prev, { 
         role: "bot", 
-        content: response.data.reply 
+        content: (typeof response.data === 'string' ? JSON.parse(response.data) : response.data).reply
       }]);
     } catch (error) {
       console.error("Chat error:", error);
