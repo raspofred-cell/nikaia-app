@@ -56,7 +56,7 @@ export const Chatbot = () => {
         message: userMessage
        }
     );
-
+      console.log(response.data);
       setMessages(prev => [...prev, { 
         role: "bot", 
         content: response.data.reply
