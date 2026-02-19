@@ -184,4 +184,5 @@ code {
     width: 100% !important;
     display: flex !important;
     background: #1a1a1a !important;
+    font-family: 'Montserrat', sans-serif !important; /* Ajoute cette ligne */
 }
