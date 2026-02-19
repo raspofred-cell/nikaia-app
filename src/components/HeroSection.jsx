@@ -38,7 +38,7 @@ export const HeroSection = ({ onContact }) => {
           {/* Headline */}
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-none text-white mb-6">
             Transformez vos tâches<br />
-            <span className="text-red-500">en revenus.</span>
+            <span className="text-red-500">en revenus</span>
           </h1>
 
           {/* Subheadline */}
