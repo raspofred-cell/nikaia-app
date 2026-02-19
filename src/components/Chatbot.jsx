@@ -59,7 +59,7 @@ export const Chatbot = () => {
       console.log(response.data);
       setMessages(prev => [...prev, { 
         role: "bot", 
-        content: response.data.reply
+        content: response.data.response
       }]);
     } catch (error) {
       console.error("Chat error:", error);
