@@ -87,7 +87,7 @@ export const Footer = ({ onContact }) => {
               </li>
               <li className="flex items-start gap-3 text-gray-400">
                 <MapPin className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                <span>Nice & région PACA</span>
+                <span>Nice & Région PACA</span>
               </li>
             </ul>
           </div>
