@@ -120,8 +120,8 @@ export const Chatbot = () => {
                   className={message.role === "bot" ? "message-bot" : "message-user"}
                   data-testid={`chat-message-${index}`}
                 >
-                  {message.content}
-                </div>
+                  {message.content.split('\n').map((line, i) => (
+                    <span key={i}>{line}<br/></span>
               ))}
               {isLoading && (
                 <div className="message-bot flex items-center gap-2">
