@@ -122,6 +122,8 @@ export const Chatbot = () => {
                 >
                   {message.content.split('\n').map((line, i) => (
                     <span key={i}>{line}<br/></span>
+                  ))}
+                </div>
               ))}
               {isLoading && (
                 <div className="message-bot flex items-center gap-2">
