@@ -40,7 +40,7 @@ export const Footer = ({ onContact }) => {
               </li>
               <li>
                 <a href="#solutions" className="text-gray-400 hover:text-white transition-colors duration-200">
-                  Solutions
+                  Les Solutions
                 </a>
               </li>
               <li>
