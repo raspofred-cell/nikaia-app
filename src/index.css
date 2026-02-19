@@ -173,5 +173,15 @@ code {
         border-right-width: inherit;
         border-top-width: inherit;
         border-bottom-width: inherit;
+        
     }
+}
+/* Bloc indépendant à mettre tout à la fin */
+.CookieConsent {
+    z-index: 99999 !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    background: #1a1a1a !important;
 }
