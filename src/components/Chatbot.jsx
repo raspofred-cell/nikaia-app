@@ -52,7 +52,7 @@ export const Chatbot = () => {
       const response = await axios.post(
         "https://agent.nikaia-automations.com/webhook/chatbot",
         {
-        sessionid: sessionId,
+        sessionId: sessionId,
         message: userMessage
        }
     );
@@ -120,7 +120,7 @@ export const Chatbot = () => {
                   className={message.role === "bot" ? "message-bot" : "message-user"}
                   data-testid={`chat-message-${index}`}
                 >
-                  {message.content.split('\n').map((line, i) => (
+                  {(message.content || ```````).split('\n').map((line, i) => (
                     <span key={i}>{line}<br/></span>
                   ))}
                 </div>
