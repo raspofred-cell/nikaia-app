@@ -44,7 +44,7 @@ export const CTASection = ({ onContact }) => {
             </motion.button>
             
             <motion.a
-              href="tel:0619022502"
+              href="tel:0619251902"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="btn-secondary flex items-center gap-2 text-base"

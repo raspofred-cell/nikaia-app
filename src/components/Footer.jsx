@@ -77,7 +77,7 @@ export const Footer = ({ onContact }) => {
               </li>
               <li>
                 <a 
-                  href="tel:0619022502" 
+                  href="tel:0619251902" 
                   className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors duration-200"
                   data-testid="footer-phone"
                 >
