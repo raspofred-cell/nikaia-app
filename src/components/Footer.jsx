@@ -82,7 +82,7 @@ export const Footer = ({ onContact }) => {
                   data-testid="footer-phone"
                 >
                   <Phone className="w-5 h-5 text-nikaia flex-shrink-0" />
-                  <span>06 19 02 25 02</span>
+                  <span>06 19 25 19 02</span>
                 </a>
               </li>
               <li className="flex items-start gap-3 text-gray-400">
