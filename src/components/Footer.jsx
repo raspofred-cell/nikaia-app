@@ -71,7 +71,7 @@ export const Footer = ({ onContact }) => {
                   className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors duration-200"
                   data-testid="footer-email"
                 >
-                  <Mail className="w-5 h-5 text-red-500 flex-shrink-0" />
+                  <Mail className="w-5 h-5 text-nikaia flex-shrink-0" />
                   <span className="text-sm">contact@nikaia-automations.com</span>
                 </a>
               </li>
@@ -81,12 +81,12 @@ export const Footer = ({ onContact }) => {
                   className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors duration-200"
                   data-testid="footer-phone"
                 >
-                  <Phone className="w-5 h-5 text-red-500 flex-shrink-0" />
+                  <Phone className="w-5 h-5 text-nikaia flex-shrink-0" />
                   <span>06 19 02 25 02</span>
                 </a>
               </li>
               <li className="flex items-start gap-3 text-gray-400">
-                <MapPin className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-nikaia flex-shrink-0 mt-0.5" />
                 <span>Nice & Région PACA</span>
               </li>
             </ul>

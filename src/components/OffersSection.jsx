@@ -52,7 +52,7 @@ export const OffersSection = ({ onSelectOffer }) => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <span className="text-sm uppercase tracking-widest text-red-500 font-semibold mb-4 block">
+          <span className="text-sm uppercase tracking-widest text-nikaia font-semibold mb-4 block">
             Nos offres
           </span>
           <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-6">
@@ -99,7 +99,7 @@ export const OffersSection = ({ onSelectOffer }) => {
               <ul className="space-y-3 mb-8">
                 {offer.features.map((feature, i) => (
                   <li key={i} className="flex items-center gap-3 text-gray-300">
-                    <Check className="w-5 h-5 text-red-500 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-nikaia flex-shrink-0" />
                     <span>{feature}</span>
                   </li>
                 ))}

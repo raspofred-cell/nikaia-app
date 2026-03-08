@@ -52,7 +52,7 @@ export const SolutionSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <span className="text-sm uppercase tracking-widest text-red-500 font-semibold mb-4 block">
+          <span className="text-sm uppercase tracking-widest text-nikaia font-semibold mb-4 block">
             La solution
           </span>
           <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-6">
