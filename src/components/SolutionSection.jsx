@@ -71,7 +71,7 @@ export const SolutionSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`bg-neutral-900/50 border border-white/10 rounded-2xl p-8 card-hover ${
+              className={`bg-neutral-900/50 border border-white/10 rounded-2xl p-8 ${
                 index === 0 ? "md:col-span-2" : ""
               }`}
               data-testid={`solution-card-${index}`}
