@@ -71,12 +71,9 @@ export const SolutionSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`bg-neutral-900/50 border border-white/10 rounded-2xl p-8 ${
-                index === 0 ? "md:col-span-2" : ""
-              }`}
-              data-testid={`solution-card-${index}`}
+              className="bg-neutral-900/50 border border-white/10 rounded-2xl p-8"
             >
-              <div className="flex flex-col md:flex-row md:items-start gap-6">
+              <div className="flex flex-col md:flex-row ..."></div>
                 <div className="w-14 h-14 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0">
                   <solution.icon className="w-7 h-7 text-red-500" />
                 </div>
