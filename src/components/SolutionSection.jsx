@@ -72,39 +72,26 @@ export const SolutionSection = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-neutral-900/50 border border-white/10 rounded-2xl p-8"
-            >
-              <div className="flex flex-col md:flex-row ..."></div>
+        >
+              <div className="flex flex-col md:flex-row md:items-start gap-6">
                 <div className="w-14 h-14 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0">
                   <solution.icon className="w-7 h-7 text-red-500" />
                 </div>
-                
+
                 <div className="flex-1">
                   <h3 className="text-2xl md:text-3xl font-medium text-white mb-3">
                     {solution.title}
                   </h3>
-                  
+
                   <p className="text-gray-400 leading-relaxed text-lg">
                     {solution.description}
                   </p>
                 </div>
+
               </div>
             </motion.div>
-          ))}
-        </div>
-
-        {/* Visual Element */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 rounded-2xl overflow-hidden border border-white/10"
-        >
-          <img 
-            src="https://images.unsplash.com/photo-1571677246347-5040036b95cc?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&v=2"
-            alt="Dashboard futuriste"
-            className="w-full h-64 md:h-80 object-cover opacity-80"
-          />
-        </motion.div>
+         ))}
+         </div>
       </div>
     </section>
   );
