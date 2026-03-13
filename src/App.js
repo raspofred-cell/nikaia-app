@@ -2,6 +2,7 @@ import CookieConsent from "react-cookie-consent";
 import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/politique-de-confidentialite" element={<PrivacyPolicy />} />
         </Routes>
       </BrowserRouter>
     </div>
