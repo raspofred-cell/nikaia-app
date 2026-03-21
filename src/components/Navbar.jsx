@@ -6,11 +6,11 @@ import { Menu, X } from "lucide-react";
 const LOGO_URL = "https://customer-assets.emergentagent.com/job_boost-productivity-1/artifacts/pdgzhljg_NikaIA%20automations%20blanc.png";
 
 const navLinks = [
-  { href: "#probleme", label: "Problème" },
-  { href: "#solutions", label: "Solutions" },
-  { href: "#offres", label: "Offres" },
-  { href: "#processus", label: "Processus" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/#probleme", label: "Problème" },
+  { href: "/#solutions", label: "Solutions" },
+  { href: "/#offres", label: "Offres" },
+  { href: "/#processus", label: "Processus" },
+  { href: "/#faq", label: "FAQ" },
   { href: "/qui-sommes-nous", label: "Qui sommes-nous" },
 ];
 
