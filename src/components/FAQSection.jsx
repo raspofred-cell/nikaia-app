@@ -11,32 +11,32 @@ import {
 
 const faqs = [
   {
-    question: "Combien de temps pour voir les premiers résultats ?",
-    answer: "Vous pouvez voir les premiers résultats en moins de 14 jours. Notre processus est conçu pour un déploiement rapide avec un impact immédiat sur vos opérations."
+    question: "Je ne suis pas informaticien, est-ce que c'est fait pour moi ?",
+    answer: "C'est exactement pour vous. Vous n'avez pas besoin de comprendre comment ça fonctionne, vous avez juste besoin que ça fonctionne. On s'occupe de tout : conception, mise en place, et on vous forme en 30 minutes sur ce que vous avez à utiliser au quotidien."
   },
   {
-    question: "Est-ce compatible avec mes outils actuels ?",
-    answer: "Oui, nous connectons tout via API et webhooks n8n ou Make. Que vous utilisiez un CRM, un ERP, des outils email, Stripe ou autre, nous créons des ponts entre tous vos systèmes."
+    question: "Est-ce que ça va fonctionner avec mes outils actuels ?",
+    answer: "Dans 95% des cas, oui. Que vous utilisiez un logiciel de devis, un ERP, Gmail, WhatsApp, Telegram ou des fichiers Excel, on s'adapte à ce que vous avez déjà. Pas besoin de tout changer."
   },
   {
-    question: "Quel est le coût d'une automatisation ?",
-    answer: "Chaque projet est unique. Nous commençons toujours par un diagnostic gratuit pour évaluer vos besoins et vous proposer une solution adaptée à votre budget avec un ROI prévisible."
+    question: "Combien ça coûte ?",
+    answer: "Ça dépend de ce qu'on automatise. On commence toujours par un diagnostic gratuit pour identifier vos besoins et vous proposer un chiffrage clair, sans surprise. Le diagnostic ne vous engage à rien."
   },
   {
-    question: "Faut-il des compétences techniques ?",
-    answer: "Non, c'est notre travail ! Nous nous occupons de tout : conception, développement, déploiement et maintenance. Vous n'avez qu'à utiliser vos nouvelles automatisations."
+    question: "Combien de temps avant de voir un résultat concret ?",
+    answer: "Les premières automatisations sont en production sous 2 à 4 semaines. Certains gains de temps sont visibles dès la première semaine, notamment sur les tâches répétitives comme les relances ou les rapports."
   },
   {
-    question: "Proposez-vous un accompagnement après la mise en place ?",
-    answer: "Absolument. Notre offre d'optimisation continue inclut un suivi mensuel, des rapports de performance et des ajustements pour maximiser votre ROI dans le temps."
+    question: "Et si ça tombe en panne ?",
+    answer: "On surveille vos automatisations et on intervient en cas de problème. Vous avez un interlocuteur unique, basé à Nice, joignable directement, pas un ticket support qui reste sans réponse 3 jours."
   },
   {
-    question: "Travaillez-vous uniquement à Nice ?",
-    answer: "Nous sommes basés à Nice mais intervenons dans toute la région PACA et au-delà. La plupart de nos interventions se font à distance, ce qui nous permet d'accompagner des entreprises partout en France."
+    question: "Vous travaillez uniquement avec le BTP ?",
+    answer: "Non, mais c'est notre secteur de prédilection. 18 ans de terrain dans le bâtiment nous permettent de comprendre vos contraintes sans que vous ayez à tout expliquer. On travaille aussi avec d'autres PME et artisans de la région PACA."
   },
   {
-    question: "Quels secteurs accompagnez-vous ?",
-    answer: "Nous accompagnons principalement les PME, TPE, indépendants, e-commerce et startups. Nous avons une expertise particulière dans le bâtiment et l'immobilier, mais nos solutions s'adaptent à tous les secteurs."
+    question: "Que se passe-t-il après la mise en place ?",
+    answer: "On ne disparaît pas. On assure un suivi mensuel (en option), on ajuste si besoin, et on est disponible si vous voulez automatiser autre chose. L'objectif c'est une relation à long terme, pas une prestation one-shot."
   }
 ];
 
