@@ -14,7 +14,6 @@ import Footer from "../components/Footer";
 import Chatbot from "../components/Chatbot";
 import ContactModal from "../components/ContactModal";
 import CaseStudiesSection from "../components/CaseStudiesSection";
-import AboutSection from "../components/AboutSection";
 
 export default function LandingPage() {
   const [isContactOpen, setIsContactOpen] = useState(false);
@@ -31,7 +30,6 @@ export default function LandingPage() {
       
       <main>
         <HeroSection onContact={() => openContactModal("Diagnostic Gratuit")} />
-        <AboutSection onContact={() => openContactModal()} />
         <ProblemSection />
         <SolutionSection />
         <OffersSection onSelectOffer={openContactModal} />
