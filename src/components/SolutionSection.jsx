@@ -6,26 +6,26 @@ import { Bot, Workflow, BarChart3, Zap } from "lucide-react";
 const solutions = [
   {
     icon: Bot,
-    title: "Agents IA 24/7",
-    description: "Support client et qualification de leads automatisés, même quand vous dormez.",
+    title: "Assistant IA pour vos clients",
+    description: "Un agent IA répond à vos prospects 24h/24 depuis votre site ou WhatsApp. Il qualifie les demandes et vous transmet uniquement les contacts sérieux — même la nuit et le week-end.",
     color: "red"
   },
   {
     icon: Workflow,
-    title: "Workflows n8n - Make",
-    description: "Connectez vos outils (CRM, Email, Stripe) en un écosystème fluide et automatisé.",
+    title: "Automatisation de vos process",
+    description: "Devis, relances, rapports d'intervention, plannings — on connecte vos outils existants et on automatise les tâches répétitives qui vous font perdre du temps chaque jour à Nice et en région PACA.",
     color: "red"
   },
   {
     icon: BarChart3,
-    title: "Dashboards Data",
-    description: "Visualisez votre ROI en temps réel avec des tableaux de bord personnalisés.",
+    title: "Tableaux de bord sur mesure",
+    description: "Visualisez en temps réel l'activité de votre entreprise : chantiers en cours, suivi des paiements, performance commerciale. Des données claires pour prendre les bonnes décisions.",
     color: "red"
   },
   {
     icon: Zap,
-    title: "Automatisation Totale",
-    description: "De la prospection à la facturation, chaque process devient une machine.",
+    title: "De la prospection à la facturation",
+    description: "On automatise l'intégralité de votre cycle client : lead entrant, qualification, devis, relance, suivi chantier, facturation. Chaque étape devient fluide, traçable et sans intervention manuelle.",
     color: "red"
   }
 ];
@@ -60,7 +60,7 @@ export const SolutionSection = () => {
             Votre Machine à Conversion
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Des solutions concrètes qui transforment vos process en générateurs de revenus.
+            Des automatisations concrètes pour les PME et artisans de Nice et du 06, adaptées à votre métier, pas à une idée générique de votre métier.
           </p>
         </motion.div>
 
