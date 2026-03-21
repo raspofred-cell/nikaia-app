@@ -30,38 +30,47 @@ export const Footer = ({ onContact }) => {
             </button>
           </div>
 
-          {/* Navigation */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Navigation</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#probleme" className="text-gray-400 hover:text-white transition-colors duration-200">
-                  Le problème
-                </a>
-              </li>
-              <li>
-                <a href="#solutions" className="text-gray-400 hover:text-white transition-colors duration-200">
-                  Les solutions
-                </a>
-              </li>
-              <li>
-                <a href="#offres" className="text-gray-400 hover:text-white transition-colors duration-200">
-                  Nos offres
-                </a>
-              </li>
-              <li>
-                <a href="#processus" className="text-gray-400 hover:text-white transition-colors duration-200">
-                  Processus
-                </a>
-              </li>
-              <li>
-                <a href="#faq" className="text-gray-400 hover:text-white transition-colors duration-200">
-                  FAQ
-                </a>
-              </li>
-            </ul>
-          </div>
-
+{/* Navigation */}
+<div>
+  <h4 className="text-white font-semibold mb-4">Navigation</h4>
+  <ul className="space-y-3">
+    <li>
+      <a href="/#probleme" className="text-gray-400 hover:text-white transition-colors duration-200">
+        Le problème
+      </a>
+    </li>
+    <li>
+      <a href="/#solutions" className="text-gray-400 hover:text-white transition-colors duration-200">
+        Les solutions
+      </a>
+    </li>
+    <li>
+      <a href="/#offres" className="text-gray-400 hover:text-white transition-colors duration-200">
+        Nos offres
+      </a>
+    </li>
+    <li>
+      <a href="/#processus" className="text-gray-400 hover:text-white transition-colors duration-200">
+        Processus
+      </a>
+    </li>
+    <li>
+      <a href="/#faq" className="text-gray-400 hover:text-white transition-colors duration-200">
+        FAQ
+      </a>
+    </li>
+    <li>
+      <a href="/qui-sommes-nous" className="text-gray-400 hover:text-white transition-colors duration-200">
+        Qui sommes-nous
+      </a>
+    </li>
+    <li>
+      <a href="/politique-de-confidentialite" className="text-gray-400 hover:text-white transition-colors duration-200">
+        Politique de confidentialité
+      </a>
+    </li>
+  </ul>
+</div>
           {/* Contact */}
           <div>
             <h4 className="text-white font-semibold mb-4">Contact</h4>
