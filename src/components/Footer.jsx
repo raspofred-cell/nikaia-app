@@ -1,3 +1,4 @@
+"use client";
 import { Mail, Phone, MapPin, ExternalLink } from "lucide-react";
 
 const LOGO_URL = "https://customer-assets.emergentagent.com/job_boost-productivity-1/artifacts/pdgzhljg_NikaIA%20automations%20blanc.png";
@@ -116,3 +117,4 @@ export const Footer = ({ onContact }) => {
 };
 
 export default Footer;
+

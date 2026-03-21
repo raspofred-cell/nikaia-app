@@ -1,3 +1,4 @@
+"use client";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Search, Cog, Rocket } from "lucide-react";
@@ -113,3 +114,4 @@ export const ProcessSection = () => {
 };
 
 export default ProcessSection;
+

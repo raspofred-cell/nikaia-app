@@ -1,3 +1,4 @@
+"use client";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Bot, Workflow, BarChart3, Zap } from "lucide-react";

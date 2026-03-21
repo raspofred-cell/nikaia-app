@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
@@ -49,3 +50,4 @@ export default function LandingPage() {
     </div>
   );
 }
+

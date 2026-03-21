@@ -1,3 +1,4 @@
+"use client";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight, Phone } from "lucide-react";
@@ -65,3 +66,4 @@ export const CTASection = ({ onContact }) => {
 };
 
 export default CTASection;
+

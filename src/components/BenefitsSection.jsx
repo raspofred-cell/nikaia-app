@@ -1,3 +1,4 @@
+"use client";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Clock, TrendingUp, Users, Shield, Zap, Heart } from "lucide-react";
@@ -104,3 +105,4 @@ export const BenefitsSection = () => {
 };
 
 export default BenefitsSection;
+

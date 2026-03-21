@@ -1,3 +1,4 @@
+"use client";
 function PrivacyPolicy() {
   return (
     <div className="bg-black min-h-screen max-w-3xl mx-auto px-6 py-16 text-white">

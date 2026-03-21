@@ -1,3 +1,4 @@
+"use client";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
@@ -98,3 +99,4 @@ export const FAQSection = () => {
 };
 
 export default FAQSection;
+

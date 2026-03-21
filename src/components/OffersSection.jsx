@@ -1,3 +1,4 @@
+"use client";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Search, Settings, Bot, TrendingUp, ArrowRight, Check } from "lucide-react";
@@ -126,3 +127,4 @@ export const OffersSection = ({ onSelectOffer }) => {
 };
 
 export default OffersSection;
+
