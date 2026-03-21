@@ -1,4 +1,5 @@
 import "./globals.css";
+import Script from "next/script";
 import CookieConsentWrapper from "../components/CookieConsentWrapper";
 
 export const metadata = {
@@ -17,11 +18,23 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr" className="dark">
-      <body>
-        <CookieConsentWrapper />
-        {children}
-      </body>
-    </html>
+<html lang="fr" className="dark">
+  <body>
+    <Script
+      src="https://www.googletagmanager.com/gtag/js?id=G-1Q5GTZ4SJ4"
+      strategy="afterInteractive"
+    />
+    <Script id="google-analytics" strategy="afterInteractive">
+      {`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1Q5GTZ4SJ4');
+      `}
+    </Script>
+    <CookieConsentWrapper />
+    {children}
+  </body>
+</html>
   );
 }
