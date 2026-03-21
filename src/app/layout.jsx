@@ -1,5 +1,5 @@
 import "./globals.css";
-import CookieConsentWrapper from "../src/components/CookieConsentWrapper";
+import CookieConsentWrapper from "../components/CookieConsentWrapper";
 
 export const metadata = {
   title: "NikaIA | Automatisations & IA pour PME à Nice",

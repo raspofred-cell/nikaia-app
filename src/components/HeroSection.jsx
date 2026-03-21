@@ -33,7 +33,7 @@ export const HeroSection = ({ onContact }) => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8"
           >
             <Sparkles className="w-4 h-4 text-red-500" />
-            <span className="text-sm text-gray-300">Automatisation & IA pour PME</span>
+            <span className="text-sm text-gray-300">Automatisation & IA pour les PME · Nice & PACA</span>
           </motion.div>
 
           {/* Headline */}
@@ -44,8 +44,8 @@ export const HeroSection = ({ onContact }) => {
 
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Automatisation intelligente et Agents IA pour les entreprises qui veulent 
-            scaler sans recruter. Nice & région PACA.
+            Gagnez 15h par semaine sur vos tâches répétitives, sans embaucher
+            Nous automatisons vos process pour que vous puissiez vous concentrer sur votre métier
           </p>
 
           {/* CTAs */}
@@ -89,7 +89,7 @@ export const HeroSection = ({ onContact }) => {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-500" />
-              <span>ROI mesurable</span>
+              <span>Basé à Nice · Région PACA</span>
             </div>
           </motion.div>
         </motion.div>

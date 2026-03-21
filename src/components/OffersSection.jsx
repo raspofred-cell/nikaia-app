@@ -7,30 +7,30 @@ const offers = [
   {
     icon: Search,
     title: "Diagnostic Gratuit",
-    description: "Analyse complète de vos process actuels et identification des opportunités d'automatisation.",
-    features: ["Audit de vos outils", "Cartographie des flux", "Recommandations personnalisées"],
-    cta: "Demander un diagnostic",
+    description: "On analyse vos process actuels et on identifie exactement où vous perdez du temps et de l'argent. Vous repartez avec un plan d'action concret, sans engagement.",
+    features: ["Cartographie de vos tâches chronophages", "Identification des gains rapides", "Plan d'action personnalisé"],
+    cta: "Demander mon diagnostic",
     highlight: true
   },
   {
     icon: Settings,
     title: "Automatisation sur mesure",
-    description: "Workflows n8n ou Make personnalisés pour connecter tous vos outils et automatiser vos tâches répétitives.",
-    features: ["Intégration CRM/ERP", "Workflows emails", "Synchronisation données"],
+    description: "Vos devis partent automatiquement, vos relances se font seules, vos données se synchronisent sans intervention. Vous vous concentrez sur votre métier.",
+    features: ["Relances clients automatiques", "Devis et facturation simplifiés", "Synchronisation de vos outils existants"],
     cta: "En savoir plus"
   },
   {
     icon: Bot,
-    title: "Agents IA",
-    description: "Assistants virtuels intelligents pour le support client, la qualification de leads et plus encore.",
-    features: ["Chatbot 24/7", "Qualification automatique", "Réponses personnalisées"],
+    title: "Agent IA sur votre site",
+    description: "Un assistant intelligent répond à vos prospects 24h/24, qualifie leurs demandes et vous transmet uniquement les contacts sérieux. Fini les appels perdus.",
+    features: ["Disponible 24h/24, 7j/7", "Qualification automatique des leads", "Transfert vers vous des demandes prioritaires"],
     cta: "En savoir plus"
   },
   {
     icon: TrendingUp,
-    title: "Optimisation continue",
-    description: "Suivi des performances et amélioration constante de vos automatisations pour maximiser le ROI.",
-    features: ["Reporting mensuel", "A/B testing", "Support prioritaire"],
+    title: "Suivi & Optimisation",
+    description: "On ne disparaît pas après la mise en place. On suit vos performances chaque mois et on améliore en continu pour que vos automatisations travaillent toujours mieux.",
+    features: ["Rapport mensuel clair et lisible", "Ajustements en continu", "Support réactif inclus"],
     cta: "En savoir plus"
   }
 ];

@@ -8,37 +8,37 @@ const benefits = [
     icon: Clock,
     title: "Gain de temps",
     value: "15h+",
-    description: "économisées par semaine sur les tâches répétitives"
+    description: "récupérées chaque semaine sur les tâches administratives et répétitives"
   },
   {
     icon: TrendingUp,
-    title: "ROI mesurable",
-    value: "300%",
-    description: "de retour sur investissement moyen en 6 mois"
+    title: "Premiers résultats",
+    value: "14 jours",
+    description: "pour voir les premières automatisations en production"
   },
   {
     icon: Users,
-    title: "Scalabilité",
-    value: "∞",
-    description: "Croissez sans limites, sans recruter"
+    title: "Sans recrutement",
+    value: "0€",
+    description: "de charge salariale supplémentaire pour faire tourner vos process"
   },
   {
     icon: Shield,
-    title: "Zéro erreur",
-    value: "99.9%",
-    description: "de fiabilité sur les process automatisés"
+    title: "Fiabilité",
+    value: "24/7",
+    description: "vos automatisations tournent même quand vous dormez"
   },
   {
     icon: Zap,
-    title: "Rapidité",
-    value: "24/7",
-    description: "vos automatisations travaillent non-stop"
+    title: "Mise en place",
+    value: "2-4 sem.",
+    description: "de l'audit à la première automatisation opérationnelle"
   },
   {
     icon: Heart,
-    title: "Satisfaction",
-    value: "100%",
-    description: "de clients satisfaits de nos solutions"
+    title: "Accompagnement",
+    value: "Local",
+    description: "Basé à Nice, disponible en présentiel sur toute la région PACA"
   }
 ];
 

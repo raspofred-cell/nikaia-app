@@ -7,24 +7,24 @@ import { Clock, AlertTriangle, TrendingDown } from "lucide-react";
 const problems = [
   {
     icon: Clock,
-    title: "Perte de temps",
-    description: "15h+ perdues chaque semaine sur des tâches répétitives qui pourraient être automatisées.",
-    stat: "15h+",
-    statLabel: "perdues/semaine"
+    title: "Le temps qui s'échappe",
+    description: "Saisie de données, relances clients, rapports, plannings... Un chef d'entreprise passe en moyenne 3h par jour sur des tâches qui n'ont rien à voir avec son cœur de métier.",
+    stat: "3h/jour",
+    statLabel: "perdues sur l'administratif"
   },
   {
     icon: AlertTriangle,
-    title: "Erreurs coûteuses",
-    description: "Données perdues, leads oubliés, clients insatisfaits. Les erreurs humaines vous coûtent cher.",
-    stat: "30%",
-    statLabel: "d'erreurs évitables"
+    title: "Les erreurs qui coûtent",
+    description: "Un devis oublié, une relance qui part trop tard, une information mal transmise entre le bureau et le chantier. Ces petites erreurs répétées finissent par peser lourd.",
+    stat: "1 client sur 3",
+    statLabel: "perdu faute de suivi"
   },
   {
     icon: TrendingDown,
-    title: "Croissance bloquée",
-    description: "Impossible de scaler quand tout repose sur vous. Votre entreprise stagne.",
-    stat: "0",
-    statLabel: "scalabilité"
+    title: "La croissance bloquée",
+    description: "Vous ne pouvez pas prendre plus de chantiers si tout repose sur vous. Sans process automatisés, chaque nouvelle commande ajoute de la pression, pas du revenu.",
+    stat: "×2",
+    statLabel: "le chiffre d'affaires possible"
   }
 ];
 

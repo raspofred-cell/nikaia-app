@@ -11,6 +11,7 @@ const navLinks = [
   { href: "#offres", label: "Offres" },
   { href: "#processus", label: "Processus" },
   { href: "#faq", label: "FAQ" },
+  { href: "/qui-sommes-nous", label: "Qui sommes-nous" },
 ];
 
 export const Navbar = ({ onContact }) => {
