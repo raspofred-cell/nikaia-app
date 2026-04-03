@@ -39,7 +39,7 @@ export default function UnsubscribePage() {
         {/* Logo */}
         <Link href="/" style={{ display: "inline-block", marginBottom: "32px" }}>
           <img
-            src="/logo-nikaia.png"
+            src="/logo-nikaia-blanc.png"
             alt="NikaIA Automations"
             width="160"
             style={{ display: "block", border: 0 }}
