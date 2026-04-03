@@ -12,7 +12,7 @@ export default function UnsubscribePage() {
   const handleUnsubscribe = async () => {
     setStatus("loading");
     try {
-      await fetch("https://agent.nikaia-automations.com/webhook/unsubscribe", {
+      await fetch("/api/unsubscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
