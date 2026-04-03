@@ -2,12 +2,16 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
 export default function UnsubscribePage() {
   const [status, setStatus] = useState("idle");
-  const searchParams = useSearchParams();
-  const email = searchParams.get("email");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const e = params.get("email");
+    if (e) setEmail(e);
+  }, []);
 
   const handleUnsubscribe = async () => {
     setStatus("loading");
@@ -46,13 +50,12 @@ export default function UnsubscribePage() {
           textAlign: "center",
         }}
       >
-        {/* Logo */}
         <Link href="/" style={{ display: "inline-block", marginBottom: "32px" }}>
           <img
             src="/logo-nikaia.png"
             alt="NikaIA Automations"
             width="160"
-            style={{ display: "block", border: 0 }}
+            style={{ display: "block", border: 0, margin: "0 auto" }}
           />
         </Link>
 
