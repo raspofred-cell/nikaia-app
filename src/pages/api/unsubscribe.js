@@ -1,21 +1,29 @@
-export const config = {
-  api: {
-    bodyParser: true,
-  },
-};
-
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const { email } = req.body;
-
-  await fetch("https://agent.nikaia-automations.com/webhook/unsubscribe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email }),
-  });
-
-  res.status(200).json({ success: true });
+export default function UnsubscribePage() {
+  return (
+    <html>
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Désinscription - NikaIA</title>
+      </head>
+      <body>
+        <script dangerouslySetInnerHTML={{__html: `
+          const email = new URLSearchParams(window.location.search).get('email');
+          document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('btn').addEventListener('click', async function() {
+              this.disabled = true;
+              this.textContent = 'Traitement…';
+              await fetch('/api/unsubscribe', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({email})
+              });
+              document.getElementById('form').style.display = 'none';
+              document.getElementById('confirm').style.display = 'block';
+            });
+          });
+        `}} />
+      </body>
+    </html>
+  );
 }
