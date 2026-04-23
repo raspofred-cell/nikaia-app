@@ -67,30 +67,28 @@ export const SolutionSection = () => {
         {/* Solutions Grid - Bento Style */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {solutions.map((solution, index) => (
-            <motion.div
-              key={solution.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-neutral-900/50 border border-white/10 rounded-2xl p-8"
-        >
-              <div className="flex flex-col md:flex-row md:items-start gap-6">
-                <div className="w-14 h-14 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0">
-                  <solution.icon className="w-7 h-7 text-red-500" />
-                </div>
-
-                <div className="flex-1">
-                  <h3 className="text-2xl md:text-3xl font-medium text-white mb-3">
-                    {solution.title}
-                  </h3>
-
-                  <p className="text-gray-400 leading-relaxed text-lg">
-                    {solution.description}
-                  </p>
-                </div>
-
-              </div>
-            </motion.div>
+<motion.div
+  key={solution.title}
+  initial={{ opacity: 0, y: 30 }}
+  animate={isInView ? { opacity: 1, y: 0 } : {}}
+  transition={{ duration: 0.5, delay: index * 0.1 }}
+>
+  <div className="bg-neutral-900/50 border border-white/10 rounded-2xl p-8 card-hover h-full">
+    <div className="flex flex-col md:flex-row md:items-start gap-6">
+      <div className="w-14 h-14 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0">
+        <solution.icon className="w-7 h-7 text-red-500" />
+      </div>
+      <div className="flex-1">
+        <h3 className="text-2xl md:text-3xl font-medium text-white mb-3">
+          {solution.title}
+        </h3>
+        <p className="text-gray-400 leading-relaxed text-lg">
+          {solution.description}
+        </p>
+      </div>
+    </div>
+  </div>
+</motion.div>
          ))}
          </div>
       </div>
