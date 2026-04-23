@@ -68,8 +68,8 @@ export const ProblemSection = () => {
               className="bg-neutral-900/50 border border-white/10 rounded-2xl p-8 card-hover"
               data-testid={`problem-card-${index}`}
             >
-              <div className="w-12 h-12 rounded-xl bg-nikaia-500/10 flex items-center justify-center mb-6">
-                <problem.icon className="w-6 h-6 text-nikaia-500" />
+              <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
+                <problem.icon className="w-6 h-6 text-red-500" />
               </div>
               
               <h3 className="text-2xl font-medium text-white mb-3">
@@ -81,7 +81,7 @@ export const ProblemSection = () => {
               </p>
               
               <div className="pt-6 border-t border-white/10">
-                <span className="text-3xl font-bold text-nikaia-500">{problem.stat}</span>
+                <span className="text-3xl font-bold text-red-500">{problem.stat}</span>
                 <span className="text-gray-500 text-sm ml-2">{problem.statLabel}</span>
               </div>
             </motion.div>

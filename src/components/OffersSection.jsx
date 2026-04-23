@@ -74,19 +74,19 @@ export const OffersSection = ({ onSelectOffer }) => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`relative bg-neutral-900/50 border rounded-2xl p-8 card-hover ${
                 offer.highlight 
-                  ? "border-nikaia-500/50 shadow-[0_0_30px_rgba(220,38,38,0.15)]" 
+                  ? "border-red-500/50 shadow-[0_0_30px_rgba(220,38,38,0.15)]" 
                   : "border-white/10"
               }`}
               data-testid={`offer-card-${index}`}
             >
               {offer.highlight && (
-                <div className="absolute -top-3 left-8 px-3 py-1 bg-nikaia-500 rounded-full text-xs font-medium text-white">
+                <div className="absolute -top-3 left-8 px-3 py-1 bg-red-500 rounded-full text-xs font-medium text-white">
                   Recommandé
                 </div>
               )}
 
-              <div className="w-12 h-12 rounded-xl bg-nikaia-500/10 flex items-center justify-center mb-6">
-                <offer.icon className="w-6 h-6 text-nikaia-500" />
+              <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
+                <offer.icon className="w-6 h-6 text-red-500" />
               </div>
               
               <h3 className="text-2xl font-medium text-white mb-3">
@@ -110,7 +110,7 @@ export const OffersSection = ({ onSelectOffer }) => {
                 onClick={() => onSelectOffer(offer.title)}
                 className={`w-full flex items-center justify-center gap-2 py-3 rounded-full font-medium transition-all duration-200 ${
                   offer.highlight 
-                    ? "bg-nikaia-600 hover:bg-nikaia-700 text-white glow-red-hover" 
+                    ? "bg-red-600 hover:bg-red-700 text-white glow-red-hover" 
                     : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
                 }`}
                 data-testid={`offer-cta-${index}`}

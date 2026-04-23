@@ -32,7 +32,7 @@ export const HeroSection = ({ onContact }) => {
   transition={{ delay: 0.2 }}
   className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8"
 >
-  <Sparkles className="w-4 h-4 text-nikaia-500" />
+  <Sparkles className="w-4 h-4 text-red-500" />
   <span className="text-sm text-gray-300">Automatisation & IA pour les PME (Spécialisé BTP)· Nice & PACA</span>
 </motion.div>
 

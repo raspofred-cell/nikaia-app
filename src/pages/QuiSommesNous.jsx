@@ -29,7 +29,7 @@ export default function QuiSommesNous() {
   />
   <div>
     <p className="text-white font-semibold text-lg">Fred Raspo</p>
-    <p className="text-gray-400 text-sm">Fondateur · Nika<span className="text-nikaia-500">IA</span> Automations</p>
+    <p className="text-gray-400 text-sm">Fondateur · Nika<span className="text-red-500">IA</span> Automations</p>
   </div>
 </motion.div>
 
@@ -41,7 +41,7 @@ export default function QuiSommesNous() {
             className="flex flex-col gap-6"
           >
             <div>
-              <span className="text-sm uppercase tracking-widest text-nikaia-500 font-semibold mb-4 block">
+              <span className="text-sm uppercase tracking-widest text-red-500 font-semibold mb-4 block">
                 Qui sommes-nous
               </span>
               <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-6">
@@ -76,12 +76,12 @@ export default function QuiSommesNous() {
             {/* Location + CTA */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-2">
               <div className="flex items-center gap-2 text-gray-500 text-sm">
-                <MapPin className="w-4 h-4 text-nikaia-500" />
+                <MapPin className="w-4 h-4 text-red-500" />
                 <span>Nice · Région PACA</span>
               </div>
               <button
                 onClick={() => setIsContactOpen(true)}
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-nikaia-600 hover:bg-nikaia-700 text-white font-medium transition-all duration-200 text-sm"
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-red-600 hover:bg-red-700 text-white font-medium transition-all duration-200 text-sm"
               >
                 Échanger avec moi
               </button>

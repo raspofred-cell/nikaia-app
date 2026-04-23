@@ -47,7 +47,7 @@ export const CaseStudiesSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <span className="text-sm uppercase tracking-widest text-nikaia-500 font-semibold mb-4 block">
+          <span className="text-sm uppercase tracking-widest text-red-500 font-semibold mb-4 block">
             Projets réalisés
           </span>
           <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-6">
@@ -70,11 +70,11 @@ export const CaseStudiesSection = () => {
             >
               {/* Header */}
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-nikaia-500/10 flex items-center justify-center flex-shrink-0">
-                  <c.icon className="w-6 h-6 text-nikaia-500" />
+                <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                  <c.icon className="w-6 h-6 text-red-500" />
                 </div>
                 <div>
-                  <span className="text-xs uppercase tracking-widest text-nikaia-500 font-medium">
+                  <span className="text-xs uppercase tracking-widest text-red-500 font-medium">
                     {c.tag}
                   </span>
                   <p className="text-gray-500 text-sm mt-1">{c.sector}</p>

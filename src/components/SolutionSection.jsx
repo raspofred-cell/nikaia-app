@@ -42,7 +42,7 @@ export const SolutionSection = () => {
     >
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-nikaia-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-500/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 md:px-12" ref={ref}>
@@ -75,8 +75,8 @@ export const SolutionSection = () => {
               className="bg-neutral-900/50 border border-white/10 rounded-2xl p-8"
         >
               <div className="flex flex-col md:flex-row md:items-start gap-6">
-                <div className="w-14 h-14 rounded-xl bg-nikaia-500/10 flex items-center justify-center flex-shrink-0">
-                  <solution.icon className="w-7 h-7 text-nikaia-500" />
+                <div className="w-14 h-14 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                  <solution.icon className="w-7 h-7 text-red-500" />
                 </div>
 
                 <div className="flex-1">
