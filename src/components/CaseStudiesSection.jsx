@@ -48,7 +48,7 @@ export const CaseStudiesSection = () => {
           className="text-center mb-16"
         >
 <span className="text-sm uppercase tracking-widest font-semibold mb-4 block" style={{ color: '#de0917' }}>
-  Projets réalisés
+  Les Projets réalisés
 </span>
           <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-6">
             Des automatisations<br />qui tournent en production
