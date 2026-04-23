@@ -1,4 +1,4 @@
-import AutomatisationArtisansNiceClient from "./AutomatisationArtisansNiceClient";
+import AutomatisationArtisansNiceClient from "./AutomatisationArtisansNiceClient"; 
 
 export const metadata = {
   title: "Automatisation pour Artisans à Nice — NikaIA Automations",
