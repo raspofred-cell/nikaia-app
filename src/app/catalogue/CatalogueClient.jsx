@@ -112,7 +112,7 @@ export default function CatalogueClient() {
           Catalogue · BTP · Artisans · PACA
         </p>
         <h1 className="text-4xl md:text-5xl font-semibold tracking-tight mb-6">
-          Catalogue d'automatisations
+          Exemples d'automatisations
         </h1>
         <p className="text-lg text-gray-400 leading-relaxed mb-16">
           50+ automatisations conçues pour les artisans, les TPE et les PME du bâtiment à Nice et en région PACA.
