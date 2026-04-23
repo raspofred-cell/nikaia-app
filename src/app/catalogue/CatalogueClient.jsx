@@ -1,5 +1,9 @@
 "use client";
 import { useState } from "react";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import Chatbot from "../../components/Chatbot";
+import ContactModal from "../../components/ContactModal";
 
 const categories = [
   {
@@ -97,9 +101,12 @@ const categories = [
 
 export default function CatalogueClient() {
   const [openCategory, setOpenCategory] = useState(null);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#050505] text-white">
+      <Navbar onContact={() => setIsContactOpen(true)} />
+
       <div className="max-w-5xl mx-auto px-6 py-32">
         <p className="text-sm uppercase tracking-widest mb-4" style={{ color: '#de0917' }}>
           Catalogue · BTP · Artisans · PACA
@@ -108,7 +115,9 @@ export default function CatalogueClient() {
           Catalogue d'automatisations
         </h1>
         <p className="text-lg text-gray-400 leading-relaxed mb-16">
-          50+ automatisations conçues pour les artisans et PME du bâtiment à Nice et en région PACA.
+          50+ automatisations conçues pour les artisans, les TPE et les PME du bâtiment à Nice et en région PACA.
+          Mais pas que. Chaque secteur d'activité, chaque métier a ses propres process à automatiser.
+          Si vous ne trouvez pas ce qu'il vous faut, on le construit sur mesure.
         </p>
 
         <div className="flex flex-col gap-4">
@@ -138,13 +147,27 @@ export default function CatalogueClient() {
         </div>
 
         <div className="text-center mt-16 bg-neutral-900/50 border border-white/10 rounded-2xl p-12">
-          <h2 className="text-3xl font-bold mb-4">Vous ne trouvez pas ce qu'il vous faut ?</h2>
+          <h2 className="text-3xl font-semibold mb-4">Vous ne trouvez pas ce qu'il vous faut ?</h2>
           <p className="text-gray-400 mb-8 max-w-xl mx-auto">
             Ce catalogue n'est pas exhaustif. Chaque process métier peut être automatisé — contactez-nous pour en discuter.
           </p>
-          <a href="/" className="inline-flex items-center px-8 py-4 rounded-full text-white font-medium text-lg" style={{ backgroundColor: '#de0917' }}>Demander mon diagnostic gratuit</a>
+          <button
+            onClick={() => setIsContactOpen(true)}
+            className="inline-flex items-center px-8 py-4 rounded-full text-white font-medium text-lg"
+            style={{ backgroundColor: '#de0917' }}
+          >
+            Demander mon diagnostic gratuit
+          </button>
         </div>
       </div>
+
+      <Footer onContact={() => setIsContactOpen(true)} />
+      <Chatbot />
+      <ContactModal
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+        selectedOffer={null}
+      />
     </div>
   );
 }
