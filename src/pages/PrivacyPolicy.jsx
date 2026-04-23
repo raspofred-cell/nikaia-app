@@ -9,7 +9,7 @@ function PrivacyPolicy() {
 
       <h2 className="text-xl font-semibold mt-10 mb-3">1. Responsable du traitement</h2>
       <p>NikaIA Automations — Nice, Alpes-Maritimes, France<br />
-      Contact : <a href="mailto:contact@nikaia-automations.com" className="text-red-500">contact@nikaia-automations.com</a></p>
+      Contact : <a href="mailto:contact@nikaia-automations.com" className="text-nikaia-500">contact@nikaia-automations.com</a></p>
 
       <h2 className="text-xl font-semibold mt-10 mb-3">2. Données collectées</h2>
       <ul className="list-disc pl-5 space-y-1 text-gray-300">
@@ -34,7 +34,7 @@ function PrivacyPolicy() {
       </ul>
 
       <h2 className="text-xl font-semibold mt-10 mb-3">6. Vos droits (RGPD)</h2>
-      <p className="text-gray-300">Accès, rectification, effacement, portabilité, opposition. Contactez-nous à <a href="mailto:contact@nikaia-automations.com" className="text-red-500">contact@nikaia-automations.com</a> ou adressez une réclamation à la <a href="https://www.cnil.fr" className="text-red-500" target="_blank" rel="noreferrer">CNIL</a>.</p>
+      <p className="text-gray-300">Accès, rectification, effacement, portabilité, opposition. Contactez-nous à <a href="mailto:contact@nikaia-automations.com" className="text-nikaia-500">contact@nikaia-automations.com</a> ou adressez une réclamation à la <a href="https://www.cnil.fr" className="text-nikaia-500" target="_blank" rel="noreferrer">CNIL</a>.</p>
 
       <h2 className="text-xl font-semibold mt-10 mb-3">7. Partage des données</h2>
       <p className="text-gray-300">Vos données ne sont jamais vendues. Elles peuvent être transmises à des sous-traitants techniques uniquement dans le cadre de la prestation.</p>

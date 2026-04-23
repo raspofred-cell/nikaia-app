@@ -37,7 +37,7 @@ export const AboutSection = ({ onContact }) => {
               </div>
             </div>
             {/* Decorative border */}
-            <div className="absolute -bottom-4 -right-4 w-full h-full border border-red-500/20 rounded-2xl max-w-sm mx-auto md:mx-0 hidden md:block" />
+            <div className="absolute -bottom-4 -right-4 w-full h-full border border-nikaia-500/20 rounded-2xl max-w-sm mx-auto md:mx-0 hidden md:block" />
           </motion.div>
 
           {/* Content */}
@@ -48,7 +48,7 @@ export const AboutSection = ({ onContact }) => {
             className="flex flex-col gap-6"
           >
             <div>
-              <span className="text-sm uppercase tracking-widest text-red-500 font-semibold mb-4 block">
+              <span className="text-sm uppercase tracking-widest text-nikaia-500 font-semibold mb-4 block">
                 Qui suis-je
               </span>
               <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-6">
@@ -83,12 +83,12 @@ export const AboutSection = ({ onContact }) => {
             {/* Location + CTA */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-2">
               <div className="flex items-center gap-2 text-gray-500 text-sm">
-                <MapPin className="w-4 h-4 text-red-500" />
+                <MapPin className="w-4 h-4 text-nikaia-500" />
                 <span>Nice · Région PACA</span>
               </div>
               <button
                 onClick={onContact}
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-red-600 hover:bg-red-700 text-white font-medium transition-all duration-200 text-sm"
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-nikaia-600 hover:bg-nikaia-700 text-white font-medium transition-all duration-200 text-sm"
               >
                 Échanger avec moi
               </button>

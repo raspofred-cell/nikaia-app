@@ -81,8 +81,8 @@ export const BenefitsSection = () => {
               className="bg-neutral-900/50 border border-white/10 rounded-2xl p-6 md:p-8 text-center card-hover"
               data-testid={`benefit-card-${index}`}
             >
-              <div className="w-12 h-12 mx-auto rounded-xl bg-red-500/10 flex items-center justify-center mb-4">
-                <benefit.icon className="w-6 h-6 text-red-500" />
+              <div className="w-12 h-12 mx-auto rounded-xl bg-nikaia-500/10 flex items-center justify-center mb-4">
+                <benefit.icon className="w-6 h-6 text-nikaia-500" />
               </div>
               
               <div className="text-3xl md:text-4xl font-bold text-white mb-2">

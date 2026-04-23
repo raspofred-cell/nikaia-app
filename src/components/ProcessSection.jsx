@@ -70,7 +70,7 @@ export const ProcessSection = () => {
         {/* Process Steps */}
         <div className="relative">
           {/* Connection Line - Desktop */}
-          <div className="hidden md:block absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent" />
+          <div className="hidden md:block absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-nikaia-500/30 to-transparent" />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
             {steps.map((step, index) => (
@@ -84,20 +84,20 @@ export const ProcessSection = () => {
               >
                 <div className="bg-neutral-900/80 border border-white/10 rounded-2xl p-8 text-center relative z-10 card-hover">
                   {/* Step Number */}
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-sm font-bold text-white">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-nikaia-500 rounded-full flex items-center justify-center text-sm font-bold text-white">
                     {index + 1}
                   </div>
 
                   {/* Icon */}
-                  <div className="w-16 h-16 mx-auto rounded-2xl bg-red-500/10 flex items-center justify-center mb-6 mt-4">
-                    <step.icon className="w-8 h-8 text-red-500" />
+                  <div className="w-16 h-16 mx-auto rounded-2xl bg-nikaia-500/10 flex items-center justify-center mb-6 mt-4">
+                    <step.icon className="w-8 h-8 text-nikaia-500" />
                   </div>
 
                   {/* Content */}
                   <h3 className="text-2xl font-medium text-white mb-2">
                     {step.title}
                   </h3>
-                  <span className="text-red-500 text-sm font-medium mb-4 block">
+                  <span className="text-nikaia-500 text-sm font-medium mb-4 block">
                     {step.subtitle}
                   </span>
                   <p className="text-gray-400 leading-relaxed">

@@ -161,7 +161,7 @@ const handleSubmit = async (e) => {
                         onChange={handleChange}
                         required
                         placeholder="Prenom Nom"
-                        className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-red-500"
+                        className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-nikaia-500"
                         data-testid="contact-name"
                       />
                     </div>
@@ -177,7 +177,7 @@ const handleSubmit = async (e) => {
                         onChange={handleChange}
                         required
                         placeholder="votre@email.com"
-                        className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-red-500"
+                        className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-nikaia-500"
                         data-testid="contact-email"
                       />
                     </div>
@@ -192,7 +192,7 @@ const handleSubmit = async (e) => {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="06 12 34 56 78"
-                        className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-red-500"
+                        className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-nikaia-500"
                         data-testid="contact-phone"
                       />
                     </div>
@@ -206,7 +206,7 @@ const handleSubmit = async (e) => {
                         value={formData.company}
                         onChange={handleChange}
                         placeholder="Nom de votre entreprise"
-                        className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-red-500"
+                        className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-nikaia-500"
                         data-testid="contact-company"
                       />
                     </div>
@@ -246,14 +246,14 @@ const handleSubmit = async (e) => {
                         required
                         rows={4}
                         placeholder="Décrivez votre projet ou vos besoins en automatisation..."
-                        className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-red-500 resize-none"
+                        className="bg-white/5 border-white/10 text-white placeholder-gray-500 focus:border-nikaia-500 resize-none"
                         data-testid="contact-message"
                       />
                     </div>
 
                     {/* Error */}
                     {error && (
-                      <p className="text-red-500 text-sm">{error}</p>
+                      <p className="text-nikaia-500 text-sm">{error}</p>
                     )}
 
                     {/* Submit */}

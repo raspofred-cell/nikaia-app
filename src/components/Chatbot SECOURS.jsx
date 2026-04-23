@@ -92,8 +92,8 @@ export const Chatbot = () => {
             {/* Header */}
             <div className="chatbot-header">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
-                  <MessageCircle className="w-5 h-5 text-red-500" />
+                <div className="w-10 h-10 rounded-full bg-nikaia-500/20 flex items-center justify-center">
+                  <MessageCircle className="w-5 h-5 text-nikaia-500" />
                 </div>
                 <div>
                   <h3 className="text-white font-medium">Assistant NikaIA</h3>
@@ -138,14 +138,14 @@ export const Chatbot = () => {
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Posez votre question..."
-                className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-red-500/50 text-sm"
+                className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-nikaia-500/50 text-sm"
                 disabled={isLoading}
                 data-testid="chatbot-input"
               />
               <button
                 onClick={sendMessage}
                 disabled={!inputValue.trim() || isLoading}
-                className="w-10 h-10 rounded-full bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-nikaia-600 hover:bg-nikaia-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
                 data-testid="chatbot-send"
               >
                 <Send className="w-4 h-4 text-white" />
