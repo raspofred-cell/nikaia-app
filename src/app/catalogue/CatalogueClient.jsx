@@ -104,10 +104,10 @@ export default function CatalogueClient() {
         <p className="text-sm uppercase tracking-widest mb-4" style={{ color: '#de0917' }}>
           Catalogue · BTP · Artisans · PACA
         </p>
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+        <h1 className="text-4xl md:text-5xl font-semibold tracking-tight mb-6">
           Catalogue d'automatisations
         </h1>
-        <p className="text-xl text-gray-400 leading-relaxed mb-16">
+        <p className="text-lg text-gray-400 leading-relaxed mb-16">
           50+ automatisations conçues pour les artisans et PME du bâtiment à Nice et en région PACA.
         </p>
 
