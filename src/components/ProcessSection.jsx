@@ -7,7 +7,7 @@ const steps = [
   {
     icon: Search,
     number: "01",
-    title: "diagnostic",
+    title: "Diagnostic",
     subtitle: "Gratuit",
     description: "Analyse de vos process actuels et identification des gains potentiels."
   },
