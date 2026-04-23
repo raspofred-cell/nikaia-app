@@ -37,8 +37,9 @@ export const CaseStudiesSection = () => {
 
   return (
     <section
-      className="relative py-24 md:py-32 bg-[#050505]"
-      data-testid="case-studies-section"
+className="relative py-24 md:py-32 bg-[#050505]"
+id="projets"
+data-testid="case-studies-section"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12" ref={ref}>
         <motion.div

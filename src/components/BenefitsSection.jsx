@@ -48,8 +48,9 @@ export const BenefitsSection = () => {
 
   return (
     <section 
-      className="relative py-24 md:py-32 bg-[#050505]"
-      data-testid="benefits-section"
+className="relative py-24 md:py-32 bg-[#050505]"
+id="benefices"
+data-testid="benefits-section"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12" ref={ref}>
         {/* Section Header */}
