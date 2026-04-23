@@ -104,12 +104,7 @@ export default function CatalogueClient() {
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
-<div className="min-h-screen text-white" style={{
-  backgroundImage: "url('https://images.unsplash.com/photo-1764258560130-72099a514dbe?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NDh8MHwxfHNlYXJjaHwzfHxhYnN0cmFjdCUyMGRhcmslMjB0ZWNobm9sb2d5JTIwbmV0d29yayUyMG5vZGVzJTIwcmVkJTIwYmxhY2t8ZW58MHx8fHwxNzcxMjMwMTcxfDA&ixlib=rb-4.1.0&q=85')",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-  backgroundAttachment: "fixed"
-}}>
+    <div className="min-h-screen bg-[#050505] text-white">
       <Navbar onContact={() => setIsContactOpen(true)} />
 
       <div className="max-w-5xl mx-auto px-6 py-32">
