@@ -1,4 +1,4 @@
-"use client";
+"use client"; 
 export const metadata = {
   title: "Agent IA à Nice — Chatbot et Assistant Virtuel — NikaIA Automations",
   description: "Déployez un agent IA sur votre site ou WhatsApp à Nice. NikaIA crée des assistants virtuels intelligents pour qualifier vos leads et répondre à vos clients 24h/24.",
