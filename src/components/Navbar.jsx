@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/#offres", label: "Offres" },
   { href: "/#processus", label: "Processus" },
   { href: "/#benefices", label: "Bénéfices" },
+  { href: "/catalogue", label: "Exemples d'automatisations" },
   { href: "/#projets", label: "Projets réalisés" },
   { href: "/#faq", label: "FAQ" },
   { href: "/qui-sommes-nous", label: "Qui sommes-nous" },

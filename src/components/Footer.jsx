@@ -60,6 +60,11 @@ export const Footer = ({ onContact }) => {
   </a>
 </li>
 <li>
+  <a href="/catalogue" className="text-gray-400 hover:text-white transition-colors duration-200">
+    Exemples d'automatisations
+  </a>
+</li>
+<li>
   <a href="/#projets" className="text-gray-400 hover:text-white transition-colors duration-200">
     Projets réalisés
   </a>
