@@ -14,6 +14,7 @@ const navLinks = [
   { href: "/#projets", label: "Projets réalisés" },
   { href: "/#faq", label: "FAQ" },
   { href: "/qui-sommes-nous", label: "Qui sommes-nous" },
+  { href: "/politique-de-confidentialite", label: "Politique de confidentialité" },
 ];
 
 export const Navbar = ({ onContact }) => {
