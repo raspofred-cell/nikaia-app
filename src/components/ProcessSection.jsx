@@ -63,7 +63,7 @@ export const ProcessSection = () => {
             Simple. Rapide. Efficace.
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            De l'diagnostic à l'optimisation, un accompagnement clé en main.
+            Du diagnostic à l'optimisation, un accompagnement clé en main.
           </p>
         </motion.div>
 
