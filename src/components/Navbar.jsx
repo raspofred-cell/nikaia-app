@@ -32,7 +32,7 @@ export const Navbar = ({ onContact }) => {
   }, [isMenuOpen]);
 
   return (
-    <>
+    <div>
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -44,9 +44,19 @@ export const Navbar = ({ onContact }) => {
       >
         <div className="max-w-7xl mx-auto px-4 md:px-12">
           <div className="flex items-center justify-between h-20">
-            <a href="/" className="flex items-center" data-testid="navbar-logo">
-              <img src={LOGO_URL} alt="NikaIA Automations" className="h-10 md:h-12 w-auto" />
-            </a>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-white p-2"
+                data-testid="menu-toggle"
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+              <a href="/" className="flex items-center" data-testid="navbar-logo">
+                <img src={LOGO_URL} alt="NikaIA Automations" className="h-10 md:h-12 w-auto" />
+              </a>
+            </div>
 
             <div className="flex items-center gap-2 md:gap-3">
               <a
@@ -58,7 +68,6 @@ export const Navbar = ({ onContact }) => {
                 <MessageCircle size={16} />
                 <span className="hidden sm:inline">WhatsApp</span>
               </a>
-
               <button
                 onClick={onContact}
                 className="flex items-center px-3 md:px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 transition-colors duration-200 text-white text-xs md:text-sm font-medium whitespace-nowrap"
@@ -66,15 +75,8 @@ export const Navbar = ({ onContact }) => {
               >
                 Diagnostic Gratuit
               </button>
-
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-white p-2"
-                data-testid="menu-toggle"
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
             </div>
+
           </div>
         </div>
       </motion.nav>
@@ -94,11 +96,11 @@ export const Navbar = ({ onContact }) => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ x: "100%" }}
+            initial={{ x: "-100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            exit={{ x: "-100%" }}
             transition={{ type: "tween", duration: 0.3 }}
-            className="fixed top-0 right-0 h-full w-80 bg-[#0A0A0A] border-l border-white/10 z-50 flex flex-col"
+            className="fixed top-0 left-0 h-full w-80 bg-[#0A0A0A] border-r border-white/10 z-50 flex flex-col"
           >
             <div className="flex items-center justify-between px-6 h-20 border-b border-white/10">
               <img src={LOGO_URL} alt="NikaIA" className="h-8 w-auto" />
@@ -140,7 +142,7 @@ export const Navbar = ({ onContact }) => {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };
 
