@@ -32,7 +32,7 @@ const benefits = [
     icon: Zap,
     title: "Mise en place",
     value: "2-4 sem.",
-    description: "de l'audit à la première automatisation opérationnelle"
+    description: "de l'diagnostic à la première automatisation opérationnelle"
   },
   {
     icon: Heart,

@@ -36,7 +36,7 @@ export default function LandingPage() {
         <ProcessSection />
         <BenefitsSection />
         <CaseStudiesSection />
-        <CTASection onContact={() => openContactModal("Audit Gratuit")} />
+        <CTASection onContact={() => openContactModal("diagnostic Gratuit")} />
         <FAQSection />
       </main>
       

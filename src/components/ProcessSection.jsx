@@ -7,7 +7,7 @@ const steps = [
   {
     icon: Search,
     number: "01",
-    title: "Audit",
+    title: "diagnostic",
     subtitle: "Gratuit",
     description: "Analyse de vos process actuels et identification des gains potentiels."
   },
@@ -63,7 +63,7 @@ export const ProcessSection = () => {
             Simple. Rapide. Efficace.
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            De l'audit à l'optimisation, un accompagnement clé en main.
+            De l'diagnostic à l'optimisation, un accompagnement clé en main.
           </p>
         </motion.div>
 

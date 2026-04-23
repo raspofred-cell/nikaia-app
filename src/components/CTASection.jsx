@@ -40,7 +40,7 @@ export const CTASection = ({ onContact }) => {
               className="btn-primary flex items-center gap-2 text-base animate-pulse-glow"
               data-testid="cta-primary"
             >
-              Demander un audit gratuit
+              Demander un diagnostic gratuit
               <ArrowRight className="w-5 h-5" />
             </motion.button>
             
