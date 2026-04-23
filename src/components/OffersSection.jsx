@@ -17,7 +17,8 @@ const offers = [
     title: "Automatisation sur mesure",
     description: "Vos devis partent automatiquement, vos relances se font seules, vos données se synchronisent sans intervention. Vous vous concentrez sur votre métier.",
     features: ["Relances clients automatiques", "Devis et facturation simplifiés", "Synchronisation de vos outils existants"],
-    cta: "En savoir plus"
+    cta: "Quelques exemples concrets",
+    ctaLink: "/catalogue"
   },
   {
     icon: Bot,
@@ -46,7 +47,6 @@ export const OffersSection = ({ onSelectOffer }) => {
       data-testid="offers-section"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12" ref={ref}>
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -64,7 +64,6 @@ export const OffersSection = ({ onSelectOffer }) => {
           </p>
         </motion.div>
 
-        {/* Offers Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {offers.map((offer, index) => (
             <motion.div
@@ -106,18 +105,33 @@ export const OffersSection = ({ onSelectOffer }) => {
                 ))}
               </ul>
 
-              <button
-                onClick={() => onSelectOffer(offer.title)}
-                className={`w-full flex items-center justify-center gap-2 py-3 rounded-full font-medium transition-all duration-200 ${
-                  offer.highlight 
-                    ? "bg-red-600 hover:bg-red-700 text-white glow-red-hover" 
-                    : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
-                }`}
-                data-testid={`offer-cta-${index}`}
-              >
-                {offer.cta}
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              {offer.ctaLink ? (
+                <a
+                  href={offer.ctaLink}
+                  className={`w-full flex items-center justify-center gap-2 py-3 rounded-full font-medium transition-all duration-200 ${
+                    offer.highlight
+                      ? "bg-red-600 hover:bg-red-700 text-white glow-red-hover"
+                      : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
+                  }`}
+                  data-testid={`offer-cta-${index}`}
+                >
+                  {offer.cta}
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              ) : (
+                <button
+                  onClick={() => onSelectOffer(offer.title)}
+                  className={`w-full flex items-center justify-center gap-2 py-3 rounded-full font-medium transition-all duration-200 ${
+                    offer.highlight
+                      ? "bg-red-600 hover:bg-red-700 text-white glow-red-hover"
+                      : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
+                  }`}
+                  data-testid={`offer-cta-${index}`}
+                >
+                  {offer.cta}
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              )}
             </motion.div>
           ))}
         </div>
@@ -127,4 +141,3 @@ export const OffersSection = ({ onSelectOffer }) => {
 };
 
 export default OffersSection;
-
