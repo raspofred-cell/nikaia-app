@@ -1,5 +1,5 @@
 "use client";
-import { Mail, Phone, MapPin, ExternalLink } from "lucide-react";
+import { Mail, MapPin, ExternalLink } from "lucide-react";
 
 const LOGO_URL = "https://customer-assets.emergentagent.com/job_boost-productivity-1/artifacts/pdgzhljg_NikaIA%20automations%20blanc.png";
 
@@ -34,6 +34,11 @@ export const Footer = ({ onContact }) => {
 <div>
   <h4 className="text-white font-semibold mb-4">Navigation</h4>
   <ul className="space-y-3">
+    <li>
+      <a href="/presentation" className="text-gray-400 hover:text-white transition-colors duration-200">
+        Présentation
+      </a>
+    </li>
     <li>
       <a href="/#probleme" className="text-gray-400 hover:text-white transition-colors duration-200">
         Le problème

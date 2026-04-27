@@ -6,6 +6,7 @@ import { Menu, X, MessageCircle } from "lucide-react";
 const LOGO_URL = "https://customer-assets.emergentagent.com/job_boost-productivity-1/artifacts/pdgzhljg_NikaIA%20automations%20blanc.png";
 
 const navLinks = [
+  { href: "/presentation", label: "Présentation" },
   { href: "/#probleme", label: "Problème" },
   { href: "/#solutions", label: "Solutions" },
   { href: "/#offres", label: "Offres" },
