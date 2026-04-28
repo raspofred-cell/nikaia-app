@@ -13,7 +13,7 @@ const htmlContent = `<table width="100%" cellpadding="0" cellspacing="0" border=
         <tr>
           <td style="background:#111111;border-top:3px solid #de0917;border-radius:8px 8px 0 0;padding:28px 40px 20px 40px;text-align:center;vertical-align:middle;font-family:'Montserrat',Arial,sans-serif;">
             <a href="https://nikaia-automations.com" target="_blank" style="display:inline-block;">
-              <img src="https://agent.nikaia-automations.com/static-assets/logo-nikaia.png" alt="NikaIA Automations" width="200" style="display:block;border:0;max-width:200px;" />
+              <img src="/logo-nikaia.png" alt="NikaIA Automations" width="200" style="display:block;border:0;max-width:200px;" />
             </a>
             <p style="margin:14px auto 0 auto;font-family:'Montserrat',Arial,sans-serif;font-size:12px;font-weight:700;color:#ffffff;text-align:center;line-height:1.4;">
               transformez vos tâches en revenus
@@ -240,7 +240,7 @@ const htmlContent = `<table width="100%" cellpadding="0" cellspacing="0" border=
               <tr>
                 <td style="vertical-align:top;padding-right:14px;padding-top:2px;">
                   <a href="https://nikaia-automations.com" target="_blank">
-                    <img src="https://agent.nikaia-automations.com/static-assets/brand-icon.png" alt="NikaIA" width="36" height="36" style="display:block;border:0;" />
+                    <img src="/logo192.png" alt="NikaIA" width="36" height="36" style="display:block;border:0;border-radius:6px;" />
                   </a>
                 </td>
                 <td style="vertical-align:middle;font-family:'Montserrat',Arial,sans-serif;">
@@ -253,7 +253,7 @@ const htmlContent = `<table width="100%" cellpadding="0" cellspacing="0" border=
                     <tr>
                       <td style="vertical-align:middle;padding-right:7px;">
                         <a href="https://wa.me/33619251902" target="_blank" style="display:block;line-height:1;">
-                          <img src="https://agent.nikaia-automations.com/static-assets/logo-wattsapp.png" width="16" height="16" alt="WhatsApp" style="display:block;border:0;" />
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/16px-WhatsApp.svg.png" width="16" height="16" alt="WhatsApp" style="display:block;border:0;" />
                         </a>
                       </td>
                       <td style="vertical-align:middle;padding-right:16px;">
