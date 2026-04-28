@@ -7,7 +7,6 @@ const LOGO_URL = "https://customer-assets.emergentagent.com/job_boost-productivi
 
 const navLinks = [
   { href: "/presentation", label: "Présentation" },
-  { href: "/zones-intervention", label: "Zones d'intervention" },
   { href: "/#probleme", label: "Problème" },
   { href: "/#solutions", label: "Solutions" },
   { href: "/#offres", label: "Offres" },
@@ -15,6 +14,7 @@ const navLinks = [
   { href: "/#benefices", label: "Bénéfices" },
   { href: "/catalogue", label: "Exemples d'automatisations" },
   { href: "/#projets", label: "Projets réalisés" },
+  { href: "/zones-intervention", label: "Zones d'intervention" },
   { href: "/#faq", label: "FAQ" },
   { href: "/qui-sommes-nous", label: "Qui sommes-nous" },
   { href: "/politique-de-confidentialite", label: "Politique de confidentialité" },
