@@ -1,8 +1,15 @@
 "use client";
+import { useState } from "react";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import ContactModal from "../../components/ContactModal";
 
 export default function AgentIANiceClient() {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#050505] text-white">
+      <Navbar onContact={() => setIsContactOpen(true)} />
       <div className="max-w-4xl mx-auto px-6 py-32">
         <p className="text-sm uppercase tracking-widest mb-4" style={{ color: '#de0917' }}>Agent IA · Chatbot · Nice · PACA</p>
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-8">
@@ -45,10 +52,18 @@ export default function AgentIANiceClient() {
         <div className="text-center bg-neutral-900/50 border border-white/10 rounded-2xl p-12">
           <h2 className="text-3xl font-bold mb-4">Déployez votre agent IA à Nice</h2>
           <p className="text-gray-400 mb-8 max-w-xl mx-auto">On vous configure un agent IA sur mesure en 2 semaines. Diagnostic gratuit pour voir comment l'intégrer à votre activité.</p>
-          <a href="/" className="inline-flex items-center px-8 py-4 rounded-full text-white font-medium text-lg" style={{ backgroundColor: '#de0917' }}>Demander mon diagnostic gratuit</a>
+          <button
+            onClick={() => setIsContactOpen(true)}
+            className="inline-flex items-center px-8 py-4 rounded-full text-white font-medium text-lg"
+            style={{ backgroundColor: '#de0917' }}
+          >
+            Demander mon diagnostic gratuit
+          </button>
           <p className="text-gray-600 text-sm mt-4">Nice · Alpes-Maritimes · Région PACA · Réponse sous 24h</p>
         </div>
       </div>
+      <Footer onContact={() => setIsContactOpen(true)} />
+      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </div>
   );
 }
