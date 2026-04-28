@@ -32,6 +32,13 @@ export default function sitemap() {
       priority: 0.3,
     },
 
+    {
+      url: "https://www.nikaia-automations.com/zones-intervention",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+
     // Pages SEO — Nice
     {
       url: "https://www.nikaia-automations.com/automatisation-nice",

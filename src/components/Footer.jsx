@@ -40,6 +40,11 @@ export const Footer = ({ onContact }) => {
       </a>
     </li>
     <li>
+      <a href="/zones-intervention" className="text-gray-400 hover:text-white transition-colors duration-200">
+        Zones d'intervention
+      </a>
+    </li>
+    <li>
       <a href="/#probleme" className="text-gray-400 hover:text-white transition-colors duration-200">
         Le problème
       </a>
