@@ -121,7 +121,7 @@ const htmlContent = `<table width="100%" cellpadding="0" cellspacing="0" border=
                   <p style="margin:0 0 12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:13px;font-weight:300;line-height:1.7;color:#a0a0a0;padding-left:12px;border-left:2px solid #de0917;">Devis non signés relancés automatiquement à J+3 et J+7</p>
                   <p style="margin:0 0 12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:13px;font-weight:300;line-height:1.7;color:#a0a0a0;padding-left:12px;border-left:2px solid #de0917;">Factures d'acompte et de solde envoyées automatiquement avec vos rapports de chantier et une demande d'avis Google</p>
                   <p style="margin:0 0 12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:13px;font-weight:300;line-height:1.7;color:#a0a0a0;padding-left:12px;border-left:2px solid #de0917;">Informations clients et chantiers centralisées en un seul endroit</p>
-                  <p style="margin:0;font-family:'Montserrat',Arial,sans-serif;font-size:13px;font-weight:600;line-height:1.7;color:#de0917;padding-left:12px;border-left:2px solid #de0917;">Plus de 50 automatisations prêtes à déployer dans votre activité</p>
+                  <p style="margin:0;font-family:'Montserrat',Arial,sans-serif;font-size:13px;font-weight:600;line-height:1.7;color:#de0917;padding-left:12px;border-left:2px solid #de0917;"><a href="/catalogue" style="color:#de0917;text-decoration:underline;">Plus de 50 automatisations prêtes à déployer dans votre activité</a></p>
                 </td>
                 <td width="2%"></td>
                 <td width="49%" valign="top" style="background:#161616;border:1px solid #262626;border-radius:8px;padding:24px 22px;font-family:'Montserrat',Arial,sans-serif;">
