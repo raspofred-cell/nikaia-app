@@ -25,6 +25,7 @@ const cases = [
     results: [
       { label: "Temps de rédaction", before: "1 h", after: "2 min" },
       { label: "Relances oubliées", before: "Fréquentes", after: "Zéro" },
+      { label: "Taux de signature si devis relancés", after: "+25%" },
     ],
     tag: "Devis & Suivi client"
   }
@@ -65,6 +66,7 @@ data-testid="case-studies-section"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.15 }}
+              className="h-full"
             >
               <div className="bg-neutral-900/50 border border-white/10 rounded-2xl p-8 flex flex-col gap-6 card-hover h-full">
                 <div className="flex items-start gap-4">
@@ -101,8 +103,12 @@ data-testid="case-studies-section"
                       <div key={i} className="flex items-center justify-between">
                         <span className="text-gray-400 text-sm">{r.label}</span>
                         <div className="flex items-center gap-3">
-                          <span className="text-gray-600 text-sm line-through">{r.before}</span>
-                          <ArrowRight className="w-3 h-3 text-gray-600" />
+                          {r.before && (
+                            <>
+                              <span className="text-gray-600 text-sm line-through">{r.before}</span>
+                              <ArrowRight className="w-3 h-3 text-gray-600" />
+                            </>
+                          )}
                           <span className="text-green-400 text-sm font-medium">{r.after}</span>
                         </div>
                       </div>
