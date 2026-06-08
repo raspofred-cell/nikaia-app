@@ -24,7 +24,7 @@ const cases = [
     problem: "Après chaque visite, les devis partaient en retard : il fallait rentrer au bureau pour les saisir. Et les relances clients se faisaient à la main, quand on y pensait.",
     solution: "Depuis le lieu de la visite, l'artisan saisit les prestations et le devis PDF est généré puis envoyé au client dans la foulée. Une relance automatique part à J+3 sans réponse.",
     results: [
-      { label: "Temps de rédaction", before: "2 h", after: "2 min" },
+      { label: "Temps de rédaction", before: "1 h", after: "2 min" },
       { label: "Relances oubliées", before: "Fréquentes", after: "Zéro" },
     ],
     tag: "Devis & Suivi client"
