@@ -8,9 +8,8 @@ const cases = [
     icon: FileText,
     sector: "Fermetures industrielles · Nice",
     title: "Rapports de chantier automatisés",
-    problem: "En fin de journée, les techniciens devaient rentrer au bureau pour rédiger leurs rapports sur Word, quand le temps le permettait.",
-    problemExtra: "Sinon, ça s'accumulait sur le bureau de l'assistante.",
-    solution: "Un assistant sur Telegram guide le technicien depuis le chantier : sélection du client, observations, photos. Le rapport PDF est généré par IA et envoyé par email en automatique au responsable de chantier qui peut valider et faire générer la facture.",
+    problem: "Les rapports de chantier, ça prend du temps. Entre les journées de travail, les notes prises à la va-vite et la rédaction au bureau, beaucoup finissent par s'accumuler ou par ne jamais être envoyés. Les rapports sont pourtant un élément essentiel de communication avec les clients.",
+    solution: "Depuis le chantier, observations et photos sont saisies en quelques secondes sur mobile via Telegram. Le rapport est généré automatiquement par IA, mis en page et envoyé directement au responsable pour validation. Il n'y a plus rien à rédiger.",
     results: [
       { label: "Temps de rédaction", before: "1 heure", after: "2 min" },
       { label: "Rapports envoyés le jour même", before: "40%", after: "100%" },
@@ -21,8 +20,8 @@ const cases = [
     icon: Calendar,
     sector: "Entreprise d'Électricité · Alpes-Maritimes",
     title: "Devis et relances automatisés",
-    problem: "Après chaque visite, les devis partaient en retard : il fallait rentrer au bureau pour les saisir. Et les relances clients se faisaient à la main, quand on y pensait.",
-    solution: "Depuis le lieu de la visite, l'artisan saisit les prestations et le devis PDF est généré puis envoyé au client dans la foulée. Une relance automatique part à J+3 sans réponse.",
+    problem: "Après chaque visite, le devis se fait attendre par les clients. Il faut rentrer au bureau, le rédiger après une journée de travail ou le matin très tôt, retrouver ses notes, l'envoyer. Et les relances ? Elles se font quand on y pense, c'est-à-dire rarement.",
+    solution: "Le devis est rédigé sur place via Telegram sur mobile ou tablette, le devis PDF est généré et envoyé au client dans la foulée. Si aucune réponse sous 3 jours, une relance part automatiquement. Rien à suivre, rien à oublier.",
     results: [
       { label: "Temps de rédaction", before: "1 h", after: "2 min" },
       { label: "Relances oubliées", before: "Fréquentes", after: "Zéro" },
