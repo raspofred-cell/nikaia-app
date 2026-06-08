@@ -21,10 +21,10 @@ const cases = [
     icon: Calendar,
     sector: "Entreprise d'Électricité · Alpes-Maritimes",
     title: "Devis et relances automatisés",
-    problem: "Les devis partaient en retard, les relances clients se faisaient à la main, les bons d'intervention restaient sur papier.",
-    solution: "Un workflow automatisé génère le devis depuis le terrain, l'envoie au client dès la fin de l'intervention et déclenche une relance automatique à J+3 sans réponse.",
+    problem: "Après chaque visite, les devis partaient en retard : il fallait rentrer au bureau pour les saisir. Et les relances clients se faisaient à la main, quand on y pensait.",
+    solution: "Depuis le lieu de la visite, l'artisan saisit les prestations et le devis PDF est généré puis envoyé au client dans la foulée. Une relance automatique part à J+3 sans réponse.",
     results: [
-      { label: "Délai d'envoi du devis", before: "48h", after: "2h" },
+      { label: "Délai d'envoi du devis", before: "48h", after: "2 min" },
       { label: "Relances oubliées", before: "Fréquentes", after: "Zéro" },
     ],
     tag: "Devis & Suivi client"
