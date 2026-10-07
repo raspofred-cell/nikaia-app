@@ -329,6 +329,93 @@ const LiveStats = () => {
   );
 };
 
+// CGV qui s'adaptent : un seul texte, des paragraphes conditionnels, des articles renumérotés (modèle TEMPLATE_CGV)
+const cgvArticles = [
+  { id: "objet", t: "Objet et champ d'application" },
+  { id: "devis", t: "Devis et formation du contrat" },
+  { id: "prix", t: "Prix" },
+  { id: "paiement", t: "Modalités de paiement" },
+  { id: "retard", t: "Retard de paiement" },
+  { id: "exec", t: "Exécution des travaux et délais" },
+  { id: "oblig", t: "Obligations du client" },
+  { id: "recep", t: "Réception des travaux" },
+  { id: "garanties", t: "Garanties" },
+  { id: "assurance", t: "Assurance" },
+  { id: "retract", t: "Droit de rétractation", conso: true },
+  { id: "propriete", t: "Réserve de propriété" },
+  { id: "photos", t: "Photographies du chantier" },
+  { id: "donnees", t: "Données personnelles" },
+  { id: "mediation", t: "Médiation de la consommation" },
+  { id: "droit", t: "Droit applicable et litiges" },
+];
+const cgvCas = [
+  { key: "par", label: "Particulier", conso: true, autoliq: false, acompte: true, formulaire: true },
+  { key: "pro", label: "Pro en sous-traitance", conso: false, autoliq: true, acompte: true, formulaire: false },
+  { key: "syn", label: "Syndic", conso: false, autoliq: false, acompte: true, formulaire: false },
+  { key: "dep", label: "Dépannage urgent", conso: true, autoliq: false, acompte: false, formulaire: false },
+];
+const cgvDetail = (c, id) => {
+  if (id === "prix") return c.autoliq ? "Hors taxes : la TVA est due par le preneur (art. 283-2 nonies du CGI)." : "Hors taxes et toutes taxes comprises, au taux en vigueur.";
+  if (id === "paiement") return c.acompte ? `Acompte de 50 % du montant ${c.autoliq ? "hors taxes" : "TTC"} à l'acceptation. Virement sur le compte FR76 0000 0000 0000, ou chèque à l'ordre de Martin Confort.` : "Pas d'acompte. Virement sur le compte FR76 0000 0000 0000, ou chèque à l'ordre de Martin Confort.";
+  if (id === "retract") return c.formulaire ? "Quatorze jours pour se rétracter. Le formulaire type est joint au devis." : "Quatorze jours pour se rétracter, sauf réparation urgente demandée par le client : le formulaire n'est pas joint.";
+  if (id === "assurance") return "Assureur, numéro de contrat et couverture : repris de votre fiche entreprise.";
+  return null;
+};
+const CgvDemo = () => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { margin: "-60px" });
+  const [k, setK] = useState(0);
+  const [auto, setAuto] = useState(true);
+  useEffect(() => {
+    if (!inView || !auto) return;
+    const t = setInterval(() => setK((x) => (x + 1) % cgvCas.length), 4200);
+    return () => clearInterval(t);
+  }, [inView, auto]);
+  const c = cgvCas[k];
+  const arts = cgvArticles.filter((a) => !a.conso || c.conso);
+  const marque = ["prix", "paiement", "retract"];
+  return (
+    <div ref={ref}>
+      <div className="flex flex-wrap gap-2 mb-4">
+        {cgvCas.map((x, i) => (
+          <button key={x.key} onClick={() => { setK(i); setAuto(false); }}
+            className={`rounded-full px-4 py-2 text-sm font-medium border transition-colors ${k === i ? "bg-red-600 border-red-600 text-white" : "bg-white/5 border-white/10 text-gray-300 hover:bg-white/10"}`}>
+            {x.label}
+          </button>
+        ))}
+      </div>
+      <div className="rounded-xl bg-white text-[#1a1a1a] shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-3 border-b-2 border-[#1d4ed8]">
+          <div>
+            <div className="text-[10px] tracking-[0.2em] font-semibold text-[#1d4ed8]">CONDITIONS GÉNÉRALES DE VENTE</div>
+            <div className="font-bold">Martin Confort</div>
+          </div>
+          <motion.div key={c.key + arts.length} initial={{ scale: 1.3, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-right">
+            <div className="text-2xl font-bold tabular-nums text-[#1d4ed8]">{arts.length}</div>
+            <div className="text-[10px] text-gray-500">articles</div>
+          </motion.div>
+        </div>
+        <div className="px-5 py-4 h-[430px] overflow-hidden">
+          <ul>
+            {cgvArticles.map((a) => {
+              const on = !a.conso || c.conso;
+              const n = arts.indexOf(a) + 1;
+              const d = on && (marque.includes(a.id) || (a.id === "assurance" && k === 0)) ? cgvDetail(c, a.id) : null;
+              return (
+                <motion.li key={a.id} initial={false} animate={{ opacity: on ? 1 : 0, height: on ? "auto" : 0, marginBottom: on ? 6 : 0 }} transition={{ duration: 0.4 }}
+                  className={`overflow-hidden text-[12.5px] leading-snug ${a.conso ? "bg-amber-100 -mx-2 px-2 rounded" : ""}`}>
+                  <span className="font-bold tabular-nums">{on ? n : ""}. </span><span className="font-semibold">{a.t}</span>
+                  {d && <motion.div key={c.key} initial={{ backgroundColor: "rgba(250,204,21,0.45)" }} animate={{ backgroundColor: "rgba(250,204,21,0)" }} transition={{ duration: 1.6 }} className="text-[11.5px] text-gray-600 rounded">{d}</motion.div>}
+                </motion.li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Bandeau défilant des fonctionnalités
 const Marquee = ({ items }) => {
   const reduce = useReducedMotion();
@@ -561,7 +648,7 @@ const allFeatures = [
     ["Devis depuis Telegram", B], ["Clients nouveaux et existants", B], ["Recherche dans l'annuaire officiel des entreprises", B],
     ["Catalogue de prestations avec prix et unités", B], ["Nouvelle prestation créée en cours de devis", B], ["Lieux d'intervention et contacts sur place", B],
     ["Particularités du chantier", B], ["Résumé avant génération", B], ["Devis PDF à vos couleurs", B], ["Envoi par mail depuis votre adresse", B],
-    ["Modification après envoi (V2, V3)", B], ["Mentions selon le type de client", B], ["Rétractation pour les particuliers", B],
+    ["Modification après envoi (V2, V3)", B], ["Mentions selon le type de client", B], ["Rétractation pour les particuliers", B], ["CGV dans le devis, adaptées au client", B], ["Articles renumérotés selon le régime", B],
     ["Auto-entrepreneur : franchise de TVA et suivi du plafond", B], ["Devis rangé dans le Drive du client", B],
   ] },
   { cat: "Signature", items: [
@@ -625,7 +712,7 @@ const faqs = [
   { q: "Pourquoi Telegram et pas une application ?", a: "Parce que vous savez déjà envoyer un message. Pas de formulaire à remplir, pas de menus cachés : des questions, des boutons, et vous pouvez dicter. Ça marche sur le chantier, entre deux rendez-vous, d'une seule main." },
   { q: "Où sont mes données ?", a: "Chez vous. Chaque artisan a sa propre base de données, que vous pouvez consulter à tout moment. Les mails partent de votre adresse, les documents sont rangés dans votre Google Drive, les chantiers dans votre agenda Google." },
   { q: "Mes devis et factures sont-ils conformes ?", a: "Les mentions changent selon le client : rétractation pour un particulier, autoliquidation en sous-traitance, syndicat des copropriétaires représenté par son syndic, franchise de TVA pour un auto-entrepreneur. Les factures sont produites au format de la facture électronique, avec leur fichier de données intégré." },
-  { q: "Je travaille seul, est-ce fait pour moi ?", a: "C'est précisément pour vous. Zelus a été pensé pour l'artisan qui fait tout lui-même et rédige ses devis le soir. Les accès pour un collaborateur (secrétaire, associé) sont prévus." },
+  { q: "Je travaille seul, est-ce fait pour moi ?", a: "C'est précisément pour vous. Zelus a été pensé pour l'artisan qui fait tout lui-même et rédige ses devis le soir. Un utilisateur est inclus ; si un salarié l’utilise aussi (secrétaire, associé, chef d’équipe), c’est 19 € par mois et par utilisateur en plus." },
   { q: "Est-ce que je peux l'essayer ?", a: "Oui. Le plus simple est d'en parler : on vous montre Zelus avec des exemples de votre métier, puis on configure votre bot avec votre logo, vos couleurs et votre catalogue de prestations." },
   { q: "Combien ça coûte ?", a: "Une mise en place de 990 €, une seule fois. Ensuite, 149 € par mois pour l'abonnement de base, ou 249 € par mois pour le pack complet avec toutes les options. Sans engagement, et 10 mois payés pour 12 si vous réglez à l'année. Pour les 10 premiers clients, jusqu'au 31 décembre 2026 : le pack complet à 149 € par mois. Prix nets : TVA non applicable, art. 293 B du CGI." },
 ];
@@ -658,7 +745,7 @@ export default function ZelusClient() {
   const dash = dashTabs.find((d) => d.key === dashTab);
 
   const sommaire = [
-    ["#tableau", "Tableau de bord"], ["#devis", "Devis"], ["#documents", "Documents"], ["#signature", "Signature"], ["#relances", "Relances"],
+    ["#tableau", "Tableau de bord"], ["#devis", "Devis"], ["#documents", "Documents"], ["#cgv", "CGV"], ["#signature", "Signature"], ["#relances", "Relances"],
     ["#factures", "Factures"], ["#chantiers", "Chantiers"], ["#suivi", "Suivi"], ["#rapport", "Rapport"],
     ["#tarifs", "Tarifs"], ["#faq", "FAQ"],
   ];
@@ -916,6 +1003,22 @@ export default function ZelusClient() {
           />
 
           <Feature
+            id="cgv" icon={FileText} kicker="Conditions générales"
+            title="Des CGV qui s'adaptent toutes seules"
+            text="Vos conditions générales sont imprimées dans le devis, sur des pages à votre en-tête, et la signature du client les couvre. Vous ne tenez qu'un seul texte : Zelus en garde, pour chaque devis, les paragraphes qui valent pour ce client et renumérote les articles."
+            bullets={[
+              "Particulier : droit de rétractation et formulaire joint",
+              "Pro en sous-traitance : prix hors taxes, autoliquidation, pas de rétractation",
+              "Syndic : pas de rétractation, prix avec TVA",
+              "Dépannage urgent : ni acompte, ni formulaire de rétractation",
+              "Votre nom, votre IBAN, votre assurance, votre médiateur remplis automatiquement ; une information manquante s'imprime « à compléter » en gras",
+              "Taille du texte calculée pour remplir la page, pagination au-delà",
+            ]}
+            example="Le même matin, un devis pour Mme Lambert et un devis en sous-traitance pour Roche Bâtiment. Le premier a 16 articles avec la rétractation et le formulaire ; le second en a 15, en hors taxes avec l'autoliquidation. Vous n'avez rien choisi : Zelus sait à qui il écrit."
+            visual={<CgvDemo />}
+          />
+
+          <Feature
             id="signature" icon={PenLine} kicker="Signature et acompte"
             title="Le client signe en ligne. L'acompte part tout seul."
             text="Le mail du devis contient un lien vers une page de signature : le client lit, coche, signe du doigt ou à la souris. Vous êtes prévenu dans Telegram, la facture d'acompte est émise, envoyée en pièce jointe et rangée. Le devis signé est régénéré avec la signature."
@@ -1135,7 +1238,7 @@ export default function ZelusClient() {
                 À ajouter à l'abonnement de base. Sans une option, ses boutons restent visibles avec un <Lock className="inline w-4 h-4 -mt-1 text-amber-300" /> : vous voyez ce qu'elle apporterait avant de la prendre.
               </p>
             </Reveal>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-16">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-16">
               {options.map((o, i) => (
                 <Reveal key={o.name} delay={i * 0.05} className="flex flex-col rounded-2xl border border-white/10 bg-neutral-900/50 p-6">
                   <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center mb-4"><o.icon className="w-5 h-5 text-red-500" /></div>
@@ -1149,13 +1252,26 @@ export default function ZelusClient() {
                   </ul>
                 </Reveal>
               ))}
+              <Reveal delay={0.25} className="relative flex flex-col rounded-2xl border border-dashed border-white/15 bg-neutral-900/30 p-6">
+                <div className="absolute top-4 right-4 rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-medium text-gray-300">À venir</div>
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4"><ClipboardCheck className="w-5 h-5 text-gray-400" /></div>
+                <div className="text-white font-medium">PV de réception</div>
+                <div className="text-sm text-gray-500 mt-1 mb-3">en préparation</div>
+                <p className="text-gray-400 text-sm mb-4">Le procès-verbal de fin de travaux, signé avec le client.</p>
+                <ul className="space-y-2 text-sm text-gray-400">
+                  {["Réception avec ou sans réserves", "Signature du client", "Rangé avec le dossier du chantier"].map((it) => (
+                    <li key={it} className="flex gap-2"><Check className="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5" />{it}</li>
+                  ))}
+                </ul>
+              </Reveal>
             </div>
 
             {/* Conditions */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
                 [Wrench, "Mise en place : 990 €, une fois", "Votre bot, votre base, vos dossiers Drive, vos comptes Google, l'import de votre catalogue et 2 h de formation."],
                 [Repeat, "Sans engagement, ou à l'année", "Vous arrêtez quand vous voulez. Si vous réglez à l'année : 10 mois payés pour 12."],
+                [Users, "Utilisateur en plus : +19 € / mois", "Un utilisateur est inclus. Chaque salarié en plus qui utilise Zelus (secrétaire, associé, chef d’équipe) : 19 € par mois."],
                 [Gift, "Parrainage : 1 mois offert", "Vous nous amenez un artisan qui s'abonne : un mois d'abonnement vous est offert."],
               ].map(([I, a, b]) => (
                 <Reveal key={a} className="rounded-2xl border border-white/10 bg-neutral-900/50 p-6">
