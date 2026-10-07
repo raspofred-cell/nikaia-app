@@ -211,7 +211,8 @@ export const DesktopScreens = ({ onZoom, className = "" }) => {
   useEffect(() => {
     if (!inView || reduce) return;
     const n = (i + 1) % deskSeq.length, step = deskSeq[n], h = deskSeq[i].hold * 1000;
-    const ts = [setTimeout(() => setCur(step.click), h), setTimeout(() => setClic((c) => c + 1), h + 850), setTimeout(() => { setPrev(deskSeq[i].src); setI(n); }, h + 1100)];
+    const ts = step.click ? [setTimeout(() => setCur(step.click), h), setTimeout(() => setClic((c) => c + 1), h + 850)] : [];
+    ts.push( setTimeout(() => { setPrev(deskSeq[i].src); setI(n); }, h + 1100));
     return () => ts.forEach(clearTimeout);
   }, [i, inView, reduce]);
   const src = deskSeq[i].src;
