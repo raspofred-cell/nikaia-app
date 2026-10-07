@@ -1,6 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-motion";
 import {
   ArrowRight, Check, Lock, MessageCircle, Smartphone, FileText, PenLine, Bell, Receipt,
   CalendarDays, Camera, Mic, LayoutDashboard, Users, Palette, ShieldCheck, Building2,
@@ -32,57 +32,158 @@ const Kicker = ({ children }) => (
 );
 
 // Écran Telegram simulé. Les textes reprennent ceux du bot Zelus.
-const TgPhone = ({ title = "Martin Confort · Zelus", messages, className = "" }) => (
-  <div className={`mx-auto w-full max-w-[360px] rounded-[2.4rem] border border-white/15 bg-black p-2.5 shadow-[0_30px_80px_rgba(0,0,0,0.6)] ${className}`}>
-    <div className="rounded-[2rem] overflow-hidden bg-[#0e1621]">
-      <div className="flex items-center gap-3 px-4 py-3 bg-[#17212b] border-b border-black/40">
-        <div className="w-9 h-9 rounded-full bg-[#111] flex items-center justify-center p-1.5">
-          <img src={`${IMG}/icone-zelus.svg`} alt="" className="w-full h-full" />
-        </div>
-        <div className="leading-tight">
-          <div className="text-white text-sm font-semibold">{title}</div>
-          <div className="text-[11px] text-[#6c8aa5]">bot</div>
-        </div>
-      </div>
-      <div className="px-3 py-4 space-y-2.5 min-h-[420px] bg-[#0e1621] bg-[radial-gradient(circle_at_20%_10%,rgba(80,120,160,0.10),transparent_50%)]">
-        {messages.map((m, i) => (
-          <div key={i} className={`flex flex-col ${m.me ? "items-end" : "items-start"}`}>
-            <div
-              className={`max-w-[88%] rounded-2xl px-3 py-2 text-[12.5px] leading-snug whitespace-pre-line ${
-                m.me ? "bg-[#2b5278] text-white rounded-br-md" : "bg-[#182533] text-gray-100 rounded-bl-md"
-              }`}
-            >
-              {m.voice ? (
-                <span className="flex items-center gap-2"><Mic className="w-4 h-4" /><span className="tracking-[0.2em] text-[#8fb3d6]">▮▮▯▮▮▮▯▮▮▯▮</span>{m.voice}</span>
-              ) : m.t}
-            </div>
-            {m.kb && (
-              <div className="w-[88%] mt-1 space-y-1">
-                {m.kb.map((row, r) => (
-                  <div key={r} className="flex gap-1">
-                    {row.map((b) => (
-                      <div
-                        key={b}
-                        className={`flex-1 text-center text-[11.5px] rounded-lg px-2 py-1.5 ${
-                          m.on === b ? "bg-[#3d6e9b] text-white" : "bg-[#1e2c3a]/90 text-[#cfe0f0]"
-                        }`}
-                      >
-                        {b}
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-      <div className="flex items-center gap-3 px-4 py-3 bg-[#17212b] text-[#6c8aa5] text-sm">
-        <span>📎</span><span className="flex-1 italic">Message</span><Mic className="w-4 h-4" />
-      </div>
+// Les messages arrivent un par un (le bot « écrit… »), le bouton choisi s'allume, puis la conversation recommence.
+const TypingDots = () => (
+  <div className="flex items-start">
+    <div className="rounded-2xl rounded-bl-md bg-[#182533] px-3 py-2.5 flex gap-1">
+      {[0, 1, 2].map((d) => (
+        <motion.span key={d} className="w-1.5 h-1.5 rounded-full bg-[#8fb3d6]"
+          animate={{ y: [0, -3, 0], opacity: [0.5, 1, 0.5] }} transition={{ duration: 0.8, repeat: Infinity, delay: d * 0.15 }} />
+      ))}
     </div>
   </div>
 );
+
+const TgPhone = ({ title = "Martin Confort · Zelus", messages, className = "" }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { margin: "-80px" });
+  const reduce = useReducedMotion();
+  const [n, setN] = useState(0);
+  const [typing, setTyping] = useState(false);
+
+  useEffect(() => {
+    if (reduce) { setN(messages.length); return; }
+    if (!inView) { setTyping(false); return; }
+    let t;
+    if (n >= messages.length) {
+      t = setTimeout(() => setN(0), 4500);
+    } else if (messages[n].me) {
+      t = setTimeout(() => setN(n + 1), 900);
+    } else {
+      setTyping(true);
+      t = setTimeout(() => { setTyping(false); setN(n + 1); }, n === 0 ? 600 : 1200);
+    }
+    return () => clearTimeout(t);
+  }, [n, inView, reduce, messages]);
+
+  return (
+    <div ref={ref} className={`mx-auto w-full max-w-[360px] rounded-[2.4rem] border border-white/15 bg-black p-2.5 shadow-[0_30px_80px_rgba(0,0,0,0.6)] ${className}`}>
+      <div className="rounded-[2rem] overflow-hidden bg-[#0e1621]">
+        <div className="flex items-center gap-3 px-4 py-3 bg-[#17212b] border-b border-black/40">
+          <div className="w-9 h-9 rounded-full bg-[#111] flex items-center justify-center p-1.5">
+            <img src={`${IMG}/icone-zelus.svg`} alt="" className="w-full h-full" />
+          </div>
+          <div className="leading-tight">
+            <div className="text-white text-sm font-semibold">{title}</div>
+            <div className="text-[11px] text-[#6c8aa5]">{typing ? "écrit…" : "bot"}</div>
+          </div>
+        </div>
+        <div className="h-[440px] overflow-hidden flex flex-col justify-end px-3 py-4 bg-[#0e1621] bg-[radial-gradient(circle_at_20%_10%,rgba(80,120,160,0.10),transparent_50%)]">
+          <div className="space-y-2.5">
+            {messages.slice(0, n).map((m, i) => {
+              const pressed = n > i + 1 || (typing && n === i + 1);
+              return (
+                <motion.div key={i} initial={reduce ? false : { opacity: 0, y: 14, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.3 }}
+                  className={`flex flex-col ${m.me ? "items-end" : "items-start"}`}>
+                  <div className={`max-w-[88%] rounded-2xl px-3 py-2 text-[12.5px] leading-snug whitespace-pre-line ${m.me ? "bg-[#2b5278] text-white rounded-br-md" : "bg-[#182533] text-gray-100 rounded-bl-md"}`}>
+                    {m.voice ? (
+                      <span className="flex items-center gap-2"><Mic className="w-4 h-4" /><span className="tracking-[0.2em] text-[#8fb3d6]">▮▮▯▮▮▮▯▮▮▯▮</span>{m.voice}</span>
+                    ) : m.t}
+                  </div>
+                  {m.kb && (
+                    <div className="w-[88%] mt-1 space-y-1">
+                      {m.kb.map((row, r) => (
+                        <div key={r} className="flex gap-1">
+                          {row.map((b) => (
+                            <div key={b} className={`flex-1 text-center text-[11.5px] rounded-lg px-2 py-1.5 transition-all duration-300 ${m.on === b && pressed ? "bg-[#3d6e9b] text-white scale-[0.97]" : "bg-[#1e2c3a]/90 text-[#cfe0f0]"}`}>
+                              {b}
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })}
+            {typing && <TypingDots />}
+          </div>
+        </div>
+        <div className="flex items-center gap-3 px-4 py-3 bg-[#17212b] text-[#6c8aa5] text-sm">
+          <span>📎</span><span className="flex-1 italic">Message</span><Mic className="w-4 h-4" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Bandeau défilant des fonctionnalités
+const Marquee = ({ items }) => {
+  const reduce = useReducedMotion();
+  return (
+    <div className="relative overflow-hidden border-y border-white/5 bg-[#0A0A0A] py-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+      <motion.div className="flex w-max gap-10" animate={reduce ? undefined : { x: ["0%", "-50%"] }} transition={{ duration: 60, ease: "linear", repeat: Infinity }}>
+        {[...items, ...items].map((t, i) => (
+          <span key={i} className="flex items-center gap-3 whitespace-nowrap text-gray-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500" />{t}
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+};
+
+// Notifications qui apparaissent sur le tableau de bord
+const toasts = [
+  ["🎉", "Devis accepté", "Cabinet Aubert · Résidence Les Mimosas · 924,00 €"],
+  ["💶", "Facture d'acompte envoyée", "FA-2026-121 · 462,00 €"],
+  ["📅", "Chantier programmé", "Résidence Les Mimosas · jeudi 8 octobre, 8 h"],
+  ["🔔", "Relance envoyée", "Mme Sophie Lambert · devis du mitigeur"],
+  ["✅", "Présence confirmée", "Mme Claire Fontaine (Gardienne)"],
+];
+const LiveToasts = () => {
+  const ref = useRef(null);
+  const inView = useInView(ref);
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const t = setInterval(() => setI((x) => (x + 1) % toasts.length), 2800);
+    return () => clearInterval(t);
+  }, [inView]);
+  const [ic, title, sub] = toasts[i];
+  return (
+    <div ref={ref} className="pointer-events-none absolute top-14 md:top-20 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-10 lg:right-24 z-30 w-[300px] md:w-[340px]">
+      <AnimatePresence mode="wait">
+        <motion.div key={i} initial={{ opacity: 0, y: -16, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -10, scale: 0.97 }} transition={{ duration: 0.35 }}
+          className="flex items-start gap-3 rounded-2xl border border-white/15 bg-[#17212b] px-4 py-3 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+          <div className="w-9 h-9 flex-shrink-0 rounded-xl bg-[#111] flex items-center justify-center p-1.5"><img src={`${IMG}/icone-zelus.svg`} alt="" /></div>
+          <div className="min-w-0">
+            <div className="text-[11px] text-[#6c8aa5]">Telegram · Zelus · maintenant</div>
+            <div className="text-white text-sm font-semibold">{ic} {title}</div>
+            <div className="text-gray-300 text-xs truncate">{sub}</div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+};
+
+// Horloge du constat : de 07:30 à 21:47
+const NightClock = () => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  const [m, setM] = useState(21 * 60 + 47);
+  useEffect(() => {
+    if (!inView) return;
+    const a = 7 * 60 + 30, b = 21 * 60 + 47, d = 2200, t0 = performance.now();
+    let raf;
+    const f = (now) => { const k = Math.min(1, (now - t0) / d); const e = 1 - Math.pow(1 - k, 3); setM(Math.round(a + (b - a) * e)); if (k < 1) raf = requestAnimationFrame(f); };
+    raf = requestAnimationFrame(f);
+    return () => cancelAnimationFrame(raf);
+  }, [inView]);
+  const hh = String(Math.floor(m / 60)).padStart(2, "0"), mm = String(m % 60).padStart(2, "0");
+  return <span ref={ref} className={`text-6xl md:text-7xl font-bold tracking-tight tabular-nums transition-colors duration-500 ${m > 20 * 60 ? "text-red-500" : "text-white"}`}>{hh}:{mm}</span>;
+};
 
 const Shot = ({ src, alt, onZoom, className = "" }) => (
   <button
@@ -241,6 +342,65 @@ const options = [
   },
 ];
 
+// Liste complète, sans descriptif (bouton « Toutes les fonctionnalités »)
+const B = "Base", SYN = "Syndic", PRO = "Professionnel", SUI = "Suivi de chantier", RAP = "Rapport de chantier", IA = "Assistant IA des mails";
+const allFeatures = [
+  { cat: "Devis", items: [
+    ["Devis depuis Telegram", B], ["Clients nouveaux et existants", B], ["Recherche dans l'annuaire officiel des entreprises", B],
+    ["Catalogue de prestations avec prix et unités", B], ["Nouvelle prestation créée en cours de devis", B], ["Lieux d'intervention et contacts sur place", B],
+    ["Particularités du chantier", B], ["Résumé avant génération", B], ["Devis PDF à vos couleurs", B], ["Envoi par mail depuis votre adresse", B],
+    ["Modification après envoi (V2, V3)", B], ["Mentions selon le type de client", B], ["Rétractation pour les particuliers", B],
+    ["Auto-entrepreneur : franchise de TVA et suivi du plafond", B], ["Devis rangé dans le Drive du client", B],
+  ] },
+  { cat: "Signature", items: [
+    ["Signature en ligne, sur téléphone ou ordinateur", B], ["Acceptation manuelle", B], ["Devis signé régénéré avec la signature", B],
+    ["Demande de commencer avant la fin de la rétractation", B], ["Devis perdu avec son motif", B],
+  ] },
+  { cat: "Relances", items: [
+    ["Relances des devis à J+3 et J+7", B], ["Arrêt des relances pour un client", B], ["Relances des factures", B], ["Relance manuelle à tout moment", B], ["Mise en demeure", B],
+  ] },
+  { cat: "Factures", items: [
+    ["Facture d'acompte automatique à la signature", B], ["Facture de solde en fin de chantier", B], ["Aperçu avant émission", B],
+    ["Facture d'intervention (dépannage payé sur place)", B], ["Facture acquittée", B], ["Avoirs", B], ["Facture électronique avec fichier de données", B],
+    ["Facture jointe au mail", B], ["Numérotation sans trou", B], ["Règlements et mode de paiement", B], ["Relevé comptable", B],
+  ] },
+  { cat: "Chantiers", items: [
+    ["Créneaux libres de votre agenda Google", B], ["Conflit de créneau signalé", B], ["Reprogrammer, reporter, redonner une date", B],
+    ["Pause et annulation du chantier", B], ["Rappel d'intervention au client deux jours avant", B], ["Confirmation de présence", B],
+    ["Météo des 7 jours et vigilances Météo-France", B],
+  ] },
+  { cat: "Syndic et copropriété", items: [
+    ["Syndic retrouvé dans l'annuaire officiel", SYN], ["Fiche résidence", SYN], ["Gestionnaire et contact sur place", SYN],
+    ["Zones d'intervention et occupants", SYN], ["Syndicat des copropriétaires représenté par le syndic", SYN], ["Question du passage en AG", SYN],
+  ] },
+  { cat: "Professionnels", items: [
+    ["Entreprise retrouvée par SIREN ou par nom", PRO], ["Conditions propres aux professionnels", PRO], ["Autoliquidation de la TVA en sous-traitance", PRO], ["Plusieurs lieux par client", PRO],
+  ] },
+  { cat: "Suivi de chantier", items: [
+    ["Démarrage et heure d'arrivée", SUI], ["Photos rangées et numérotées dans Drive", SUI], ["Retouche des photos", SUI],
+    ["Problèmes signalés", SUI], ["Client prévenu en un message", SUI], ["Avenant", SUI],
+  ] },
+  { cat: "Rapport de chantier", items: [
+    ["Rapport en cours ou de fin de chantier", RAP], ["Note vocale transcrite", RAP], ["Rédaction par l'IA", RAP],
+    ["Choix des photos", RAP], ["Relecture avant envoi", RAP], ["Rapport PDF envoyé par lien", RAP],
+  ] },
+  { cat: "Mails", items: [
+    ["Écrire un mail au client depuis le tableau de bord", B], ["Pièces jointes du dossier", B], ["Alerte de pièce jointe oubliée", B],
+    ["Mail rédigé par l'IA à partir de quelques mots", IA],
+  ] },
+  { cat: "Tableau de bord", items: [
+    ["Aujourd'hui : reste à encaisser", B], ["Le fil de l'argent du mois", B], ["Qui relancer", B], ["Quoi programmer", B],
+    ["Agenda à la semaine et au mois", B], ["Carte des chantiers", B], ["Statistiques des devis", B], ["Signé, facturé, encaissé", B],
+    ["Prévision d'encaissement", B], ["Objectif mensuel et comparaison avec l'an passé", B], ["Bilan du mois en PDF", B],
+    ["Recherche", B], ["Fiches clients et lieux", B], ["Correction d'une fiche", B], ["Version téléphone", B], ["Mode clair et sombre", B],
+  ] },
+  { cat: "Votre entreprise", items: [
+    ["Logo, couleur et police sur tous les documents", B], ["Mails envoyés depuis votre Gmail", B], ["Dossier Drive par client", B],
+    ["Chantiers dans votre agenda Google", B], ["Vos données dans votre propre base", B],
+  ] },
+];
+const nbFeatures = allFeatures.reduce((n, c) => n + c.items.length, 0);
+
 const fondateurItems = [
   "Le pack complet : toutes les options incluses",
   "Les mises à jour et les améliorations de Zelus incluses à vie",
@@ -255,7 +415,7 @@ const faqs = [
   { q: "Mes devis et factures sont-ils conformes ?", a: "Les mentions changent selon le client : rétractation pour un particulier, autoliquidation en sous-traitance, syndicat des copropriétaires représenté par son syndic, franchise de TVA pour un auto-entrepreneur. Les factures sont produites au format de la facture électronique, avec leur fichier de données intégré." },
   { q: "Je travaille seul, est-ce fait pour moi ?", a: "C'est précisément pour vous. Zelus a été pensé pour l'artisan qui fait tout lui-même et rédige ses devis le soir. Les accès pour un collaborateur (secrétaire, associé) sont prévus." },
   { q: "Est-ce que je peux l'essayer ?", a: "Oui. Le plus simple est d'en parler : on vous montre Zelus avec des exemples de votre métier, puis on configure votre bot avec votre logo, vos couleurs et votre catalogue de prestations." },
-  { q: "Combien ça coûte ?", a: "Une mise en place de 990 €, une seule fois. Ensuite, 149 € par mois pour l'abonnement de base, ou 249 € par mois pour le pack complet avec toutes les options. Sans engagement, et 10 mois payés pour 12 si vous réglez à l'année. Pour les 10 premiers clients, jusqu'au 31 décembre 2026 : le pack complet à 149 € par mois." },
+  { q: "Combien ça coûte ?", a: "Une mise en place de 990 €, une seule fois. Ensuite, 149 € par mois pour l'abonnement de base, ou 249 € par mois pour le pack complet avec toutes les options. Sans engagement, et 10 mois payés pour 12 si vous réglez à l'année. Pour les 10 premiers clients, jusqu'au 31 décembre 2026 : le pack complet à 149 € par mois. Prix nets : TVA non applicable, art. 293 B du CGI." },
 ];
 
 /* ---------- Page ---------- */
@@ -267,6 +427,12 @@ export default function ZelusClient() {
   const [devisTab, setDevisTab] = useState("syn");
   const [dashTab, setDashTab] = useState("accueil");
   const [openFaq, setOpenFaq] = useState(0);
+  const [showAll, setShowAll] = useState(false);
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setStep((x) => (x + 1) % 6), 1800);
+    return () => clearInterval(t);
+  }, []);
 
   const openContact = (offer = "Zelus — démonstration") => { setSelectedOffer(offer); setIsContactOpen(true); };
 
@@ -293,7 +459,8 @@ export default function ZelusClient() {
         {/* ---------- HERO ---------- */}
         <section className="relative overflow-hidden pt-32 md:pt-40 pb-20">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-40 right-0 w-[900px] h-[900px] bg-red-600/10 rounded-full blur-3xl" />
+            <motion.div className="absolute -top-40 right-0 w-[900px] h-[900px] bg-red-600/10 rounded-full blur-3xl"
+              animate={{ x: [0, -120, 0], y: [0, 80, 0], scale: [1, 1.1, 1] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} />
           </div>
           <div className="relative max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-14 items-center">
             <Reveal>
@@ -337,8 +504,10 @@ export default function ZelusClient() {
         </section>
 
 
+        <Marquee items={["Devis depuis Telegram", "Annuaire officiel des entreprises", "Catalogue de prestations", "Signature en ligne", "Facture d'acompte automatique", "Relances J+3 et J+7", "Facture électronique", "Créneaux libres de votre agenda", "Rappel au client deux jours avant", "Météo et vigilances", "Photos rangées dans Drive", "Rapport dicté, rédigé par l'IA", "Tableau de bord", "Carte des chantiers", "Relances des factures", "À vos couleurs"]} />
+
         {/* ---------- VITRINE TABLEAU DE BORD ---------- */}
-        <section className="relative pb-24">
+        <section className="relative pt-20 pb-24">
           <div className="max-w-7xl mx-auto px-6 md:px-12">
             <Reveal className="text-center mb-10">
               <Kicker>Le tableau de bord</Kicker>
@@ -346,7 +515,8 @@ export default function ZelusClient() {
               <p className="text-gray-400 text-lg max-w-2xl mx-auto mt-5">Ce qui reste à encaisser, qui relancer, quoi programmer, la météo de vos chantiers, vos chiffres. Au bureau sur l&apos;ordinateur, entre deux chantiers sur le téléphone.</p>
             </Reveal>
             <Reveal delay={0.1} className="relative">
-              <div className="rounded-2xl border border-white/10 bg-neutral-900 p-2 md:p-3 shadow-[0_40px_120px_rgba(220,38,38,0.18)]">
+              <LiveToasts />
+              <div className="relative z-0 rounded-2xl border border-white/10 bg-neutral-900 p-2 md:p-3 shadow-[0_40px_120px_rgba(220,38,38,0.18)]">
                 <div className="flex items-center gap-1.5 px-2 pb-2 md:pb-3">
                   <span className="w-3 h-3 rounded-full bg-white/15" /><span className="w-3 h-3 rounded-full bg-white/15" /><span className="w-3 h-3 rounded-full bg-white/15" />
                   <span className="ml-3 flex-1 max-w-sm rounded-md bg-white/5 px-3 py-1 text-xs text-gray-500">myzelus.fr/tableau</span>
@@ -355,9 +525,10 @@ export default function ZelusClient() {
                   <img src={`${IMG}/accueil.png`} alt="Tableau de bord Zelus : reste à encaisser, fil de l’argent, météo, carte des chantiers" className="w-full h-auto block" />
                 </button>
               </div>
-              <div className="hidden md:block absolute -bottom-10 -right-4 lg:-right-10 w-40 lg:w-48 rounded-[1.8rem] border border-white/15 bg-black p-1.5 shadow-2xl">
+              <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                className="hidden md:block absolute -bottom-10 -right-4 lg:-right-10 w-40 lg:w-48 rounded-[1.8rem] border border-white/15 bg-black p-1.5 shadow-2xl">
                 <img src={`${IMG}/tel-accueil.png`} alt="Tableau de bord Zelus sur téléphone" className="rounded-[1.4rem] w-full" />
-              </div>
+              </motion.div>
             </Reveal>
             <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4">
               {[
@@ -366,7 +537,7 @@ export default function ZelusClient() {
                 ["Qui relancer, quoi programmer", "les actions du jour, en un clic"],
                 ["Carte, agenda, chiffres", "chantiers, taux de signature, prévisions"],
               ].map(([a, b]) => (
-                <div key={a} className="rounded-2xl border border-white/10 bg-neutral-900/50 p-5">
+                <div key={a} className="rounded-2xl border border-white/10 bg-neutral-900/50 p-5 card-hover">
                   <div className="text-white font-medium mb-1">{a}</div>
                   <div className="text-gray-400 text-sm">{b}</div>
                 </div>
@@ -385,7 +556,7 @@ export default function ZelusClient() {
               <Kicker>Le constat</Kicker>
               <div className="flex items-baseline gap-4">
                 <Moon className="w-8 h-8 text-red-500 self-center" />
-                <span className="text-6xl md:text-7xl font-bold tracking-tight tabular-nums">21:47</span>
+                <NightClock />
               </div>
               <p className="mt-4 text-2xl text-white font-medium">Le jour : les chantiers.<br /><span className="text-red-500">Le soir : les devis.</span></p>
             </Reveal>
@@ -397,7 +568,7 @@ export default function ZelusClient() {
                   ["Les mentions changent selon le client", "Rétractation, autoliquidation, franchise de TVA, facture électronique : difficile de tout savoir par cœur."],
                   ["On ne sait plus où on en est", "Ce qui est signé, ce qui reste à programmer, ce qui reste à encaisser : éparpillé entre carnet, mails et tableur."],
                 ].map(([t, d]) => (
-                  <div key={t} className="rounded-2xl border border-white/10 bg-neutral-900/50 p-6">
+                  <div key={t} className="rounded-2xl border border-white/10 bg-neutral-900/50 p-6 card-hover">
                     <div className="text-white font-medium mb-2">{t}</div>
                     <div className="text-gray-400 text-sm leading-relaxed">{d}</div>
                   </div>
@@ -420,13 +591,16 @@ export default function ZelusClient() {
                 [FileText, "Devis", "sur le chantier"], [PenLine, "Signature", "en ligne"], [Receipt, "Acompte", "facturé tout seul"],
                 [CalendarDays, "Chantier", "programmé, client prévenu"], [Camera, "Suivi", "photos et rapport"], [LayoutDashboard, "Solde", "facturé, relancé, encaissé"],
               ].map(([I, a, b], i) => (
-                <Reveal key={a} delay={i * 0.06} className="relative rounded-2xl border border-white/10 bg-neutral-900/50 p-5">
+                <Reveal key={a} delay={i * 0.06} className={`relative rounded-2xl border p-5 transition-all duration-500 ${step === i ? "border-red-500/60 bg-red-500/10 -translate-y-1 shadow-[0_0_30px_rgba(220,38,38,0.2)]" : i < step ? "border-red-500/20 bg-neutral-900/50" : "border-white/10 bg-neutral-900/50"}`}>
                   <div className="text-xs text-gray-500 mb-3 tabular-nums">0{i + 1}</div>
-                  <I className="w-6 h-6 text-red-500 mb-3" />
+                  <I className={`w-6 h-6 text-red-500 mb-3 transition-transform duration-500 ${step === i ? "scale-125" : ""}`} />
                   <div className="text-white font-medium">{a}</div>
                   <div className="text-gray-400 text-sm">{b}</div>
                 </Reveal>
               ))}
+            </div>
+            <div className="mt-6 h-1 rounded-full bg-white/5 overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-red-700 to-red-500 transition-all duration-700 ease-out" style={{ width: `${((step + 1) / 6) * 100}%` }} />
             </div>
           </div>
         </section>
@@ -656,19 +830,22 @@ export default function ZelusClient() {
               <Kicker>Les tarifs</Kicker>
               <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">Un prix clair, sans engagement</h2>
               <p className="text-gray-400 text-lg max-w-2xl mx-auto mt-5">
-                Une mise en place, puis un abonnement au mois. Vous arrêtez quand vous voulez.
+                Une mise en place, puis un abonnement au mois.<br />Vous arrêtez quand vous voulez.
+              </p>
+              <p className="inline-block mt-5 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-gray-300">
+                Prix nets : TVA non applicable, art. 293 B du CGI
               </p>
             </Reveal>
 
             {/* Offre fondateurs */}
-            <Reveal className="relative overflow-hidden rounded-3xl border border-red-500/60 bg-gradient-to-br from-[#2a0a0e] via-[#140a0c] to-[#0a0a0a] p-8 md:p-12 shadow-[0_0_60px_rgba(220,38,38,0.25)] mb-12">
+            <Reveal className="relative overflow-hidden rounded-3xl border border-red-500/60 bg-gradient-to-br from-[#2a0a0e] via-[#140a0c] to-[#0a0a0a] p-8 md:p-12 animate-pulse-glow mb-12">
               <img src={`${IMG}/icone-zelus.svg`} alt="" className="absolute -right-24 -bottom-24 w-[520px] max-w-none opacity-10 pointer-events-none" />
               <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 items-center">
                 <div>
                   <div className="inline-flex items-center gap-2 rounded-full bg-red-600 px-4 py-1.5 text-sm font-semibold text-white mb-6">
                     <Sparkles className="w-4 h-4" /> Offre fondateurs
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-3">Les 10 premiers clients ont tout, à vie.</h3>
+                  <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-3">Les 10 premiers clients ont tout.<br /><span className="text-red-500 text-4xl md:text-5xl font-bold">À VIE !</span></h3>
                   <p className="text-gray-300 text-lg mb-6">Réservée aux 10 premiers clients, jusqu'au 31 décembre 2026.</p>
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
                     {fondateurItems.map((it) => (
@@ -683,6 +860,7 @@ export default function ZelusClient() {
                     <span className="text-gray-300 text-xl">/ mois</span>
                   </div>
                   <div className="text-gray-400 mt-2">pack complet · mise en place 990 €, une fois</div>
+                  <div className="text-gray-500 text-xs mt-1">TVA non applicable, art. 293 B du CGI</div>
                   <button onClick={() => openContact("Zelus — Offre fondateurs")} className="mt-7 inline-flex items-center gap-2 px-7 py-4 rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold glow-red-hover transition-colors">
                     Réserver ma place <ArrowRight className="w-4 h-4" />
                   </button>
@@ -727,6 +905,42 @@ export default function ZelusClient() {
                   Choisir le pack complet <ArrowRight className="w-4 h-4" />
                 </button>
               </Reveal>
+            </div>
+
+            {/* Toutes les fonctionnalités, sans descriptif */}
+            <div className="mb-16">
+              <div className="text-center">
+                <button onClick={() => setShowAll((v) => !v)} aria-expanded={showAll}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white font-medium transition-colors">
+                  {showAll ? "Masquer la liste" : `Toutes les fonctionnalités (${nbFeatures})`}
+                  <ChevronDown className={`w-4 h-4 transition-transform ${showAll ? "rotate-180" : ""}`} />
+                </button>
+              </div>
+              {showAll && (
+                <div className="mt-6 rounded-2xl border border-white/10 bg-neutral-950">
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-2 px-5 py-3 border-b border-white/10 text-xs text-gray-400">
+                    <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-400" />Base : dans l'abonnement</span>
+                    <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-300" />Option : en plus, ou dans le pack complet</span>
+                  </div>
+                  <div className="max-h-[460px] overflow-y-auto">
+                    {allFeatures.map((c) => (
+                      <div key={c.cat}>
+                        <div className="sticky top-0 z-10 bg-neutral-900 px-5 py-2 text-xs uppercase tracking-widest font-semibold text-red-400 border-b border-white/5">{c.cat}</div>
+                        <ul>
+                          {c.items.map(([name, tag]) => (
+                            <li key={name} className="flex items-center justify-between gap-4 px-5 py-2.5 border-b border-white/5 text-[15px] text-gray-200">
+                              <span>{name}</span>
+                              <span className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${tag === B ? "bg-emerald-400/10 text-emerald-300" : "bg-amber-300/10 text-amber-300"}`}>
+                                {tag === B ? "Base" : `Option ${tag}`}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Options au détail */}
