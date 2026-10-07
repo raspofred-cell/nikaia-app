@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   ArrowRight, Check, Lock, MessageCircle, Smartphone, FileText, PenLine, Bell, Receipt,
   CalendarDays, Camera, Mic, LayoutDashboard, Users, Palette, ShieldCheck, Building2,
-  Briefcase, Home, ClipboardCheck, X, ZoomIn, ChevronDown, Moon, Clock, Search, CloudSun,
+  Briefcase, Home, ClipboardCheck, X, ZoomIn, ChevronDown, Moon, Clock, Search, CloudSun, Mail, Sparkles, Gift, Wrench, Repeat,
 } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -203,37 +203,49 @@ const dashTabs = [
   { key: "argent", label: "Argent", img: "st-argent.png", text: "Signé, facturé et encaissé mois par mois, délais de paiement, prévision d'encaissement." },
 ];
 
+const baseItems = [
+  "Devis depuis Telegram, catalogue de prestations",
+  "Signature en ligne",
+  "Relances des devis",
+  "Factures d'acompte et de solde",
+  "Relances des factures",
+  "Programmation des chantiers et rappels d'intervention",
+  "Tableau de bord sur ordinateur et téléphone",
+];
+
 const options = [
   {
-    icon: Home, name: "Zelus", tag: "Le socle", included: true,
-    desc: "Tout le cycle commercial avec vos clients particuliers, du premier devis à la dernière facture.",
-    items: ["Devis depuis Telegram, catalogue de prestations", "Signature en ligne et facture d'acompte automatique", "Relances des devis et des factures", "Programmation des chantiers et rappels au client", "Facture de solde, facture d'intervention, avoirs", "Facture électronique, documents et mails à vos couleurs", "Tableau de bord sur ordinateur et téléphone"],
-  },
-  {
-    icon: Building2, name: "Option Syndic", tag: "Copropriété",
-    desc: "Pour travailler avec les syndics : résidences, gestionnaires, contacts sur place, zones d'intervention.",
-    items: ["Syndic retrouvé dans l'annuaire officiel", "Fiche résidence avec tous ses contacts", "Devis au nom du syndicat des copropriétaires", "Gardien ou occupant prévenu avant l'intervention", "Question du passage en AG"],
-  },
-  {
-    icon: Briefcase, name: "Option Professionnel", tag: "Entreprises",
+    icon: Briefcase, name: "Professionnel", price: 20,
     desc: "Pour vos clients entreprises, agences, commerces et donneurs d'ordre.",
-    items: ["Entreprise retrouvée par SIREN ou par nom", "Conditions propres aux professionnels", "Autoliquidation de la TVA en sous-traitance", "Lieux d'intervention multiples par client"],
+    items: ["Entreprise retrouvée par SIREN ou par nom", "Conditions propres aux professionnels", "Autoliquidation de la TVA en sous-traitance"],
   },
   {
-    icon: Camera, name: "Option Suivi de chantier", tag: "Sur le terrain",
+    icon: Building2, name: "Syndic", price: 40,
+    desc: "Pour travailler avec les syndics de copropriété.",
+    items: ["Syndic retrouvé dans l'annuaire officiel", "Fiche résidence avec tous ses contacts", "Devis au nom du syndicat des copropriétaires"],
+  },
+  {
+    icon: Camera, name: "Suivi de chantier", price: 20,
     desc: "Le journal du chantier, tenu depuis le téléphone.",
-    items: ["Démarrage du chantier et heure d'arrivée", "Photos rangées automatiquement dans Drive", "Problèmes signalés et client prévenu", "Avenant quand le chantier change"],
+    items: ["Démarrage et heure d'arrivée", "Photos rangées automatiquement dans Drive", "Problèmes signalés, client prévenu"],
   },
   {
-    icon: Mic, name: "Option Rapport de chantier", tag: "Avec l'IA",
-    desc: "Un rapport propre en PDF à partir d'une note vocale.",
-    items: ["Note vocale transcrite, rapport rédigé", "Photos choisies sur une page simple", "Relecture avant envoi", "PDF à vos couleurs envoyé au client"],
+    icon: Mic, name: "Rapport de chantier", price: 30,
+    desc: "Un rapport en PDF à partir d'une note vocale.",
+    items: ["Note vocale transcrite, rapport rédigé", "Photos choisies sur une page simple", "Relecture avant envoi"],
   },
   {
-    icon: ClipboardCheck, name: "Option PV de réception", tag: "Bientôt", soon: true,
-    desc: "Le procès-verbal de fin de travaux, signé avec le client.",
-    items: ["Réception avec ou sans réserves", "Signature du client", "Rangé avec le dossier du chantier"],
+    icon: Mail, name: "Assistant IA des mails", price: 15,
+    desc: "Un mail à écrire au client, sans y passer la soirée.",
+    items: ["Vous donnez l'idée en quelques mots ou en dictant", "L'IA rédige le mail", "Vous relisez avant l'envoi"],
   },
+];
+
+const fondateurItems = [
+  "Le pack complet : toutes les options incluses",
+  "Les mises à jour et les améliorations de Zelus incluses à vie",
+  "Prix garanti tant que vous restez abonné sans interruption",
+  "Sans engagement",
 ];
 
 const faqs = [
@@ -243,7 +255,7 @@ const faqs = [
   { q: "Mes devis et factures sont-ils conformes ?", a: "Les mentions changent selon le client : rétractation pour un particulier, autoliquidation en sous-traitance, syndicat des copropriétaires représenté par son syndic, franchise de TVA pour un auto-entrepreneur. Les factures sont produites au format de la facture électronique, avec leur fichier de données intégré." },
   { q: "Je travaille seul, est-ce fait pour moi ?", a: "C'est précisément pour vous. Zelus a été pensé pour l'artisan qui fait tout lui-même et rédige ses devis le soir. Les accès pour un collaborateur (secrétaire, associé) sont prévus." },
   { q: "Est-ce que je peux l'essayer ?", a: "Oui. Le plus simple est d'en parler : on vous montre Zelus avec des exemples de votre métier, puis on configure votre bot avec votre logo, vos couleurs et votre catalogue de prestations." },
-  { q: "Combien ça coûte ?", a: "Un abonnement mensuel pour le socle, et des options que vous activez selon vos clients. Le tarif dépend de votre activité : demandez-le, on vous répond rapidement." },
+  { q: "Combien ça coûte ?", a: "Une mise en place de 990 €, une seule fois. Ensuite, 149 € par mois pour l'abonnement de base, ou 249 € par mois pour le pack complet avec toutes les options. Sans engagement, et 10 mois payés pour 12 si vous réglez à l'année. Pour les 10 premiers clients, jusqu'au 31 décembre 2026 : le pack complet à 149 € par mois." },
 ];
 
 /* ---------- Page ---------- */
@@ -270,7 +282,7 @@ export default function ZelusClient() {
   const sommaire = [
     ["#tableau", "Tableau de bord"], ["#devis", "Devis"], ["#documents", "Documents"], ["#signature", "Signature"], ["#relances", "Relances"],
     ["#factures", "Factures"], ["#chantiers", "Chantiers"], ["#suivi", "Suivi"], ["#rapport", "Rapport"],
-    ["#options", "Options"], ["#faq", "FAQ"],
+    ["#tarifs", "Tarifs"], ["#faq", "FAQ"],
   ];
 
   return (
@@ -303,6 +315,11 @@ export default function ZelusClient() {
                   Tout ce que fait Zelus <ChevronDown className="w-4 h-4" />
                 </a>
               </div>
+              <a href="#tarifs" className="mt-6 inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-500/10 px-4 py-2 text-sm text-red-200 hover:bg-red-500/20 transition-colors">
+                <Sparkles className="w-4 h-4 text-red-400 flex-shrink-0" />
+                Offre fondateurs : le pack complet à 149 € / mois pour les 10 premiers clients
+                <ArrowRight className="w-4 h-4 flex-shrink-0" />
+              </a>
               <div className="mt-10 grid grid-cols-3 gap-4 max-w-lg">
                 {[[Smartphone, "Rien à installer", "Telegram suffit"], [Mic, "Vous pouvez dicter", "sur le chantier"], [Palette, "À vos couleurs", "logo, couleur, police"]].map(([I, a, b]) => (
                   <div key={a}>
@@ -632,40 +649,120 @@ export default function ZelusClient() {
           </section>
         </div>
 
-        {/* ---------- OPTIONS ---------- */}
-        <section id="options" className="scroll-mt-28 py-24 bg-[#0A0A0A] border-y border-white/5">
+        {/* ---------- TARIFS ---------- */}
+        <section id="tarifs" className="scroll-mt-28 py-24 bg-[#0A0A0A] border-y border-white/5">
           <div className="max-w-7xl mx-auto px-6 md:px-12">
             <Reveal className="text-center mb-14">
-              <Kicker>Les options</Kicker>
-              <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">Vous prenez ce dont vous avez besoin</h2>
+              <Kicker>Les tarifs</Kicker>
+              <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">Un prix clair, sans engagement</h2>
               <p className="text-gray-400 text-lg max-w-2xl mx-auto mt-5">
-                Le socle couvre tout le cycle avec vos clients particuliers. Les options s'ajoutent selon vos clients et votre façon de travailler. Sans une option, ses boutons restent visibles avec un <Lock className="inline w-4 h-4 -mt-1 text-amber-300" /> : vous voyez ce qu'elle apporterait avant de la prendre.
+                Une mise en place, puis un abonnement au mois. Vous arrêtez quand vous voulez.
               </p>
             </Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {options.map((o, i) => (
-                <Reveal key={o.name} delay={i * 0.06}
-                  className={`relative flex flex-col rounded-2xl border p-7 ${o.included ? "border-red-500/50 bg-neutral-900/70 shadow-[0_0_30px_rgba(220,38,38,0.15)]" : "border-white/10 bg-neutral-900/50"}`}>
-                  <div className="absolute -top-3 left-7 px-3 py-1 rounded-full text-xs font-medium text-white bg-red-500" style={o.included ? {} : { background: o.soon ? "#3a3f48" : "#262626" }}>
-                    {o.included ? "Inclus" : o.soon ? "Bientôt" : "Option"}
+
+            {/* Offre fondateurs */}
+            <Reveal className="relative overflow-hidden rounded-3xl border border-red-500/60 bg-gradient-to-br from-[#2a0a0e] via-[#140a0c] to-[#0a0a0a] p-8 md:p-12 shadow-[0_0_60px_rgba(220,38,38,0.25)] mb-12">
+              <img src={`${IMG}/icone-zelus.svg`} alt="" className="absolute -right-24 -bottom-24 w-[520px] max-w-none opacity-10 pointer-events-none" />
+              <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 items-center">
+                <div>
+                  <div className="inline-flex items-center gap-2 rounded-full bg-red-600 px-4 py-1.5 text-sm font-semibold text-white mb-6">
+                    <Sparkles className="w-4 h-4" /> Offre fondateurs
                   </div>
-                  <div className="flex items-center gap-3 mb-4 mt-1">
-                    <div className="w-11 h-11 rounded-xl bg-red-500/10 flex items-center justify-center"><o.icon className="w-5 h-5 text-red-500" /></div>
-                    <div>
-                      <div className="text-xl font-medium text-white">{o.name}</div>
-                      <div className="text-xs uppercase tracking-widest text-gray-500">{o.tag}</div>
-                    </div>
-                  </div>
-                  <p className="text-gray-400 mb-5">{o.desc}</p>
-                  <ul className="space-y-2.5 mb-7 flex-1">
-                    {o.items.map((it) => (
-                      <li key={it} className="flex gap-3 text-gray-300 text-[15px]"><Check className="w-5 h-5 text-nikaia flex-shrink-0" />{it}</li>
+                  <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-3">Les 10 premiers clients ont tout, à vie.</h3>
+                  <p className="text-gray-300 text-lg mb-6">Réservée aux 10 premiers clients, jusqu'au 31 décembre 2026.</p>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+                    {fondateurItems.map((it) => (
+                      <li key={it} className="flex gap-3 text-gray-200"><Check className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />{it}</li>
                     ))}
                   </ul>
-                  <button onClick={() => openContact(`Zelus — ${o.name}`)}
-                    className={`w-full flex items-center justify-center gap-2 py-3 rounded-full font-medium transition-colors ${o.included ? "bg-red-600 hover:bg-red-700 text-white" : "bg-white/5 hover:bg-white/10 text-white border border-white/10"}`}>
-                    {o.soon ? "Être prévenu" : "Demander le tarif"} <ArrowRight className="w-4 h-4" />
+                </div>
+                <div className="lg:text-right lg:pl-10 lg:border-l lg:border-white/10">
+                  <div className="text-gray-500 text-xl line-through tabular-nums">249 € / mois</div>
+                  <div className="flex items-baseline lg:justify-end gap-2 mt-1">
+                    <span className="text-6xl md:text-7xl font-bold tracking-tight text-white tabular-nums">149 €</span>
+                    <span className="text-gray-300 text-xl">/ mois</span>
+                  </div>
+                  <div className="text-gray-400 mt-2">pack complet · mise en place 990 €, une fois</div>
+                  <button onClick={() => openContact("Zelus — Offre fondateurs")} className="mt-7 inline-flex items-center gap-2 px-7 py-4 rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold glow-red-hover transition-colors">
+                    Réserver ma place <ArrowRight className="w-4 h-4" />
                   </button>
+                </div>
+              </div>
+              <p className="relative text-xs text-gray-500 mt-8 max-w-3xl">
+                Améliorations à vie : tout ce qui est ajouté à Zelus pour l'ensemble des artisans, pas du développement sur mesure. Si l'abonnement s'interrompt, le tarif normal s'applique au retour.
+              </p>
+            </Reveal>
+
+            {/* Les deux formules */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+              <Reveal className="flex flex-col h-full rounded-2xl border border-white/10 bg-neutral-900/50 p-8">
+                <div className="text-xs uppercase tracking-widest text-gray-500 mb-2">Abonnement de base</div>
+                <div className="flex items-baseline gap-2 mb-2"><span className="text-5xl font-bold tracking-tight tabular-nums">149 €</span><span className="text-gray-400">/ mois</span></div>
+                <p className="text-gray-400 mb-6">Tout le cycle commercial, du devis au dernier euro encaissé.</p>
+                <ul className="space-y-2.5 mb-8 flex-1">
+                  {baseItems.map((it) => (
+                    <li key={it} className="flex gap-3 text-gray-300 text-[15px]"><Check className="w-5 h-5 text-nikaia flex-shrink-0" />{it}</li>
+                  ))}
+                </ul>
+                <p className="text-sm text-gray-500 mb-5">Options à ajouter au mois, selon vos clients.</p>
+                <button onClick={() => openContact("Zelus — Abonnement de base")} className="w-full flex items-center justify-center gap-2 py-3 rounded-full font-medium bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-colors">
+                  Choisir la base <ArrowRight className="w-4 h-4" />
+                </button>
+              </Reveal>
+              <Reveal delay={0.08} className="relative flex flex-col h-full rounded-2xl border border-red-500/50 bg-neutral-900/70 p-8 shadow-[0_0_30px_rgba(220,38,38,0.15)]">
+                <div className="absolute -top-3 left-8 px-3 py-1 bg-red-500 rounded-full text-xs font-medium text-white">Recommandé</div>
+                <div className="text-xs uppercase tracking-widest text-gray-500 mb-2">Pack complet</div>
+                <div className="flex items-baseline gap-2 mb-2">
+                  <span className="text-5xl font-bold tracking-tight tabular-nums">249 €</span><span className="text-gray-400">/ mois</span>
+                  <span className="ml-2 text-gray-500 line-through tabular-nums">274 €</span>
+                </div>
+                <p className="text-gray-400 mb-6">La base et toutes les options, pour 25 € de moins qu'au détail.</p>
+                <ul className="space-y-2.5 mb-8 flex-1">
+                  <li className="flex gap-3 text-gray-300 text-[15px]"><Check className="w-5 h-5 text-nikaia flex-shrink-0" />Tout l'abonnement de base</li>
+                  {options.map((o) => (
+                    <li key={o.name} className="flex gap-3 text-gray-300 text-[15px]"><Check className="w-5 h-5 text-nikaia flex-shrink-0" />Option {o.name}</li>
+                  ))}
+                </ul>
+                <button onClick={() => openContact("Zelus — Pack complet")} className="w-full flex items-center justify-center gap-2 py-3 rounded-full font-medium bg-red-600 hover:bg-red-700 text-white transition-colors">
+                  Choisir le pack complet <ArrowRight className="w-4 h-4" />
+                </button>
+              </Reveal>
+            </div>
+
+            {/* Options au détail */}
+            <Reveal className="mb-8">
+              <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">Les options, au détail</h3>
+              <p className="text-gray-400 mt-3 max-w-3xl">
+                À ajouter à l'abonnement de base. Sans une option, ses boutons restent visibles avec un <Lock className="inline w-4 h-4 -mt-1 text-amber-300" /> : vous voyez ce qu'elle apporterait avant de la prendre.
+              </p>
+            </Reveal>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-16">
+              {options.map((o, i) => (
+                <Reveal key={o.name} delay={i * 0.05} className="flex flex-col rounded-2xl border border-white/10 bg-neutral-900/50 p-6">
+                  <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center mb-4"><o.icon className="w-5 h-5 text-red-500" /></div>
+                  <div className="text-white font-medium">{o.name}</div>
+                  <div className="text-2xl font-semibold tabular-nums mt-1 mb-3">+{o.price} € <span className="text-sm font-normal text-gray-400">/ mois</span></div>
+                  <p className="text-gray-400 text-sm mb-4">{o.desc}</p>
+                  <ul className="space-y-2 text-sm text-gray-300">
+                    {o.items.map((it) => (
+                      <li key={it} className="flex gap-2"><Check className="w-4 h-4 text-nikaia flex-shrink-0 mt-0.5" />{it}</li>
+                    ))}
+                  </ul>
+                </Reveal>
+              ))}
+            </div>
+
+            {/* Conditions */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[
+                [Wrench, "Mise en place : 990 €, une fois", "Votre bot, votre base, vos dossiers Drive, vos comptes Google, l'import de votre catalogue et 2 h de formation."],
+                [Repeat, "Sans engagement, ou à l'année", "Vous arrêtez quand vous voulez. Si vous réglez à l'année : 10 mois payés pour 12."],
+                [Gift, "Parrainage : 1 mois offert", "Vous nous amenez un artisan qui s'abonne : un mois d'abonnement vous est offert."],
+              ].map(([I, a, b]) => (
+                <Reveal key={a} className="rounded-2xl border border-white/10 bg-neutral-900/50 p-6">
+                  <I className="w-5 h-5 text-red-500 mb-3" />
+                  <div className="text-white font-medium mb-1.5">{a}</div>
+                  <div className="text-gray-400 text-sm leading-relaxed">{b}</div>
                 </Reveal>
               ))}
             </div>
