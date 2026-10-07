@@ -667,7 +667,7 @@ const devisTabs = [
   { key: "par", label: "Particulier", icon: Home, img: "devis-par.png", rule: "Droit de rétractation de 14 jours, case « je demande que les travaux débutent avant la fin du délai », TVA réduite selon les travaux." },
   { key: "pro", label: "Professionnel", icon: Briefcase, img: "devis-pro.png", rule: "Conditions entre professionnels, SIRET du client, autoliquidation de la TVA en sous-traitance avec la bonne mention imprimée." },
   { key: "syn", label: "Syndic", icon: Building2, img: "devis-syn.png", rule: "Le syndicat des copropriétaires en client, le syndic comme représentant, le gestionnaire à l'attention, le contact sur place, la question du passage en AG." },
-  { key: "micro", label: "Auto-entrepreneur", icon: ShieldCheck, img: "devis-micro.png", rule: "Bientôt : « TVA non applicable, art. 293 B du CGI » sur chaque devis et facture, et un œil sur votre chiffre d'affaires de l'année." },
+  { key: "micro", label: "Auto-entrepreneur", icon: ShieldCheck, img: "devis-micro.png", rule: "« TVA non applicable, art. 293 B du CGI » sur chaque devis et facture, et un œil sur votre chiffre d'affaires de l'année." },
 ];
 
 const dashTabs = [
@@ -725,7 +725,7 @@ const allFeatures = [
     ["Catalogue de prestations avec prix et unités", B], ["Nouvelle prestation créée en cours de devis", B], ["Lieux d'intervention et contacts sur place", B],
     ["Particularités du chantier", B], ["Résumé avant génération", B], ["Devis PDF à vos couleurs", B], ["Envoi par mail depuis votre adresse", B],
     ["Modification après envoi (V2, V3)", B], ["Mentions selon le type de client", B], ["Rétractation pour les particuliers", B], ["CGV dans le devis, adaptées au client", B], ["Articles renumérotés selon le régime", B],
-    ["Auto-entrepreneur : franchise de TVA et alertes du plafond", "À venir"], ["Devis rangé dans le Drive du client", B],
+    ["Auto-entrepreneur : franchise de TVA et alertes du plafond", B], ["Devis rangé dans le Drive du client", B],
   ] },
   { cat: "Signature", items: [
     ["Signature en ligne, sur téléphone ou ordinateur", B], ["Acceptation manuelle", B], ["Devis signé régénéré avec la signature", B],
@@ -787,7 +787,7 @@ const faqs = [
   { q: "Faut-il installer un logiciel ?", a: "Non. Zelus fonctionne dans Telegram, une application de messagerie gratuite que vous installez sur votre téléphone comme WhatsApp. Le tableau de bord s'ouvre dans votre navigateur, sur ordinateur comme sur téléphone, avec un lien qui vous est propre." },
   { q: "Pourquoi Telegram et pas une application ?", a: "Parce que vous savez déjà envoyer un message. Pas de formulaire à remplir, pas de menus cachés : des questions, des boutons, et vous pouvez dicter. Ça marche sur le chantier, entre deux rendez-vous, d'une seule main." },
   { q: "Où sont mes données ?", a: "Chez vous. Chaque artisan a sa propre base de données, que vous pouvez consulter à tout moment. Les mails partent de votre adresse, les documents sont rangés dans votre Google Drive, les chantiers dans votre agenda Google." },
-  { q: "Mes devis et factures sont-ils conformes ?", a: "Les mentions changent selon le client : rétractation pour un particulier, autoliquidation en sous-traitance, syndicat des copropriétaires représenté par son syndic, et bientôt la franchise de TVA pour un auto-entrepreneur. Les factures sont produites au format de la facture électronique, avec leur fichier de données intégré." },
+  { q: "Mes devis et factures sont-ils conformes ?", a: "Les mentions changent selon le client : rétractation pour un particulier, autoliquidation en sous-traitance, syndicat des copropriétaires représenté par son syndic, franchise de TVA pour un auto-entrepreneur. Les factures sont produites au format de la facture électronique, avec leur fichier de données intégré." },
   { q: "Je travaille seul, est-ce fait pour moi ?", a: "C'est précisément pour vous. Zelus a été pensé pour l'artisan qui fait tout lui-même et rédige ses devis le soir. Un utilisateur est inclus ; si un salarié l’utilise aussi (secrétaire, associé, chef d’équipe), c’est 19 € par mois et par utilisateur en plus." },
   { q: "Est-ce que je peux l'essayer ?", a: "Oui. Le plus simple est d'en parler : on vous montre Zelus avec des exemples de votre métier, puis on configure votre bot avec votre logo, vos couleurs et votre catalogue de prestations." },
   { q: "Combien ça coûte ?", a: "Une mise en place de 990 €, une seule fois. Ensuite, 149 € par mois pour l'abonnement de base, ou 249 € par mois pour le pack complet avec toutes les options. Sans engagement, et 10 mois payés pour 12 si vous réglez à l'année. Pour les 10 premiers clients, jusqu'au 31 décembre 2026 : le pack complet à 149 € par mois. Prix nets : TVA non applicable, art. 293 B du CGI." },
@@ -1219,7 +1219,7 @@ export default function ZelusClient() {
           />
 
           <Feature
-            id="micro" icon={ShieldCheck} kicker="Auto-entrepreneur" soon
+            id="micro" icon={ShieldCheck} kicker="Auto-entrepreneur"
             title="Votre plafond de TVA sous surveillance"
             text="En franchise de TVA, vos devis et factures partent sans TVA avec la mention « TVA non applicable, art. 293 B du CGI ». Zelus suit ce que vous encaissez depuis le 1er janvier et vous prévient avant le seuil, pas après."
             bullets={[
