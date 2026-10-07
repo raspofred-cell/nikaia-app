@@ -19,7 +19,7 @@ const RED = "#e30518";
 const verbes = ["Le devis part.", "Le client signe.", "L'acompte est facturé.", "Le chantier est posé.", "Le client est prévenu.", "Le relevé est prêt."];
 
 const Label = ({ children, className = "" }) => (
-  <div className={`text-[11px] uppercase tracking-[0.22em] text-neutral-500 ${className}`}>{children}</div>
+  <div className={`text-[13px] uppercase tracking-[0.2em] text-neutral-400 ${className}`}>{children}</div>
 );
 
 const Papiers = ({ onZoom }) => (
@@ -118,49 +118,69 @@ export default function EpureClient() {
   const ch = chapitres[actif];
 
   return (
-    <div className="min-h-screen bg-[#0b0b0c] text-neutral-200 text-[15px] leading-relaxed">
+    <div className="min-h-screen bg-[#0b0b0c] text-neutral-200 text-[17px] leading-relaxed">
       <Navbar onContact={() => open("Diagnostic Gratuit")} />
 
       <main>
         {/* Ouverture */}
-        <section className="max-w-5xl mx-auto px-6 pt-40 pb-28 text-center">
-          <img src={`${IMG}/logo-zelus-blanc.svg`} alt="Zelus" className="h-10 mx-auto mb-12 opacity-90" />
-          <h1 className="text-[40px] md:text-[64px] leading-[1.05] font-light tracking-[-0.03em] text-white">
+        <section className="max-w-6xl mx-auto px-6 pt-32 pb-16 text-center">
+          <img src={`${IMG}/logo-zelus-blanc.svg`} alt="Zelus" className="h-14 mx-auto mb-8" />
+          <h1 className="text-[44px] md:text-[76px] leading-[1.02] font-normal tracking-[-0.03em] text-white">
             Le bureau tient<br />dans une conversation.
           </h1>
-          <div className="h-7 mt-8 overflow-hidden">
+          <div className="h-9 mt-6 overflow-hidden text-[22px]">
             <AnimatePresence mode="wait">
-              <motion.p key={v} initial={{ y: 18, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -18, opacity: 0 }} transition={{ duration: 0.35 }} className="text-neutral-400">
+              <motion.p key={v} initial={{ y: 18, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -18, opacity: 0 }} transition={{ duration: 0.35 }} className="text-[#ff4d5e]">
                 {verbes[v]}
               </motion.p>
             </AnimatePresence>
           </div>
-          <p className="max-w-xl mx-auto mt-6 text-neutral-500">
+          <p className="max-w-2xl mx-auto mt-4 text-neutral-400 text-[18px]">
             Zelus est l'outil de gestion commerciale des artisans du bâtiment. Vous répondez dans Telegram ; devis, factures, relances et chantiers suivent.
           </p>
-          <div className="mt-10 flex items-center justify-center gap-6 text-[14px]">
-            <button onClick={() => open()} className="rounded-full bg-white text-black px-5 py-2.5 hover:bg-neutral-200 transition-colors">Voir une démonstration</button>
+          <div className="mt-8 flex items-center justify-center gap-6 text-[16px]">
+            <button onClick={() => open()} className="rounded-full bg-white text-black px-6 py-3 hover:bg-neutral-200 transition-colors">Voir une démonstration</button>
             <a href="#histoire" className="text-neutral-400 hover:text-white transition-colors">Une affaire, du début à la fin <ArrowRight className="inline w-3.5 h-3.5 ml-1" /></a>
+          </div>
+        </section>
+
+        {/* Vitrine */}
+        <section className="max-w-6xl mx-auto px-6 pb-20">
+          <div className="relative">
+            <div className="rounded-2xl border border-white/10 bg-neutral-900 p-2 shadow-[0_40px_120px_rgba(227,5,24,0.15)]">
+              <img src={`${IMG}/accueil.png`} alt="Tableau de bord Zelus" className="w-full rounded-xl" />
+            </div>
+            <PhoneScreens className="hidden md:block absolute -bottom-8 -right-4 w-44" />
+          </div>
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.06] border border-white/[0.06] rounded-xl overflow-hidden">
+            {[["Telegram", "le devis sur le chantier"], ["En ligne", "la signature du client"], ["Automatique", "acompte et relances"], ["1 écran", "pour tout voir"]].map(([a, b]) => (
+              <div key={a} className="bg-[#0b0b0c] px-6 py-6">
+                <div className="text-[26px] text-white tracking-tight" style={{ fontFamily: "Outfit, sans-serif" }}>{a}</div>
+                <div className="text-[15px] text-neutral-500">{b}</div>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* Histoire : chapitres à gauche, scène fixe à droite */}
         <section id="histoire" className="border-t border-white/[0.06]">
-          <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-16">
-            <div className="py-24">
-              <Label className="mb-16">Une affaire, du devis au dernier euro</Label>
+          <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-12">
+            <div className="py-16">
+              <Label className="mb-6">Une affaire, du devis au dernier euro</Label>
               {chapitres.map((c, i) => (
-                <div key={c.id} id={c.id} ref={(el) => (refs.current[i] = el)} data-i={i} className="min-h-[70vh] lg:min-h-[78vh] flex flex-col justify-center">
+                <div key={c.id} id={c.id} ref={(el) => (refs.current[i] = el)} data-i={i} className="lg:min-h-[60vh] flex items-center py-6">
+                  <div className={`w-full rounded-2xl px-6 py-7 border transition-colors duration-500 ${actif === i ? "border-white/10 bg-white/[0.03]" : "border-transparent"}`}>
                   <div className="flex items-baseline gap-4">
-                    <span className="text-[12px] tabular-nums transition-colors duration-500" style={{ color: actif === i ? RED : "#525252" }}>{String(i + 1).padStart(2, "0")}</span>
-                    <h2 className={`text-[24px] md:text-[28px] font-light tracking-[-0.015em] transition-colors duration-500 ${actif === i ? "text-white" : "text-neutral-500"}`}>{c.t}</h2>
+                    <span className="text-[15px] tabular-nums transition-colors duration-500" style={{ color: actif === i ? RED : "#525252" }}>{String(i + 1).padStart(2, "0")}</span>
+                    <h2 className={`text-[28px] md:text-[36px] leading-tight font-normal tracking-[-0.02em] transition-colors duration-500 ${actif === i ? "text-white" : "text-neutral-500"}`}>{c.t}</h2>
                   </div>
-                  <p className="mt-4 ml-9 max-w-md text-neutral-400">{c.p}</p>
-                  <div className="mt-5 ml-9 flex flex-wrap gap-x-5 gap-y-1 text-[12.5px] text-neutral-500">
-                    {c.d.map((x) => <span key={x}>— {x}</span>)}
+                  <p className="mt-4 ml-10 max-w-lg text-neutral-300">{c.p}</p>
+                  <div className="mt-5 ml-10 flex flex-wrap gap-2 text-[14px]">
+                    {c.d.map((x) => <span key={x} className="rounded-full border border-white/10 px-3 py-1 text-neutral-300">{x}</span>)}
                   </div>
                   {/* Sur téléphone, la scène se met sous le texte */}
                   <div className="lg:hidden mt-10">{c.v(setZoom)}</div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -186,12 +206,12 @@ export default function EpureClient() {
         </section>
 
         {/* Index typographique de tout ce que fait Zelus */}
-        <section className="border-t border-white/[0.06] py-28">
+        <section className="border-t border-white/[0.06] py-20">
           <div className="max-w-6xl mx-auto px-6">
             <div className="flex items-end justify-between flex-wrap gap-6 mb-14">
               <div>
                 <Label>Index</Label>
-                <h2 className="mt-4 text-[32px] md:text-[40px] font-light tracking-[-0.02em] text-white">{nbFeatures} choses que Zelus fait pour vous</h2>
+                <h2 className="mt-4 text-[34px] md:text-[48px] font-normal tracking-[-0.02em] text-white">{nbFeatures} choses que Zelus fait pour vous</h2>
               </div>
               <div className="flex gap-5 text-[12px] text-neutral-500">
                 <span><span className="inline-block w-1.5 h-1.5 rounded-full bg-neutral-300 mr-2 align-middle" />abonnement</span>
@@ -202,7 +222,7 @@ export default function EpureClient() {
               {allFeatures.map((c) => (
                 <div key={c.cat} className="break-inside-avoid mb-10">
                   <div className="text-[11px] uppercase tracking-[0.2em] text-neutral-500 mb-3">{c.cat}</div>
-                  <ul className="space-y-1.5 text-[13px] text-neutral-300">
+                  <ul className="space-y-1.5 text-[15px] text-neutral-300">
                     {c.items.map(([n, tag]) => (
                       <li key={n} className="flex gap-2">
                         <span className="mt-[7px] w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: tag === B ? "#d4d4d4" : RED }} />
@@ -217,10 +237,10 @@ export default function EpureClient() {
         </section>
 
         {/* Tarifs */}
-        <section id="tarifs" className="border-t border-white/[0.06] py-28">
+        <section id="tarifs" className="border-t border-white/[0.06] py-20">
           <div className="max-w-5xl mx-auto px-6">
             <Label>Tarifs</Label>
-            <h2 className="mt-4 text-[32px] md:text-[40px] font-light tracking-[-0.02em] text-white">Un prix clair, sans engagement.</h2>
+            <h2 className="mt-4 text-[34px] md:text-[48px] font-normal tracking-[-0.02em] text-white">Un prix clair, sans engagement.</h2>
             <p className="mt-3 text-neutral-500 text-[13px]">Prix nets : TVA non applicable, art. 293 B du CGI.</p>
 
             <div className="mt-14 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-14">
@@ -240,14 +260,14 @@ export default function EpureClient() {
 
               <div className="relative self-start border p-8" style={{ borderColor: RED }}>
                 <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: RED }}>Offre fondateurs</div>
-                <div className="mt-5 text-[26px] leading-tight font-light text-white">Les 10 premiers clients ont tout.</div>
-                <div className="text-[34px] font-semibold tracking-tight" style={{ color: RED }}>À VIE !</div>
+                <div className="mt-5 text-[30px] leading-tight font-normal text-white">Les 10 premiers clients ont tout.</div>
+                <div className="text-[44px] font-semibold tracking-tight" style={{ color: RED }}>À VIE !</div>
                 <div className="mt-8 flex items-baseline gap-3">
                   <span className="text-[52px] font-light tracking-[-0.03em] text-white tabular-nums">149 €</span>
                   <span className="text-neutral-400">/ mois</span>
                   <span className="text-neutral-600 line-through tabular-nums">249 €</span>
                 </div>
-                <ul className="mt-6 space-y-1.5 text-[13px] text-neutral-400">
+                <ul className="mt-6 space-y-2 text-[15px] text-neutral-300">
                   <li>— Le pack complet, toutes les options</li>
                   <li>— Mises à jour et améliorations de Zelus incluses à vie</li>
                   <li>— Prix garanti tant que vous restez abonné</li>
@@ -263,14 +283,14 @@ export default function EpureClient() {
         </section>
 
         {/* Questions */}
-        <section className="border-t border-white/[0.06] py-28">
+        <section className="border-t border-white/[0.06] py-20">
           <div className="max-w-5xl mx-auto px-6">
             <Label>Questions</Label>
             <dl className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
               {faqs.map((f) => (
                 <div key={f.q}>
-                  <dt className="text-white">{f.q}</dt>
-                  <dd className="mt-2 text-[13.5px] text-neutral-400">{f.a}</dd>
+                  <dt className="text-white text-[18px]">{f.q}</dt>
+                  <dd className="mt-2 text-[15.5px] text-neutral-400">{f.a}</dd>
                 </div>
               ))}
             </dl>
@@ -279,7 +299,7 @@ export default function EpureClient() {
 
         {/* Fin */}
         <section className="border-t border-white/[0.06] py-32 text-center">
-          <h2 className="text-[32px] md:text-[48px] font-light tracking-[-0.03em] text-white">Artisans des Alpes-Maritimes,<br /><span style={{ color: RED }}>parlons-en.</span></h2>
+          <h2 className="text-[36px] md:text-[60px] font-normal tracking-[-0.03em] text-white">Artisans des Alpes-Maritimes,<br /><span style={{ color: RED }}>parlons-en.</span></h2>
           <div className="mt-10 flex items-center justify-center gap-6 text-[14px]">
             <button onClick={() => open()} className="rounded-full bg-white text-black px-5 py-2.5 hover:bg-neutral-200 transition-colors">Voir une démonstration</button>
             <a href="https://wa.me/33619251902" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors">WhatsApp <ArrowRight className="inline w-3.5 h-3.5 ml-1" /></a>
