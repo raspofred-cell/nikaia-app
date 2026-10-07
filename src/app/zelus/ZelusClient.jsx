@@ -11,11 +11,11 @@ import Footer from "../../components/Footer";
 import Chatbot from "../../components/Chatbot";
 import ContactModal from "../../components/ContactModal";
 
-const IMG = "/zelus";
+export const IMG = "/zelus";
 
 /* ---------- Petits composants ---------- */
 
-const Reveal = ({ children, className = "", delay = 0 }) => (
+export const Reveal = ({ children, className = "", delay = 0 }) => (
   <motion.div
     initial={{ opacity: 0, y: 24 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -44,7 +44,7 @@ const TypingDots = () => (
   </div>
 );
 
-const TgPhone = ({ title = "Martin Confort · Zelus", messages, className = "" }) => {
+export const TgPhone = ({ title = "Martin Confort · Zelus", messages, className = "" }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { margin: "-80px" });
   const reduce = useReducedMotion();
@@ -153,7 +153,7 @@ const phoneSeq = [
   { src: "tel-argent-menu.png", h: 844, dur: 1.6 },
   { src: "tel-argent-long.png", h: 1261, dur: 3.5 },
 ];
-const PhoneScreens = ({ className = "" }) => {
+export const PhoneScreens = ({ className = "" }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { margin: "-60px" });
   const reduce = useReducedMotion();
@@ -184,7 +184,7 @@ const PhoneScreens = ({ className = "" }) => {
 // Agenda du mois : un chantier glisse de « À programmer » jusqu'au mercredi 14 (coordonnées de la capture 1440 × 900)
 const AG = { src: { x: 1012, y: 362, w: 251, h: 65 }, cell: { x: 392, y: 467, w: 109, h: 112 }, chip: { x: 399, y: 498, w: 93, h: 38 } };
 const px = (v, base) => `${(v / base) * 100}%`;
-const AgendaDemo = ({ onZoom }) => {
+export const AgendaDemo = ({ onZoom }) => {
   const ref = useRef(null);
   const t = useLoop(ref, 8);
   const drag = easeIO(prog(t, 0.16, 0.44));
@@ -250,7 +250,7 @@ const statMois = [
   { m: "sept. 26", taux: 64.3, env: 56, sig: 36, signe: 22104, facture: 16532, encaisse: 43674 },
   { m: "oct. 26", taux: 100, env: 11, sig: 11, signe: 1750, facture: 4293, encaisse: 5400 },
 ];
-const LiveStats = () => {
+export const LiveStats = ({ compact = false }) => {
   const ref = useRef(null);
   const run = useInView(ref, { once: true, margin: "-60px" });
   const max = 55000;
@@ -271,12 +271,12 @@ const LiveStats = () => {
           [765, 0, " €", "montant moyen d'un devis signé"],
         ].map(([v, d, suf, l]) => (
           <div key={l} className="rounded-xl border border-white/10 bg-[#181b1f] p-4">
-            <div className="text-xl md:text-2xl xl:text-3xl font-bold text-white tabular-nums whitespace-nowrap"><CountUp to={v} decimals={d} suffix={suf} run={run} /></div>
+            <div className={`${compact ? "text-lg" : "text-xl md:text-2xl xl:text-3xl"} font-bold text-white tabular-nums whitespace-nowrap`}><CountUp to={v} decimals={d} suffix={suf} run={run} /></div>
             <div className="text-xs text-gray-400 mt-1">{l}</div>
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-4">
+      <div className={compact ? "grid grid-cols-[1.4fr_1fr] gap-3 [&>*]:min-w-0" : "grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-4"}>
         <div className="rounded-xl border border-white/10 bg-[#181b1f] p-5">
           <div className="text-white text-sm font-semibold mb-1">Signé, facturé, encaissé par mois <span className="text-gray-500 font-normal">HT</span></div>
           <div className="flex gap-4 text-xs text-gray-400 mb-4">
@@ -289,7 +289,7 @@ const LiveStats = () => {
             {statMois.map((m, mi) => (
               <div key={m.m} className="relative flex items-end gap-1.5 h-full">
                 {[["signe", "#3b82f6"], ["facture", "#1e40af"], ["encaisse", "#22c55e"]].map(([k, c], ki) => (
-                  <div key={k} className="group relative w-6 md:w-8 h-full flex items-end">
+                  <div key={k} className={`group relative ${compact ? "w-4" : "w-6 md:w-8"} h-full flex items-end`}>
                     <motion.div className="w-full rounded-t-md" style={{ background: c }}
                       initial={{ height: 0 }} animate={run ? { height: `${(m[k] / max) * 100}%` } : {}} transition={{ duration: 0.9, delay: 0.2 + mi * 0.25 + ki * 0.1, ease: "easeOut" }} />
                     <div className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black/90 px-2 py-0.5 text-[11px] text-white opacity-0 group-hover:opacity-100 transition-opacity">{m[k].toLocaleString("fr-FR")} €</div>
@@ -303,13 +303,13 @@ const LiveStats = () => {
         <div className="rounded-xl border border-white/10 bg-[#181b1f] p-5">
           <div className="text-white text-sm font-semibold mb-4">Taux de transformation</div>
           <div className="flex items-center gap-5 mb-5">
-            <svg viewBox="0 0 100 100" className="w-24 h-24 -rotate-90">
+            <svg viewBox="0 0 100 100" className={`${compact ? "w-16 h-16" : "w-24 h-24"} -rotate-90 flex-shrink-0`}>
               <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10" />
               <motion.circle cx="50" cy="50" r="42" fill="none" stroke="#3b82f6" strokeWidth="10" strokeLinecap="round" strokeDasharray={ring}
                 initial={{ strokeDashoffset: ring }} animate={run ? { strokeDashoffset: ring * (1 - 0.722) } : {}} transition={{ duration: 1.6, ease: "easeOut" }} />
             </svg>
             <div>
-              <div className="text-3xl font-bold text-white tabular-nums"><CountUp to={72.2} decimals={1} suffix=" %" run={run} /></div>
+              <div className={`${compact ? "text-xl" : "text-3xl"} font-bold text-white tabular-nums whitespace-nowrap`}><CountUp to={72.2} decimals={1} suffix=" %" run={run} /></div>
               <div className="text-xs text-gray-400">104 signés sur 144 envoyés</div>
             </div>
           </div>
@@ -361,7 +361,7 @@ const cgvDetail = (c, id) => {
   if (id === "assurance") return "Assureur, numéro de contrat et couverture : repris de votre fiche entreprise.";
   return null;
 };
-const CgvDemo = () => {
+export const CgvDemo = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { margin: "-60px" });
   const [k, setK] = useState(0);
@@ -417,7 +417,7 @@ const CgvDemo = () => {
 };
 
 // Carte : la bulle calcule le trajet puis l'affiche (deux captures identiques hors de la ligne du trajet)
-const MapTrajet = ({ onZoom }) => {
+export const MapTrajet = ({ onZoom }) => {
   const ref = useRef(null);
   const t = useLoop(ref, 7);
   const done = t >= 0.35 && t < 0.97;
@@ -432,7 +432,7 @@ const MapTrajet = ({ onZoom }) => {
 };
 
 // Capture longue qui défile dans un cadre d'écran d'ordinateur
-const ScrollShot = ({ src, h, alt, seconds = 16, onZoom }) => {
+export const ScrollShot = ({ src, h, alt, seconds = 16, onZoom }) => {
   const ref = useRef(null);
   const t = useLoop(ref, seconds);
   const k = easeIO(prog(t, 0.1, 0.85)) * (1 - prog(t, 0.93, 1));
@@ -451,7 +451,7 @@ const ScrollShot = ({ src, h, alt, seconds = 16, onZoom }) => {
 };
 
 // Auto-entrepreneur : jauge du chiffre d'affaires de l'année face au seuil de la franchise (illustration, sans montant de seuil)
-const PlafondDemo = () => {
+export const PlafondDemo = () => {
   const ref = useRef(null);
   const t = useLoop(ref, 10);
   const pct = Math.round(easeIO(prog(t, 0.05, 0.75)) * 104);
@@ -559,7 +559,7 @@ const NightClock = () => {
   return <span ref={ref} className={`text-6xl md:text-7xl font-bold tracking-tight tabular-nums transition-colors duration-500 ${m > 20 * 60 ? "text-red-500" : "text-white"}`}>{hh}:{mm}</span>;
 };
 
-const Shot = ({ src, alt, onZoom, className = "" }) => (
+export const Shot = ({ src, alt, onZoom, className = "" }) => (
   <button
     type="button"
     onClick={() => onZoom({ src, alt })}
@@ -623,7 +623,7 @@ const Feature = ({ id, icon: Icon, kicker, title, text, bullets, example, option
 
 /* ---------- Données ---------- */
 
-const convDevis = [
+export const convDevis = [
   { t: "Quel type de client ?", kb: [["🏠 Particulier", "💼 Professionnel"], ["🔑 Syndic"]], on: "🔑 Syndic" },
   { t: "Quel est le nom du syndic ?" },
   { me: true, t: "Aubert" },
@@ -632,7 +632,7 @@ const convDevis = [
   { t: "🔎 Trouvé dans l'annuaire des entreprises\n1. CABINET AUBERT\nSIRET 123 456 789 00012\n5 rue Pasteur, 06000 NICE\nLaquelle est la bonne ?", kb: [["1 · CABINET AUBERT"], ["🔁 Nouvelle recherche", "✏️ Aucune ne convient"]], on: "1 · CABINET AUBERT" },
 ];
 
-const convCatalogue = [
+export const convCatalogue = [
   { t: "✅ Résidence sélectionnée !\nQuelle catégorie de prestation voulez-vous chiffrer ?", kb: [["🚿 Plomberie", "⚡ Électricité"], ["❄️ Climatisation"]], on: "🚿 Plomberie" },
   { t: "Prestations : Plomberie", kb: [["Détection fuite non destructive · 420€ HT"], ["Remplacement robinet / mitigeur · 80€ HT"], ["🆕 Créer une nouvelle prestation"]], on: "Détection fuite non destructive · 420€ HT" },
   { t: "Quelle quantité ?" },
@@ -641,19 +641,19 @@ const convCatalogue = [
   { t: "✅ Devis DEV-SYN-2026-10-018 généré\n🔑 Cabinet Aubert\n🏢 Résidence Les Mimosas\n💶 924,00 € TTC", kb: [["🔍 Consulter le devis"], ["📤 Envoyer au client"]], on: "📤 Envoyer au client" },
 ];
 
-const convAcceptation = [
+export const convAcceptation = [
   { t: "📤 Devis DEV-SYN-2026-10-018 envoyé\n📧 n.moreau@exemple.fr\n📎 En copie : Mme Claire Fontaine\nLe client peut l'accepter en un clic depuis le mail." },
   { t: "🎉 Devis accepté !\n📄 DEV-SYN-2026-10-018\n🔑 Cabinet Aubert\n🏢 Résidence Les Mimosas\n💶 924,00 € TTC\n🧾 Facture FA-2026-121 · 462,00 € TTC\n📅 Payable à réception", kb: [["📄 Consulter la facture d'acompte"]] },
 ];
 
-const convChantier = [
+export const convChantier = [
   { t: "✅ Plage enregistrée\n📅 Jours posés · jeu. 8 oct. 08:00 → 17:00\n⏱️ 8 h posées sur 8 h estimées sur le devis" },
   { t: "✅ Mme Claire Fontaine (Gardienne) vient de confirmer sa présence pour l'intervention Détection de fuite de jeudi 8 octobre.\n🔑 Cabinet Aubert\n🏢 Résidence Les Mimosas" },
   { me: true, t: "📷 Photo" },
   { t: "📷 Photo rangée dans Résidence Les Mimosas · Pendant les travaux." },
 ];
 
-const convRapport = [
+export const convRapport = [
   { t: "🎤 Racontez le chantier en quelques phrases : ce qui a été fait, ce qui reste, ce que le client doit savoir." },
   { me: true, voice: "0:42" },
   { t: "📝 Rapport rédigé à partir de votre note.\nChoisissez les photos à joindre, relisez, puis envoyez.", kb: [["🖼️ Choisir les photos"], ["✅ Valider et envoyer", "✏️ Corriger"]] },
@@ -679,7 +679,7 @@ const dashTabs = [
   { key: "chiffres", label: "Les chiffres", render: "stats", text: "Montant signé, taux de transformation, montant moyen, et l'argent signé, facturé et encaissé mois par mois, sur la période de votre choix." },
 ];
 
-const baseItems = [
+export const baseItems = [
   "Devis depuis Telegram, catalogue de prestations",
   "Signature en ligne",
   "Relances des devis",
@@ -689,7 +689,7 @@ const baseItems = [
   "Tableau de bord sur ordinateur et téléphone",
 ];
 
-const options = [
+export const options = [
   {
     icon: Briefcase, name: "Professionnel", price: 20,
     desc: "Pour vos clients entreprises, agences, commerces et donneurs d'ordre.",
@@ -718,8 +718,8 @@ const options = [
 ];
 
 // Liste complète, sans descriptif (bouton « Toutes les fonctionnalités »)
-const B = "Base", SYN = "Syndic", PRO = "Professionnel", SUI = "Suivi de chantier", RAP = "Rapport de chantier", IA = "Assistant IA des mails";
-const allFeatures = [
+export const B = "Base", SYN = "Syndic", PRO = "Professionnel", SUI = "Suivi de chantier", RAP = "Rapport de chantier", IA = "Assistant IA des mails";
+export const allFeatures = [
   { cat: "Devis", items: [
     ["Devis depuis Telegram", B], ["Clients nouveaux et existants", B], ["Recherche dans l'annuaire officiel des entreprises", B],
     ["Catalogue de prestations avec prix et unités", B], ["Nouvelle prestation créée en cours de devis", B], ["Lieux d'intervention et contacts sur place", B],
@@ -774,16 +774,16 @@ const allFeatures = [
     ["Chantiers dans votre agenda Google", B], ["Vos données dans votre propre base", B],
   ] },
 ];
-const nbFeatures = allFeatures.reduce((n, c) => n + c.items.length, 0);
+export const nbFeatures = allFeatures.reduce((n, c) => n + c.items.length, 0);
 
-const fondateurItems = [
+export const fondateurItems = [
   "Le pack complet : toutes les options incluses",
   "Les mises à jour et les améliorations de Zelus incluses à vie",
   "Prix garanti tant que vous restez abonné sans interruption",
   "Sans engagement",
 ];
 
-const faqs = [
+export const faqs = [
   { q: "Faut-il installer un logiciel ?", a: "Non. Zelus fonctionne dans Telegram, une application de messagerie gratuite que vous installez sur votre téléphone comme WhatsApp. Le tableau de bord s'ouvre dans votre navigateur, sur ordinateur comme sur téléphone, avec un lien qui vous est propre." },
   { q: "Pourquoi Telegram et pas une application ?", a: "Parce que vous savez déjà envoyer un message. Pas de formulaire à remplir, pas de menus cachés : des questions, des boutons, et vous pouvez dicter. Ça marche sur le chantier, entre deux rendez-vous, d'une seule main." },
   { q: "Où sont mes données ?", a: "Chez vous. Chaque artisan a sa propre base de données, que vous pouvez consulter à tout moment. Les mails partent de votre adresse, les documents sont rangés dans votre Google Drive, les chantiers dans votre agenda Google." },
@@ -1153,10 +1153,12 @@ export default function ZelusClient() {
             example="Le 2 novembre, votre comptable demande octobre. Vous ouvrez le relevé, « Excel pour le comptable », et le fichier part dans son mail. Deux minutes au lieu d'un dimanche à trier des factures."
             visual={
               <div>
-                <ScrollShot src="releve-comptable-long.png" h={7791} alt="Relevé comptable du mois dans le tableau de bord Zelus" onZoom={setZoom} />
-                <div className="relative mt-4">
-                  <Shot src={`${IMG}/releve-excel.png`} alt="Relevé comptable au format Excel, onglets Ventes, Encaissements et TVA" onZoom={setZoom} />
-                  <span className="absolute top-3 right-3 rounded-full bg-[#1e7145] px-3 py-1 text-xs font-semibold text-white shadow">Excel</span>
+                <div className="relative pb-10 pr-4">
+                  <ScrollShot src="releve-comptable-long.png" h={7791} alt="Relevé comptable du mois dans le tableau de bord Zelus" onZoom={setZoom} />
+                  <div className="absolute bottom-0 right-0 w-[42%] rotate-[2deg] shadow-[0_20px_50px_rgba(0,0,0,0.7)]">
+                    <Shot src={`${IMG}/releve-excel.png`} alt="Relevé comptable au format Excel, onglets Ventes, Encaissements et TVA" onZoom={setZoom} className="!rounded-lg" />
+                    <span className="absolute -top-2.5 -left-2.5 rounded-full bg-[#1e7145] px-2.5 py-0.5 text-[11px] font-semibold text-white shadow">Excel</span>
+                  </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-4">
                   {["PDF", "Excel", "Par mois", "Par année"].map((x) => (
