@@ -4,7 +4,7 @@ import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-mot
 import {
   ArrowRight, Check, Lock, MessageCircle, Smartphone, FileText, PenLine, Bell, Receipt,
   CalendarDays, Camera, Mic, LayoutDashboard, Users, Palette, ShieldCheck, Building2,
-  Briefcase, Home, ClipboardCheck, X, ZoomIn, ChevronDown, Moon, Clock, Search, CloudSun, Mail, Sparkles, Gift, Wrench, Repeat,
+  Briefcase, Home, ClipboardCheck, X, ZoomIn, ChevronDown, Moon, Clock, Search, ListChecks, CloudSun, Mail, Sparkles, Gift, Wrench, Repeat,
 } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -67,8 +67,13 @@ const TgPhone = ({ title = "Martin Confort · Zelus", messages, className = "" }
   }, [n, inView, reduce, messages]);
 
   return (
-    <div ref={ref} className={`mx-auto w-full max-w-[360px] rounded-[2.4rem] border border-white/15 bg-black p-2.5 shadow-[0_30px_80px_rgba(0,0,0,0.6)] ${className}`}>
-      <div className="rounded-[2rem] overflow-hidden bg-[#0e1621]">
+    <div ref={ref} className={`mx-auto flex w-full max-w-[340px] aspect-[390/844] rounded-[2.8rem] border border-white/15 bg-black p-2.5 shadow-[0_30px_80px_rgba(0,0,0,0.6)] ${className}`}>
+      <div className="flex-1 min-w-0 flex flex-col rounded-[2.3rem] overflow-hidden bg-[#0e1621]">
+        <div className="relative flex items-center justify-between px-6 pt-2.5 pb-1 bg-[#17212b] text-[11px] font-semibold text-white">
+          <span>9:41</span>
+          <span className="absolute left-1/2 top-1.5 -translate-x-1/2 w-24 h-6 rounded-full bg-black" />
+          <span className="flex items-center gap-1"><span className="tracking-tighter">▂▄▆</span><span>5G</span><span className="inline-block w-5 h-2.5 rounded-[3px] border border-white/70 p-[1px]"><span className="block h-full w-3/4 rounded-[1px] bg-white" /></span></span>
+        </div>
         <div className="flex items-center gap-3 px-4 py-3 bg-[#17212b] border-b border-black/40">
           <div className="w-9 h-9 rounded-full bg-[#111] flex items-center justify-center p-1.5">
             <img src={`${IMG}/icone-zelus.svg`} alt="" className="w-full h-full" />
@@ -78,7 +83,7 @@ const TgPhone = ({ title = "Martin Confort · Zelus", messages, className = "" }
             <div className="text-[11px] text-[#6c8aa5]">{typing ? "écrit…" : "bot"}</div>
           </div>
         </div>
-        <div className="h-[440px] overflow-hidden flex flex-col justify-end px-3 py-4 bg-[#0e1621] bg-[radial-gradient(circle_at_20%_10%,rgba(80,120,160,0.10),transparent_50%)]">
+        <div className="flex-1 min-h-0 overflow-hidden flex flex-col justify-end px-3 py-4 bg-[#0e1621] bg-[radial-gradient(circle_at_20%_10%,rgba(80,120,160,0.10),transparent_50%)]">
           <div className="space-y-2.5">
             {messages.slice(0, n).map((m, i) => {
               const pressed = n > i + 1 || (typing && n === i + 1);
@@ -437,7 +442,7 @@ export default function ZelusClient() {
   const openContact = (offer = "Zelus — démonstration") => { setSelectedOffer(offer); setIsContactOpen(true); };
 
   useEffect(() => {
-    const onKey = (e) => e.key === "Escape" && setZoom(null);
+    const onKey = (e) => { if (e.key === "Escape") { setZoom(null); setShowAll(false); } };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
@@ -478,9 +483,9 @@ export default function ZelusClient() {
                 <button onClick={() => openContact()} className="flex items-center gap-2 px-6 py-3.5 rounded-full bg-red-600 hover:bg-red-700 text-white font-medium glow-red-hover transition-colors">
                   Voir une démonstration <ArrowRight className="w-4 h-4" />
                 </button>
-                <a href="#devis" className="flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium transition-colors">
-                  Tout ce que fait Zelus <ChevronDown className="w-4 h-4" />
-                </a>
+                <button onClick={() => setShowAll(true)} className="flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium transition-colors">
+                  <ListChecks className="w-4 h-4" /> Toutes les fonctionnalités ({nbFeatures})
+                </button>
               </div>
               <a href="#tarifs" className="mt-6 inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-500/10 px-4 py-2 text-sm text-red-200 hover:bg-red-500/20 transition-colors">
                 <Sparkles className="w-4 h-4 text-red-400 flex-shrink-0" />
@@ -525,10 +530,10 @@ export default function ZelusClient() {
                   <img src={`${IMG}/accueil.png`} alt="Tableau de bord Zelus : reste à encaisser, fil de l’argent, météo, carte des chantiers" className="w-full h-auto block" />
                 </button>
               </div>
-              <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              <div
                 className="hidden md:block absolute -bottom-10 -right-4 lg:-right-10 w-40 lg:w-48 rounded-[1.8rem] border border-white/15 bg-black p-1.5 shadow-2xl">
                 <img src={`${IMG}/tel-accueil.png`} alt="Tableau de bord Zelus sur téléphone" className="rounded-[1.4rem] w-full" />
-              </motion.div>
+              </div>
             </Reveal>
             <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4">
               {[
@@ -558,6 +563,7 @@ export default function ZelusClient() {
                 <Moon className="w-8 h-8 text-red-500 self-center" />
                 <NightClock />
               </div>
+              <p className="mt-3 text-gray-400">Mardi soir, 21 h 47. Rentré du chantier depuis trois heures, vous tapez encore les devis de la journée.</p>
               <p className="mt-4 text-2xl text-white font-medium">Le jour : les chantiers.<br /><span className="text-red-500">Le soir : les devis.</span></p>
             </Reveal>
             <Reveal delay={0.1}>
@@ -611,6 +617,9 @@ export default function ZelusClient() {
             {sommaire.map(([h, l]) => (
               <a key={h} href={h} className="whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors">{l}</a>
             ))}
+            <button onClick={() => setShowAll(true)} className="whitespace-nowrap flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm text-red-200 border border-red-500/40 bg-red-500/10 hover:bg-red-500/20 transition-colors">
+              <ListChecks className="w-4 h-4" /> Toutes les fonctionnalités
+            </button>
           </div>
         </div>
 
@@ -908,39 +917,11 @@ export default function ZelusClient() {
             </div>
 
             {/* Toutes les fonctionnalités, sans descriptif */}
-            <div className="mb-16">
-              <div className="text-center">
-                <button onClick={() => setShowAll((v) => !v)} aria-expanded={showAll}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white font-medium transition-colors">
-                  {showAll ? "Masquer la liste" : `Toutes les fonctionnalités (${nbFeatures})`}
-                  <ChevronDown className={`w-4 h-4 transition-transform ${showAll ? "rotate-180" : ""}`} />
-                </button>
-              </div>
-              {showAll && (
-                <div className="mt-6 rounded-2xl border border-white/10 bg-neutral-950">
-                  <div className="flex flex-wrap items-center gap-x-5 gap-y-2 px-5 py-3 border-b border-white/10 text-xs text-gray-400">
-                    <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-400" />Base : dans l'abonnement</span>
-                    <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-300" />Option : en plus, ou dans le pack complet</span>
-                  </div>
-                  <div className="max-h-[460px] overflow-y-auto">
-                    {allFeatures.map((c) => (
-                      <div key={c.cat}>
-                        <div className="sticky top-0 z-10 bg-neutral-900 px-5 py-2 text-xs uppercase tracking-widest font-semibold text-red-400 border-b border-white/5">{c.cat}</div>
-                        <ul>
-                          {c.items.map(([name, tag]) => (
-                            <li key={name} className="flex items-center justify-between gap-4 px-5 py-2.5 border-b border-white/5 text-[15px] text-gray-200">
-                              <span>{name}</span>
-                              <span className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${tag === B ? "bg-emerald-400/10 text-emerald-300" : "bg-amber-300/10 text-amber-300"}`}>
-                                {tag === B ? "Base" : `Option ${tag}`}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+            <div className="mb-16 text-center">
+              <button onClick={() => setShowAll(true)}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white font-medium transition-colors">
+                <ListChecks className="w-4 h-4" /> Toutes les fonctionnalités ({nbFeatures})
+              </button>
             </div>
 
             {/* Options au détail */}
@@ -1030,6 +1011,42 @@ export default function ZelusClient() {
       <Footer onContact={() => openContact()} />
       <Chatbot />
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} selectedOffer={selectedOffer} />
+
+      {showAll && (
+        <div className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setShowAll(false)}>
+          <motion.div initial={{ opacity: 0, y: 20, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.25 }}
+            className="w-full max-w-3xl max-h-[85vh] flex flex-col rounded-2xl border border-white/10 bg-neutral-950 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-start justify-between gap-4 px-5 pt-5 pb-3 border-b border-white/10">
+              <div>
+                <div className="text-xl font-semibold text-white">Toutes les fonctionnalités de Zelus</div>
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-2 text-xs text-gray-400">
+                  <span>{nbFeatures} fonctionnalités</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-400" />Base : dans l'abonnement</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-300" />Option : en plus, ou dans le pack complet</span>
+                </div>
+              </div>
+              <button onClick={() => setShowAll(false)} className="text-white p-2 rounded-full bg-white/10 hover:bg-white/20" aria-label="Fermer"><X className="w-5 h-5" /></button>
+            </div>
+            <div className="overflow-y-auto">
+              {allFeatures.map((c) => (
+                <div key={c.cat}>
+                  <div className="sticky top-0 z-10 bg-neutral-900 px-5 py-2 text-xs uppercase tracking-widest font-semibold text-red-400 border-b border-white/5">{c.cat}</div>
+                  <ul>
+                    {c.items.map(([name, tag]) => (
+                      <li key={name} className="flex items-center justify-between gap-4 px-5 py-2.5 border-b border-white/5 text-[15px] text-gray-200">
+                        <span>{name}</span>
+                        <span className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${tag === B ? "bg-emerald-400/10 text-emerald-300" : "bg-amber-300/10 text-amber-300"}`}>
+                          {tag === B ? "Base" : `Option ${tag}`}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      )}
 
       {zoom && (
         <div className="fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4 md:p-10" onClick={() => setZoom(null)}>
