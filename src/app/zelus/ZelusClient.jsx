@@ -4,7 +4,7 @@ import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-mot
 import {
   ArrowRight, Check, Lock, MessageCircle, Smartphone, FileText, PenLine, Bell, Receipt,
   CalendarDays, Camera, Mic, LayoutDashboard, Users, Palette, ShieldCheck, Building2,
-  Briefcase, Home, ClipboardCheck, X, ZoomIn, ChevronDown, Moon, Clock, Search, ListChecks, CloudSun, Mail, Sparkles, Gift, Wrench, Repeat,
+  Briefcase, Home, ClipboardCheck, X, ZoomIn, ChevronDown, Moon, Clock, Search, ListChecks, MousePointer2, CloudSun, Mail, Sparkles, Gift, Wrench, Repeat,
 } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -116,6 +116,213 @@ const TgPhone = ({ title = "Martin Confort · Zelus", messages, className = "" }
         </div>
         <div className="flex items-center gap-3 px-4 py-3 bg-[#17212b] text-[#6c8aa5] text-sm">
           <span>📎</span><span className="flex-1 italic">Message</span><Mic className="w-4 h-4" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ---------- Tableau de bord animé ----------
+const lerp = (a, b, k) => a + (b - a) * k;
+const clamp01 = (k) => Math.max(0, Math.min(1, k));
+const prog = (t, a, b) => clamp01((t - a) / (b - a));
+const easeIO = (k) => (k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
+
+// Horloge d'animation qui ne tourne que lorsque l'élément est à l'écran (t de 0 à 1, en boucle)
+const useLoop = (ref, seconds) => {
+  const inView = useInView(ref, { margin: "-60px" });
+  const reduce = useReducedMotion();
+  const [t, setT] = useState(reduce ? 0.8 : 0);
+  useEffect(() => {
+    if (!inView || reduce) return;
+    let raf, t0 = null;
+    const f = (now) => { if (t0 === null) t0 = now; setT((((now - t0) / 1000) % seconds) / seconds); raf = requestAnimationFrame(f); };
+    raf = requestAnimationFrame(f);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, reduce, seconds]);
+  return t;
+};
+
+// Écran du téléphone : les menus du tableau de bord défilent (captures réelles, données fictives)
+const phoneSeq = [
+  { src: "tel-accueil-long.png", h: 4212, dur: 9 },
+  { src: "tel-programmation-menu.png", h: 844, dur: 1.6 },
+  { src: "tel-programmation-long.png", h: 2512, dur: 6 },
+  { src: "tel-devis-menu.png", h: 844, dur: 1.6 },
+  { src: "tel-devis-long.png", h: 1099, dur: 3.5 },
+  { src: "tel-argent-menu.png", h: 844, dur: 1.6 },
+  { src: "tel-argent-long.png", h: 1261, dur: 3.5 },
+];
+const PhoneScreens = ({ className = "" }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { margin: "-60px" });
+  const reduce = useReducedMotion();
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    if (!inView || reduce) return;
+    const t = setTimeout(() => setI((x) => (x + 1) % phoneSeq.length), (phoneSeq[i].dur + 0.8) * 1000);
+    return () => clearTimeout(t);
+  }, [i, inView, reduce]);
+  const sc = phoneSeq[i], shift = (1 - 844 / sc.h) * 100;
+  return (
+    <div ref={ref} className={`rounded-[1.8rem] border border-white/15 bg-black p-1.5 shadow-2xl ${className}`}>
+      <div className="relative overflow-hidden rounded-[1.4rem] aspect-[390/844] bg-[#0f1113]">
+        {phoneSeq.map((x) => <link key={x.src} rel="preload" as="image" href={`${IMG}/${x.src}`} />)}
+        <AnimatePresence initial={false}>
+          <motion.img key={i} src={`${IMG}/${sc.src}`} alt="Tableau de bord Zelus sur téléphone"
+            className="absolute top-0 left-0 w-full"
+            initial={{ opacity: 0, y: "0%" }}
+            animate={{ opacity: 1, y: sc.h > 844 && !reduce ? ["0%", "0%", `-${shift}%`] : "0%" }}
+            exit={{ opacity: 0 }}
+            transition={{ opacity: { duration: 0.4 }, y: { duration: sc.dur, times: [0, 0.15, 1], ease: "easeInOut" } }} />
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+};
+
+// Agenda du mois : un chantier glisse de « À programmer » jusqu'au mercredi 14 (coordonnées de la capture 1440 × 900)
+const AG = { src: { x: 1012, y: 362, w: 251, h: 65 }, cell: { x: 392, y: 467, w: 109, h: 112 }, chip: { x: 399, y: 498, w: 93, h: 38 } };
+const px = (v, base) => `${(v / base) * 100}%`;
+const AgendaDemo = ({ onZoom }) => {
+  const ref = useRef(null);
+  const t = useLoop(ref, 8);
+  const drag = easeIO(prog(t, 0.16, 0.44));
+  const dropped = t >= 0.46;
+  const g = dropped ? AG.chip : { x: lerp(AG.src.x, AG.chip.x, drag), y: lerp(AG.src.y, AG.chip.y, drag), w: lerp(AG.src.w, AG.chip.w, drag), h: lerp(AG.src.h, AG.chip.h, drag) };
+  const visible = 1 - prog(t, 0.92, 0.99);
+  const cur = { x: g.x + g.w * 0.55, y: g.y + g.h * 0.6 };
+  const pop = prog(t, 0.5, 0.56) * visible;
+  const confirm = t >= 0.7;
+  return (
+    <div ref={ref} className="relative overflow-hidden rounded-2xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)] [container-type:inline-size]">
+      <button type="button" onClick={() => onZoom({ src: `${IMG}/cal-mois.png`, alt: "Agenda du mois" })} className="block w-full"><img src={`${IMG}/cal-mois.png`} alt="Agenda du mois dans le tableau de bord Zelus" className="w-full h-auto block" /></button>
+      <div className="pointer-events-none absolute inset-0" style={{ opacity: visible }}>
+        {/* place laissée dans la liste */}
+        <div className="absolute rounded-[0.85cqw] border border-dashed border-white/25 bg-[rgb(15,17,19)]"
+          style={{ left: px(AG.src.x, 1440), top: px(AG.src.y, 900), width: px(AG.src.w, 1440), height: px(AG.src.h, 900), opacity: prog(t, 0.14, 0.18) }} />
+        {/* case visée */}
+        <div className="absolute rounded-[0.85cqw] border-2 border-[#2f7de1] bg-[#2f7de1]/10"
+          style={{ left: px(AG.cell.x, 1440), top: px(AG.cell.y, 900), width: px(AG.cell.w, 1440), height: px(AG.cell.h, 900), opacity: prog(t, 0.3, 0.38) }} />
+        {/* le chantier déplacé */}
+        <div className="absolute overflow-hidden"
+          style={{ left: px(g.x, 1440), top: px(g.y, 900), width: px(g.w, 1440), height: px(g.h, 900), opacity: prog(t, 0.1, 0.16),
+            background: dropped ? "rgb(23,48,36)" : "rgb(15,17,19)", border: dropped ? "none" : "1px solid rgb(42,47,53)",
+            borderRadius: dropped ? "0.56cqw" : "0.85cqw", padding: dropped ? "0.35cqw 0.42cqw" : "0.8cqw 0.9cqw",
+            boxShadow: dropped ? "none" : "0 1.2cqw 2.5cqw rgba(0,0,0,0.55)", transform: dropped ? "none" : `rotate(${-2 * drag}deg)` }}>
+          <div className="flex items-center gap-[0.4cqw] font-semibold text-[rgb(238,240,242)] whitespace-nowrap" style={{ fontSize: dropped ? "0.83cqw" : lerp(1.04, 0.83, drag) + "cqw" }}>
+            <span className="rounded-full bg-[#22c55e] flex-shrink-0" style={{ width: "0.56cqw", height: "0.56cqw" }} />Bernard Sébastien
+          </div>
+          <div className="text-[rgb(188,194,202)] whitespace-nowrap overflow-hidden text-ellipsis" style={{ fontSize: dropped ? "0.69cqw" : lerp(0.97, 0.69, drag) + "cqw" }}>Bat PAC · Villa Le Montaigne</div>
+        </div>
+        {/* curseur */}
+        <MousePointer2 className="absolute text-white fill-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+          style={{ left: px(cur.x, 1440), top: px(cur.y, 900), width: "1.8cqw", height: "1.8cqw", opacity: prog(t, 0.04, 0.1) * (1 - prog(t, 0.5, 0.56)) }} />
+        {/* fenêtre « Programmer » */}
+        <div className="absolute rounded-[0.8cqw] border border-white/15 bg-[#1b1e22] shadow-[0_1.5cqw_3cqw_rgba(0,0,0,0.6)] text-[rgb(238,240,242)]"
+          style={{ left: px(AG.cell.x + AG.cell.w + 10, 1440), top: px(AG.cell.y - 10, 900), width: "17cqw", padding: "1cqw", opacity: pop, transform: `translateY(${(1 - pop) * 0.8}cqw)` }}>
+          <div className="text-[rgb(188,194,202)]" style={{ fontSize: "0.7cqw" }}>Programmer</div>
+          <div className="font-semibold" style={{ fontSize: "0.95cqw" }}>Bernard Sébastien</div>
+          <div className="text-[rgb(188,194,202)]" style={{ fontSize: "0.75cqw", marginBottom: "0.6cqw" }}>mer. 14 octobre · 08h00 → 17h00</div>
+          <div className="rounded-full text-center font-semibold" style={{ fontSize: "0.8cqw", padding: "0.45cqw", background: confirm ? "rgb(23,48,36)" : "#1d6fd8", color: confirm ? "#4ade80" : "white" }}>
+            {confirm ? "✓ Chantier programmé" : "Programmer"}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Statistiques animées (valeurs relevées dans le tableau de bord, données fictives de Martin Confort)
+const CountUp = ({ to, decimals = 0, suffix = "", run }) => {
+  const [v, setV] = useState(0);
+  useEffect(() => {
+    if (!run) return;
+    let raf; const t0 = performance.now(), d = 1600;
+    const f = (now) => { const k = clamp01((now - t0) / d); setV(to * (1 - Math.pow(1 - k, 3))); if (k < 1) raf = requestAnimationFrame(f); };
+    raf = requestAnimationFrame(f);
+    return () => cancelAnimationFrame(raf);
+  }, [run, to]);
+  return <>{v.toLocaleString("fr-FR", { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}{suffix}</>;
+};
+const statMois = [
+  { m: "août 26", taux: 74.7, env: 75, sig: 56, signe: 53264, facture: 36236, encaisse: 2590 },
+  { m: "sept. 26", taux: 64.3, env: 56, sig: 36, signe: 22104, facture: 16532, encaisse: 43674 },
+  { m: "oct. 26", taux: 100, env: 11, sig: 11, signe: 1750, facture: 4293, encaisse: 5400 },
+];
+const LiveStats = () => {
+  const ref = useRef(null);
+  const run = useInView(ref, { once: true, margin: "-60px" });
+  const max = 55000;
+  const ring = 2 * Math.PI * 42;
+  return (
+    <div ref={ref} className="rounded-2xl border border-white/10 bg-[#121417] p-5 md:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div className="text-white font-semibold">Les Chiffres <span className="text-gray-500 font-normal">› Statistiques · 12 derniers mois</span></div>
+        <div className="flex gap-2 text-xs">
+          {["12 derniers mois", "Tous clients", "Tous métiers"].map((x) => <span key={x} className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-gray-300">{x}</span>)}
+        </div>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        {[
+          [79517, 0, " €", "104 devis signés, HT"],
+          [16, 0, "", "devis perdus ou expirés"],
+          [72.2, 1, " %", "taux de transformation"],
+          [765, 0, " €", "montant moyen d'un devis signé"],
+        ].map(([v, d, suf, l]) => (
+          <div key={l} className="rounded-xl border border-white/10 bg-[#181b1f] p-4">
+            <div className="text-xl md:text-2xl xl:text-3xl font-bold text-white tabular-nums whitespace-nowrap"><CountUp to={v} decimals={d} suffix={suf} run={run} /></div>
+            <div className="text-xs text-gray-400 mt-1">{l}</div>
+          </div>
+        ))}
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-4">
+        <div className="rounded-xl border border-white/10 bg-[#181b1f] p-5">
+          <div className="text-white text-sm font-semibold mb-1">Signé, facturé, encaissé par mois <span className="text-gray-500 font-normal">HT</span></div>
+          <div className="flex gap-4 text-xs text-gray-400 mb-4">
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#3b82f6]" />Signé</span>
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#1e40af]" />Facturé</span>
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#22c55e]" />Encaissé</span>
+          </div>
+          <div className="relative h-56 flex items-end justify-around gap-4 border-b border-white/10">
+            {[0.25, 0.5, 0.75].map((y) => <div key={y} className="absolute left-0 right-0 border-t border-dashed border-white/5" style={{ bottom: `${y * 100}%` }} />)}
+            {statMois.map((m, mi) => (
+              <div key={m.m} className="relative flex items-end gap-1.5 h-full">
+                {[["signe", "#3b82f6"], ["facture", "#1e40af"], ["encaisse", "#22c55e"]].map(([k, c], ki) => (
+                  <div key={k} className="group relative w-6 md:w-8 h-full flex items-end">
+                    <motion.div className="w-full rounded-t-md" style={{ background: c }}
+                      initial={{ height: 0 }} animate={run ? { height: `${(m[k] / max) * 100}%` } : {}} transition={{ duration: 0.9, delay: 0.2 + mi * 0.25 + ki * 0.1, ease: "easeOut" }} />
+                    <div className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black/90 px-2 py-0.5 text-[11px] text-white opacity-0 group-hover:opacity-100 transition-opacity">{m[k].toLocaleString("fr-FR")} €</div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-around mt-2 text-xs text-gray-400">{statMois.map((m) => <span key={m.m}>{m.m}</span>)}</div>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-[#181b1f] p-5">
+          <div className="text-white text-sm font-semibold mb-4">Taux de transformation</div>
+          <div className="flex items-center gap-5 mb-5">
+            <svg viewBox="0 0 100 100" className="w-24 h-24 -rotate-90">
+              <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10" />
+              <motion.circle cx="50" cy="50" r="42" fill="none" stroke="#3b82f6" strokeWidth="10" strokeLinecap="round" strokeDasharray={ring}
+                initial={{ strokeDashoffset: ring }} animate={run ? { strokeDashoffset: ring * (1 - 0.722) } : {}} transition={{ duration: 1.6, ease: "easeOut" }} />
+            </svg>
+            <div>
+              <div className="text-3xl font-bold text-white tabular-nums"><CountUp to={72.2} decimals={1} suffix=" %" run={run} /></div>
+              <div className="text-xs text-gray-400">104 signés sur 144 envoyés</div>
+            </div>
+          </div>
+          <div className="space-y-3">
+            {statMois.map((m, i) => (
+              <div key={m.m}>
+                <div className="flex justify-between text-xs text-gray-400 mb-1"><span>{m.m}</span><span className="tabular-nums text-gray-200">{m.taux.toLocaleString("fr-FR")} % · {m.sig} sur {m.env}</span></div>
+                <div className="h-2 rounded-full bg-white/5 overflow-hidden">
+                  <motion.div className="h-full rounded-full bg-[#3b82f6]" initial={{ width: 0 }} animate={run ? { width: `${m.taux}%` } : {}} transition={{ duration: 1, delay: 0.4 + i * 0.2 }} />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -301,12 +508,12 @@ const devisTabs = [
 ];
 
 const dashTabs = [
-  { key: "accueil", label: "Aujourd'hui", img: "accueil.png", text: "Ce qui reste à encaisser, le fil de l'argent du mois (en attente, signé, facturé, encaissé), la météo des 7 prochains jours et vos chantiers sur la carte." },
+  { key: "accueil", label: "Aujourd'hui", img: "accueil.png", text: "Ce qui reste à encaisser, les vigilances météo du jour et du lendemain, le fil de l'argent du mois (en attente, signé, facturé, encaissé), la météo des 7 prochains jours et vos chantiers sur la carte." },
+  { key: "meteo", label: "Météo 7 jours", img: "meteo-7-jours.png", text: "Vos chantiers prévus jour par jour, sous la météo de Nice. Une vigilance orange orages jeudi : Zelus signale les chantiers sous la pluie et dans le vent, pour prévenir les clients à temps." },
   { key: "retards", label: "Qui relancer", img: "retards.png", text: "Les factures en retard, les plus grosses en premier. Un bouton pour relancer, un autre pour marquer « payée »." },
-  { key: "agenda", label: "Agenda", img: "cal-semaine.png", text: "La semaine ou le mois, les chantiers posés, et la liste de ceux qui restent à programmer, les plus anciens d'abord." },
-  { key: "carte", label: "Carte", img: "carte.png", text: "Tous vos chantiers sur la carte : en cours, programmés, à programmer, par type de client." },
-  { key: "chiffres", label: "Les chiffres", img: "st-devis.png", text: "Taux de transformation par mois, devis par tranche de montant, par métier et par type de client, sur la période de votre choix." },
-  { key: "argent", label: "Argent", img: "st-argent.png", text: "Signé, facturé et encaissé mois par mois, délais de paiement, prévision d'encaissement." },
+  { key: "agenda", label: "Agenda", render: "agenda", text: "Glissez un chantier de la liste « À programmer » sur un jour du mois : Zelus ouvre la programmation avec les heures, et le chantier se pose dans l'agenda." },
+  { key: "carte", label: "Carte", img: "carte.png", text: "Tous vos chantiers sur la carte. Un clic sur un point : le chantier, son rendez-vous, et le temps de trajet calculé depuis votre entreprise, avec Waze et Google Maps en un clic." },
+  { key: "chiffres", label: "Les chiffres", render: "stats", text: "Montant signé, taux de transformation, montant moyen, et l'argent signé, facturé et encaissé mois par mois, sur la période de votre choix." },
 ];
 
 const baseItems = [
@@ -530,10 +737,7 @@ export default function ZelusClient() {
                   <img src={`${IMG}/accueil.png`} alt="Tableau de bord Zelus : reste à encaisser, fil de l’argent, météo, carte des chantiers" className="w-full h-auto block" />
                 </button>
               </div>
-              <div
-                className="hidden md:block absolute -bottom-10 -right-4 lg:-right-10 w-40 lg:w-48 rounded-[1.8rem] border border-white/15 bg-black p-1.5 shadow-2xl">
-                <img src={`${IMG}/tel-accueil.png`} alt="Tableau de bord Zelus sur téléphone" className="rounded-[1.4rem] w-full" />
-              </div>
+              <PhoneScreens className="hidden md:block absolute -bottom-10 -right-4 lg:-right-10 w-40 lg:w-52" />
             </Reveal>
             <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4">
               {[
@@ -646,13 +850,13 @@ export default function ZelusClient() {
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-6 items-start">
                 <div>
-                  <Shot src={`${IMG}/${dash.img}`} alt={`Tableau de bord Zelus : ${dash.label}`} onZoom={setZoom} />
+                  {dash.render === "agenda" ? <AgendaDemo onZoom={setZoom} />
+                    : dash.render === "stats" ? <LiveStats />
+                    : <Shot src={`${IMG}/${dash.img}`} alt={`Tableau de bord Zelus : ${dash.label}`} onZoom={setZoom} />}
                   <p className="text-gray-300 mt-4">{dash.text}</p>
                 </div>
                 <div className="hidden lg:block">
-                  <div className="rounded-[2rem] border border-white/15 bg-black p-2 shadow-2xl">
-                    <img src={`${IMG}/tel-accueil.png`} alt="Tableau de bord Zelus sur téléphone" className="rounded-[1.6rem] w-full" />
-                  </div>
+                  <PhoneScreens />
                   <p className="text-center text-sm text-gray-500 mt-3">Le même tableau de bord, sur le téléphone</p>
                 </div>
               </div>
