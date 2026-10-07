@@ -21,7 +21,7 @@ export const ZelusSection = () => {
       <div className="relative max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center" ref={ref}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5 }}>
           <span className="text-sm uppercase tracking-widest text-nikaia font-semibold mb-4 block">Notre produit</span>
-          <img src="/zelus/logo-zelus-blanc.svg" alt="Zelus by NikaIA" className="h-16 md:h-20 w-auto mb-6" />
+          <img src="/zelus/logo-zelus-seul.svg" alt="Zelus by NikaIA" className="h-16 md:h-20 w-auto mb-6" />
           <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-6">
             Votre activité, <span className="text-red-500">depuis Telegram.</span>
           </h2>

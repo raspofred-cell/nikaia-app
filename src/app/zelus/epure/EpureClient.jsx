@@ -9,7 +9,7 @@ import Footer from "../../../components/Footer";
 import Chatbot from "../../../components/Chatbot";
 import ContactModal from "../../../components/ContactModal";
 import {
-  IMG, TgPhone, Shot, PhoneScreens, AgendaDemo, MapTrajet, LiveStats, CgvDemo, PlafondDemo, ScrollShot,
+  IMG, TgPhone, DesktopScreens, Shot, PhoneScreens, AgendaDemo, MapTrajet, LiveStats, CgvDemo, PlafondDemo, ScrollShot,
   convCatalogue, convAcceptation, convRapport, options, allFeatures, nbFeatures, faqs, B,
 } from "../ZelusClient";
 
@@ -77,12 +77,20 @@ const chapitres = [
   { id: "tableau", t: "Tout, d'un coup d'œil", p: "Ce qui reste à encaisser, qui relancer, quoi programmer. Au bureau comme sur le téléphone, avec un lien qui n'est qu'à vous.", d: ["Fil de l'argent", "Météo 7 jours", "Recherche"], v: (z) => <Tableau onZoom={z} /> },
   { id: "chiffres", t: "Vos chiffres, vivants", p: "Montant signé, taux de transformation, signé, facturé, encaissé mois par mois.", d: ["Par période", "Par métier", "Par type de client"], v: () => <LiveStats compact /> },
   { id: "comptable", t: "Le relevé du comptable", p: "Ventes, TVA par taux, encaissements, impayés. Par mois ou par année, en PDF ou en Excel.", d: ["PDF", "Excel", "Par mois, par année"], v: (z) => <Comptable onZoom={z} /> },
-  { id: "plafond", t: "Le plafond sous surveillance", p: "En franchise de TVA, Zelus suit ce que vous encaissez depuis janvier et vous prévient avant le seuil, pas après.", d: ["Mention 293 B", "Alerte à l'approche", "Bascule le jour J"], v: () => <div className="w-full max-w-[460px] mx-auto"><PlafondDemo /></div> },
+  { id: "plafond", k: "Pensé pour les auto-entrepreneurs", t: "Le plafond sous surveillance", p: "En franchise de TVA, Zelus suit ce que vous encaissez depuis janvier et vous prévient avant le seuil, pas après.", d: ["Mention 293 B", "Alerte à l'approche", "Bascule le jour J"], v: () => <div className="w-full max-w-[460px] mx-auto"><PlafondDemo /></div> },
 ];
+
+// Index : catégories réparties en trois colonnes de hauteur voisine, dans l'ordre du parcours
+const colonnesIndex = (() => {
+  const total = allFeatures.reduce((n, c) => n + c.items.length + 3, 0), cible = total / 3;
+  const cols = [[]]; let h = 0;
+  allFeatures.forEach((c) => { const t = c.items.length + 3; if (h + t / 2 > cible && cols.length < 3) { cols.push([]); h = 0; } cols[cols.length - 1].push(c); h += t; });
+  return cols;
+})();
 
 // Ligne de prix façon carte de restaurant
 const Ligne = ({ a, b, sub, muted }) => (
-  <div className="flex items-baseline gap-3 py-2">
+  <div className="flex items-baseline gap-3 py-[5px] text-[16px] leading-snug">
     <span className={muted ? "text-neutral-500" : "text-neutral-200"}>{a}{sub && <span className="ml-2 text-[12px] text-neutral-500">{sub}</span>}</span>
     <span className="flex-1 border-b border-dotted border-white/15 translate-y-[-4px]" />
     <span className={`tabular-nums ${muted ? "text-neutral-500" : "text-white"}`}>{b}</span>
@@ -124,7 +132,7 @@ export default function EpureClient() {
       <main>
         {/* Ouverture */}
         <section className="max-w-6xl mx-auto px-6 pt-32 pb-16 text-center">
-          <img src={`${IMG}/logo-zelus-blanc.svg`} alt="Zelus" className="h-14 mx-auto mb-8" />
+          <img src={`${IMG}/logo-zelus-seul.svg`} alt="Zelus" className="h-14 mx-auto mb-8" />
           <h1 className="text-[44px] md:text-[76px] leading-[1.02] font-normal tracking-[-0.03em] text-white">
             Le bureau tient<br />dans une conversation.
           </h1>
@@ -148,7 +156,7 @@ export default function EpureClient() {
         <section className="max-w-6xl mx-auto px-6 pb-20">
           <div className="relative">
             <div className="rounded-2xl border border-white/10 bg-neutral-900 p-2 shadow-[0_40px_120px_rgba(227,5,24,0.15)]">
-              <img src={`${IMG}/accueil.png`} alt="Tableau de bord Zelus" className="w-full rounded-xl" />
+              <DesktopScreens onZoom={setZoom} />
             </div>
             <PhoneScreens className="hidden md:block absolute -bottom-8 -right-4 w-44" />
           </div>
@@ -170,6 +178,7 @@ export default function EpureClient() {
               {chapitres.map((c, i) => (
                 <div key={c.id} id={c.id} ref={(el) => (refs.current[i] = el)} data-i={i} className="lg:min-h-[60vh] flex items-center py-6">
                   <div className={`w-full rounded-2xl px-6 py-7 border transition-colors duration-500 ${actif === i ? "border-white/10 bg-white/[0.03]" : "border-transparent"}`}>
+                  {c.k && <div className="ml-10 mb-3 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[12px] uppercase tracking-[0.18em]" style={{ borderColor: RED, color: "#ff4d5e" }}>{c.k}</div>}
                   <div className="flex items-baseline gap-4">
                     <span className="text-[15px] tabular-nums transition-colors duration-500" style={{ color: actif === i ? RED : "#525252" }}>{String(i + 1).padStart(2, "0")}</span>
                     <h2 className={`text-[28px] md:text-[36px] leading-tight font-normal tracking-[-0.02em] transition-colors duration-500 ${actif === i ? "text-white" : "text-neutral-500"}`}>{c.t}</h2>
@@ -218,18 +227,25 @@ export default function EpureClient() {
                 <span><span className="inline-block w-1.5 h-1.5 rounded-full mr-2 align-middle" style={{ background: RED }} />option</span>
               </div>
             </div>
-            <div className="columns-1 sm:columns-2 lg:columns-4 gap-10 [column-fill:_balance]">
-              {allFeatures.map((c) => (
-                <div key={c.cat} className="break-inside-avoid mb-10">
-                  <div className="text-[11px] uppercase tracking-[0.2em] text-neutral-500 mb-3">{c.cat}</div>
-                  <ul className="space-y-1.5 text-[15px] text-neutral-300">
-                    {c.items.map(([n, tag]) => (
-                      <li key={n} className="flex gap-2">
-                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: tag === B ? "#d4d4d4" : RED }} />
-                        <span>{n}</span>
-                      </li>
-                    ))}
-                  </ul>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12">
+              {colonnesIndex.map((col, ci) => (
+                <div key={ci}>
+                  {col.map((c) => (
+                    <div key={c.cat} className="border-t border-white/[0.08] pt-4 pb-8">
+                      <div className="flex items-baseline justify-between mb-3">
+                        <span className="text-[13px] uppercase tracking-[0.18em] text-neutral-300">{c.cat}</span>
+                        <span className="text-[13px] tabular-nums text-neutral-600">{c.items.length}</span>
+                      </div>
+                      <ul className="space-y-1 text-[15px] leading-snug text-neutral-300">
+                        {c.items.map(([n, tag]) => (
+                          <li key={n} className="flex gap-2.5">
+                            <span className="mt-[8px] w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: tag === B ? "#a3a3a3" : RED }} />
+                            <span>{n}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>
@@ -247,10 +263,10 @@ export default function EpureClient() {
               <div>
                 <Ligne a="Abonnement de base" b="149 € / mois" />
                 <Ligne a="Pack complet" sub="toutes les options · 274 € au détail" b="249 € / mois" />
-                <div className="mt-8 mb-2 text-[11px] uppercase tracking-[0.2em] text-neutral-500">Options</div>
+                <div className="mt-5 mb-1 text-[12px] uppercase tracking-[0.2em] text-neutral-500">Options</div>
                 {options.map((o) => <Ligne key={o.name} a={o.name} b={`+${o.price} € / mois`} />)}
                 <Ligne a="PV de réception" b="à venir" muted />
-                <div className="mt-8 mb-2 text-[11px] uppercase tracking-[0.2em] text-neutral-500">Conditions</div>
+                <div className="mt-5 mb-1 text-[12px] uppercase tracking-[0.2em] text-neutral-500">Conditions</div>
                 <Ligne a="Mise en place" sub="bot, base, Drive, Google, catalogue, 2 h de formation" b="990 €, une fois" />
                 <Ligne a="Utilisateur en plus" b="+19 € / mois" />
                 <Ligne a="Paiement à l'année" b="10 mois pour 12" />

@@ -146,11 +146,11 @@ const useLoop = (ref, seconds) => {
 // Écran du téléphone : les menus du tableau de bord défilent (captures réelles, données fictives)
 const phoneSeq = [
   { src: "tel-accueil-long.png", h: 4212, dur: 9 },
-  { src: "tel-programmation-menu.png", h: 844, dur: 1.6 },
+  { src: "tel-programmation-menu.png", h: 844, dur: 2, taps: [[125, 812, 0.05], [80, 592, 0.7]] },
   { src: "tel-programmation-long.png", h: 2512, dur: 6 },
-  { src: "tel-devis-menu.png", h: 844, dur: 1.6 },
+  { src: "tel-devis-menu.png", h: 844, dur: 1.8, taps: [[211, 812, 0.05]] },
   { src: "tel-devis-long.png", h: 1099, dur: 3.5 },
-  { src: "tel-argent-menu.png", h: 844, dur: 1.6 },
+  { src: "tel-argent-menu.png", h: 844, dur: 1.8, taps: [[281, 812, 0.05]] },
   { src: "tel-argent-long.png", h: 1261, dur: 3.5 },
 ];
 export const PhoneScreens = ({ className = "" }) => {
@@ -176,7 +176,65 @@ export const PhoneScreens = ({ className = "" }) => {
             exit={{ opacity: 0 }}
             transition={{ opacity: { duration: 0.4 }, y: { duration: sc.dur, times: [0, 0.15, 1], ease: "easeInOut" } }} />
         </AnimatePresence>
+        {!reduce && (sc.taps || []).map(([x, y, at], k) => (
+          <motion.span key={i + "-" + k} className="pointer-events-none absolute rounded-full bg-white/70"
+            style={{ left: `${(x / 390) * 100}%`, top: `${(y / 844) * 100}%`, width: "18%", aspectRatio: "1", translateX: "-50%", translateY: "-50%" }}
+            initial={{ scale: 0.2, opacity: 0 }} animate={{ scale: [0.2, 0.2, 1, 1.3], opacity: [0, 0.7, 0.35, 0] }}
+            transition={{ duration: 0.7, delay: at * sc.dur + 0.2, times: [0, 0.1, 0.6, 1] }} />
+        ))}
       </div>
+    </div>
+  );
+};
+
+const deskSeq = [
+  { src: "accueil.png", hold: 2.5 },
+  { click: [100, 292], src: "meteo-7-jours.png", hold: 3 },
+  { click: [1275, 86], src: "accueil.png", hold: 1 },
+  { click: [117, 342], src: "cal-mois.png", hold: 3 },
+  { click: [1275, 86], src: "accueil.png", hold: 1 },
+  { click: [93, 436], src: "carte-trajet.png", hold: 3 },
+  { click: [1275, 86], src: "accueil.png", hold: 1 },
+  { click: [82, 152], src: "retards.png", hold: 3 },
+  { click: [1275, 86], src: "accueil.png", hold: 1 },
+  { click: [100, 577], src: "st-devis.png", hold: 3 },
+  { click: [1275, 86], src: "accueil.png", hold: 1 },
+];
+export const DesktopScreens = ({ onZoom, className = "" }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { margin: "-60px" });
+  const reduce = useReducedMotion();
+  const [i, setI] = useState(0);
+  const [cur, setCur] = useState([760, 640]);
+  const [clic, setClic] = useState(0);
+  const [prev, setPrev] = useState(deskSeq[0].src);
+  useEffect(() => {
+    if (!inView || reduce) return;
+    const n = (i + 1) % deskSeq.length, step = deskSeq[n], h = deskSeq[i].hold * 1000;
+    const ts = [setTimeout(() => setCur(step.click), h), setTimeout(() => setClic((c) => c + 1), h + 850), setTimeout(() => { setPrev(deskSeq[i].src); setI(n); }, h + 1100)];
+    return () => ts.forEach(clearTimeout);
+  }, [i, inView, reduce]);
+  const src = deskSeq[i].src;
+  return (
+    <div ref={ref} className={`relative overflow-hidden rounded-xl [container-type:inline-size] aspect-[1440/900] ${className}`}>
+      {[...new Set(deskSeq.map((d) => d.src))].map((f) => <link key={f} rel="preload" as="image" href={`${IMG}/${f}`} />)}
+      <button type="button" onClick={() => onZoom && onZoom({ src: `${IMG}/${src}`, alt: "Tableau de bord Zelus" })} className="absolute inset-0 block w-full">
+        <img src={`${IMG}/${prev}`} alt="" className="absolute inset-0 w-full h-full" />
+        <motion.img key={i} src={`${IMG}/${src}`} alt="Tableau de bord Zelus" className="absolute inset-0 w-full h-full"
+          initial={{ opacity: i === 0 && prev === src ? 1 : 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }} />
+      </button>
+      {!reduce && (
+        <>
+          <motion.div className="pointer-events-none absolute z-10" animate={{ left: `${(cur[0] / 1440) * 100}%`, top: `${(cur[1] / 900) * 100}%` }} transition={{ duration: 0.8, ease: "easeInOut" }}>
+            <MousePointer2 className="text-white fill-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" style={{ width: "1.8cqw", height: "1.8cqw" }} />
+          </motion.div>
+          {clic > 0 && (
+            <motion.span key={clic} className="pointer-events-none absolute z-0 rounded-full bg-white/60"
+              style={{ left: `${(cur[0] / 1440) * 100}%`, top: `${(cur[1] / 900) * 100}%`, width: "3cqw", height: "3cqw", translateX: "-50%", translateY: "-50%" }}
+              initial={{ scale: 0.3, opacity: 0.7 }} animate={{ scale: 1.6, opacity: 0 }} transition={{ duration: 0.5 }} />
+          )}
+        </>
+      )}
     </div>
   );
 };
@@ -249,11 +307,21 @@ const statMois = [
   { m: "août 26", taux: 74.7, env: 75, sig: 56, signe: 53264, facture: 36236, encaisse: 2590 },
   { m: "sept. 26", taux: 64.3, env: 56, sig: 36, signe: 22104, facture: 16532, encaisse: 43674 },
   { m: "oct. 26", taux: 100, env: 11, sig: 11, signe: 1750, facture: 4293, encaisse: 5400 },
+].map((m) => ({ ...m, non: m.env - m.sig, moyen: Math.round(m.signe / m.sig) }));
+// Une vue de graphique par chiffre clé (clic sur la tuile)
+const statVues = [
+  { titre: "Signé, facturé, encaissé par mois", note: "HT", u: " €", series: [["signe", "Signé", "#3b82f6"], ["facture", "Facturé", "#1e40af"], ["encaisse", "Encaissé", "#22c55e"]] },
+  { titre: "Devis envoyés et signés par mois", u: "", series: [["env", "Envoyés", "#64748b"], ["sig", "Signés", "#3b82f6"], ["non", "Non signés", "#ef4444"]] },
+  { titre: "Taux de transformation par mois", u: " %", max: 100, series: [["taux", "Taux", "#3b82f6"]] },
+  { titre: "Montant moyen d'un devis signé, par mois", note: "HT", u: " €", series: [["moyen", "Montant moyen", "#a855f7"]] },
 ];
 export const LiveStats = ({ compact = false }) => {
   const ref = useRef(null);
   const run = useInView(ref, { once: true, margin: "-60px" });
-  const max = 55000;
+  const [vue, setVue] = useState(0);
+  const [tableau, setTableau] = useState(false);
+  const V = statVues[vue];
+  const max = V.max || Math.max(...statMois.flatMap((m) => V.series.map(([k]) => m[k]))) * 1.08;
   const ring = 2 * Math.PI * 42;
   return (
     <div ref={ref} className="rounded-2xl border border-white/10 bg-[#121417] p-5 md:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
@@ -269,36 +337,57 @@ export const LiveStats = ({ compact = false }) => {
           [16, 0, "", "devis perdus ou expirés"],
           [72.2, 1, " %", "taux de transformation"],
           [765, 0, " €", "montant moyen d'un devis signé"],
-        ].map(([v, d, suf, l]) => (
-          <div key={l} className="rounded-xl border border-white/10 bg-[#181b1f] p-4">
+        ].map(([v, d, suf, l], ti) => (
+          <button key={l} type="button" onClick={() => setVue(ti)}
+            className={`text-left rounded-xl border p-4 transition-colors ${vue === ti ? "border-[#3b82f6] bg-[#3b82f6]/10" : "border-white/10 bg-[#181b1f] hover:border-white/25"}`}>
             <div className={`${compact ? "text-lg" : "text-xl md:text-2xl xl:text-3xl"} font-bold text-white tabular-nums whitespace-nowrap`}><CountUp to={v} decimals={d} suffix={suf} run={run} /></div>
             <div className="text-xs text-gray-400 mt-1">{l}</div>
-          </div>
+          </button>
         ))}
       </div>
       <div className={compact ? "grid grid-cols-[1.4fr_1fr] gap-3 [&>*]:min-w-0" : "grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-4"}>
         <div className="rounded-xl border border-white/10 bg-[#181b1f] p-5">
-          <div className="text-white text-sm font-semibold mb-1">Signé, facturé, encaissé par mois <span className="text-gray-500 font-normal">HT</span></div>
-          <div className="flex gap-4 text-xs text-gray-400 mb-4">
-            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#3b82f6]" />Signé</span>
-            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#1e40af]" />Facturé</span>
-            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#22c55e]" />Encaissé</span>
+          <div className="flex items-start justify-between gap-3 mb-1">
+            <div className="text-white text-sm font-semibold">{V.titre} {V.note && <span className="text-gray-500 font-normal">{V.note}</span>}</div>
+            <div className="flex rounded-lg bg-white/5 p-0.5 text-[11px] flex-shrink-0">
+              {["Graphique", "Tableau"].map((x, xi) => (
+                <button key={x} type="button" onClick={() => setTableau(xi === 1)} className={`rounded-md px-2 py-1 ${tableau === (xi === 1) ? "bg-white/15 text-white" : "text-gray-400"}`}>{x}</button>
+              ))}
+            </div>
           </div>
-          <div className="relative h-56 flex items-end justify-around gap-4 border-b border-white/10">
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-400 mb-4">
+            {V.series.map(([k, l, c]) => <span key={k} className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm" style={{ background: c }} />{l}</span>)}
+          </div>
+          {tableau ? (
+            <table className="w-full text-xs h-56">
+              <thead><tr className="text-gray-500"><th className="text-left font-normal pb-2">Mois</th>{V.series.map(([k, l]) => <th key={k} className="text-right font-normal pb-2">{l}</th>)}</tr></thead>
+              <tbody>
+                {statMois.map((m) => (
+                  <tr key={m.m} className="border-t border-white/5 text-gray-200">
+                    <td className="py-2">{m.m}</td>
+                    {V.series.map(([k]) => <td key={k} className="py-2 text-right tabular-nums">{m[k].toLocaleString("fr-FR")}{V.u}</td>)}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+          <div key={vue} className="relative h-56 flex items-end justify-around gap-4 border-b border-white/10">
             {[0.25, 0.5, 0.75].map((y) => <div key={y} className="absolute left-0 right-0 border-t border-dashed border-white/5" style={{ bottom: `${y * 100}%` }} />)}
             {statMois.map((m, mi) => (
               <div key={m.m} className="relative flex items-end gap-1.5 h-full">
-                {[["signe", "#3b82f6"], ["facture", "#1e40af"], ["encaisse", "#22c55e"]].map(([k, c], ki) => (
-                  <div key={k} className={`group relative ${compact ? "w-4" : "w-6 md:w-8"} h-full flex items-end`}>
+                {V.series.map(([k, l, c], ki) => (
+                  <div key={k} className={`group relative ${compact ? (V.series.length > 1 ? "w-4" : "w-8") : V.series.length > 1 ? "w-6 md:w-8" : "w-12 md:w-16"} h-full flex items-end`}>
                     <motion.div className="w-full rounded-t-md" style={{ background: c }}
-                      initial={{ height: 0 }} animate={run ? { height: `${(m[k] / max) * 100}%` } : {}} transition={{ duration: 0.9, delay: 0.2 + mi * 0.25 + ki * 0.1, ease: "easeOut" }} />
-                    <div className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black/90 px-2 py-0.5 text-[11px] text-white opacity-0 group-hover:opacity-100 transition-opacity">{m[k].toLocaleString("fr-FR")} €</div>
+                      initial={{ height: 0 }} animate={run ? { height: `${(m[k] / max) * 100}%` } : {}} transition={{ duration: 0.8, delay: 0.1 + mi * 0.15 + ki * 0.08, ease: "easeOut" }} />
+                    <div className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black/90 px-2 py-0.5 text-[11px] text-white opacity-0 group-hover:opacity-100 transition-opacity">{m[k].toLocaleString("fr-FR")}{V.u}</div>
                   </div>
                 ))}
               </div>
             ))}
           </div>
-          <div className="flex justify-around mt-2 text-xs text-gray-400">{statMois.map((m) => <span key={m.m}>{m.m}</span>)}</div>
+          )}
+          {!tableau && <div className="flex justify-around mt-2 text-xs text-gray-400">{statMois.map((m) => <span key={m.m}>{m.m}</span>)}</div>}
+
         </div>
         <div className="rounded-xl border border-white/10 bg-[#181b1f] p-5">
           <div className="text-white text-sm font-semibold mb-4">Taux de transformation</div>
@@ -839,7 +928,7 @@ export default function ZelusClient() {
           </div>
           <div className="relative max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-14 items-center">
             <Reveal>
-              <img src={`${IMG}/logo-zelus-blanc.svg`} alt="Zelus by NikaIA" className="h-20 md:h-24 w-auto mb-8" />
+              <img src={`${IMG}/logo-zelus-seul.svg`} alt="Zelus by NikaIA" className="h-20 md:h-24 w-auto mb-8" />
               <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05] mb-6">
                 Votre activité,<br /><span className="text-red-500">depuis Telegram.</span>
               </h1>
@@ -896,9 +985,7 @@ export default function ZelusClient() {
                   <span className="w-3 h-3 rounded-full bg-white/15" /><span className="w-3 h-3 rounded-full bg-white/15" /><span className="w-3 h-3 rounded-full bg-white/15" />
                   <span className="ml-3 flex-1 max-w-sm rounded-md bg-white/5 px-3 py-1 text-xs text-gray-500">myzelus.fr/tableau</span>
                 </div>
-                <button type="button" onClick={() => setZoom({ src: `${IMG}/accueil.png`, alt: "Tableau de bord Zelus" })} className="block w-full overflow-hidden rounded-xl">
-                  <img src={`${IMG}/accueil.png`} alt="Tableau de bord Zelus : reste à encaisser, fil de l’argent, météo, carte des chantiers" className="w-full h-auto block" />
-                </button>
+                <DesktopScreens onZoom={setZoom} />
               </div>
               <PhoneScreens className="hidden md:block absolute -bottom-10 -right-4 lg:-right-10 w-40 lg:w-52" />
             </Reveal>
