@@ -6,6 +6,7 @@ import HeroSection from "../components/HeroSection";
 import ProblemSection from "../components/ProblemSection";
 import SolutionSection from "../components/SolutionSection";
 import OffersSection from "../components/OffersSection";
+import ZelusSection from "../components/ZelusSection";
 import ProcessSection from "../components/ProcessSection";
 import BenefitsSection from "../components/BenefitsSection";
 import CTASection from "../components/CTASection";
@@ -32,6 +33,7 @@ export default function LandingPage() {
         <HeroSection onContact={() => openContactModal("Diagnostic Gratuit")} />
         <ProblemSection />
         <SolutionSection />
+        <ZelusSection />
         <OffersSection onSelectOffer={openContactModal} />
         <ProcessSection />
         <BenefitsSection />

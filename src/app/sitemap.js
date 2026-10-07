@@ -8,6 +8,12 @@ export default function sitemap() {
       priority: 1,
     },
     {
+      url: "https://www.nikaia-automations.com/zelus",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: "https://www.nikaia-automations.com/presentation",
       lastModified: new Date(),
       changeFrequency: "monthly",

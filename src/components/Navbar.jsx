@@ -6,6 +6,7 @@ import { Menu, X, MessageCircle } from "lucide-react";
 const LOGO_URL = "/logo-nikaia-blanc.png";
 
 const navLinks = [
+  { href: "/zelus", label: "Zelus, notre logiciel" },
   { href: "/presentation", label: "Présentation" },
   { href: "/#probleme", label: "Problème" },
   { href: "/#solutions", label: "Solutions" },
@@ -62,6 +63,12 @@ export const Navbar = ({ onContact }) => {
             </div>
 
             <div className="flex items-center gap-2 md:gap-3">
+              <a
+                href="/zelus"
+                className="hidden md:flex items-center px-4 py-2 rounded-full border border-white/15 hover:bg-white/10 transition-colors duration-200 text-white text-sm font-medium"
+              >
+                Zelus
+              </a>
               <a
                 href="https://wa.me/33619251902"
                 target="_blank"
