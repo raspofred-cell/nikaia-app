@@ -416,6 +416,81 @@ const CgvDemo = () => {
   );
 };
 
+// Carte : la bulle calcule le trajet puis l'affiche (deux captures identiques hors de la ligne du trajet)
+const MapTrajet = ({ onZoom }) => {
+  const ref = useRef(null);
+  const t = useLoop(ref, 7);
+  const done = t >= 0.35 && t < 0.97;
+  return (
+    <div ref={ref} className="relative overflow-hidden rounded-2xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+      <button type="button" onClick={() => onZoom({ src: `${IMG}/carte-trajet.png`, alt: "Carte des chantiers" })} className="block w-full">
+        <img src={`${IMG}/carte.png`} alt="Carte des chantiers : calcul du trajet en cours" className="w-full h-auto block" />
+        <img src={`${IMG}/carte-trajet.png`} alt="Carte des chantiers : trajet calculé, 22 minutes" className="absolute inset-0 w-full h-auto block transition-opacity duration-500" style={{ opacity: done ? 1 : 0 }} />
+      </button>
+    </div>
+  );
+};
+
+// Capture longue qui défile dans un cadre d'écran d'ordinateur
+const ScrollShot = ({ src, h, alt, seconds = 16, onZoom }) => {
+  const ref = useRef(null);
+  const t = useLoop(ref, seconds);
+  const k = easeIO(prog(t, 0.1, 0.85)) * (1 - prog(t, 0.93, 1));
+  const shift = (1 - 900 / h) * 100 * k;
+  return (
+    <div ref={ref} className="rounded-2xl border border-white/10 bg-neutral-900 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+      <div className="flex items-center gap-1.5 px-2 pb-2">
+        <span className="w-2.5 h-2.5 rounded-full bg-white/15" /><span className="w-2.5 h-2.5 rounded-full bg-white/15" /><span className="w-2.5 h-2.5 rounded-full bg-white/15" />
+        <span className="ml-3 rounded-md bg-white/5 px-3 py-0.5 text-[11px] text-gray-500">myzelus.fr/tableau · Relevé comptable</span>
+      </div>
+      <button type="button" onClick={() => onZoom({ src: `${IMG}/${src}`, alt })} className="relative block w-full overflow-hidden rounded-xl aspect-[1440/900]">
+        <img src={`${IMG}/${src}`} alt={alt} className="absolute top-0 left-0 w-full" style={{ transform: `translateY(-${shift}%)` }} />
+      </button>
+    </div>
+  );
+};
+
+// Auto-entrepreneur : jauge du chiffre d'affaires de l'année face au seuil de la franchise (illustration, sans montant de seuil)
+const PlafondDemo = () => {
+  const ref = useRef(null);
+  const t = useLoop(ref, 10);
+  const pct = Math.round(easeIO(prog(t, 0.05, 0.75)) * 104);
+  const etat = pct >= 100 ? 2 : pct >= 85 ? 1 : 0;
+  const coul = ["#22c55e", "#f59e0b", "#ef4444"][etat];
+  const msgs = [
+    { t: "📊 Franchise de TVA\nEncaissé depuis le 1er janvier : " + pct + " % du seuil de l'année.", on: true },
+    { t: "⚠️ Seuil de la franchise en vue\nVous approchez du seuil. Parlez-en à votre comptable.", on: etat >= 1 },
+    { t: "🔴 Seuil dépassé\nLa TVA s'applique désormais. Vos prochains devis et factures passeront avec TVA.", on: etat >= 2 },
+  ];
+  return (
+    <div ref={ref} className="space-y-4">
+      <div className="rounded-2xl border border-white/10 bg-[#121417] p-6">
+        <div className="flex items-baseline justify-between mb-3">
+          <div className="text-white font-semibold">Chiffre d'affaires de l'année</div>
+          <div className="text-3xl font-bold tabular-nums" style={{ color: coul }}>{pct} %</div>
+        </div>
+        <div className="relative h-4 rounded-full bg-white/5 overflow-hidden">
+          <div className="h-full rounded-full transition-colors duration-500" style={{ width: Math.min(pct, 100) + "%", background: coul }} />
+        </div>
+        <div className="relative h-5 mt-1 text-[11px] text-gray-500">
+          <span className="absolute -translate-x-1/2" style={{ left: "85%" }}>alerte</span>
+          <span className="absolute right-0">seuil</span>
+        </div>
+        <div className="text-xs text-gray-500 mt-1">mention « TVA non applicable, art. 293 B du CGI » sur vos devis et factures tant que vous êtes sous le seuil</div>
+      </div>
+      <div className="space-y-2">
+        {msgs.map((m, i) => (
+          <motion.div key={i} initial={false} animate={{ opacity: m.on ? 1 : 0.15, y: m.on ? 0 : 6 }} transition={{ duration: 0.4 }}
+            className="rounded-2xl rounded-bl-md bg-[#182533] border border-white/5 px-4 py-3 text-[13px] text-gray-100 whitespace-pre-line">
+            <div className="flex items-center gap-2 text-[11px] text-[#6c8aa5] mb-1"><img src={`${IMG}/icone-zelus.svg`} alt="" className="w-4 h-4" />Telegram · Zelus</div>
+            {m.t}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 // Bandeau défilant des fonctionnalités
 const Marquee = ({ items }) => {
   const reduce = useReducedMotion();
@@ -522,7 +597,7 @@ const OptionTag = ({ children }) => (
 );
 
 // Bloc fonctionnalité : texte d'un côté, visuel de l'autre, en alternance.
-const Feature = ({ id, icon: Icon, kicker, title, text, bullets, example, option, visual, reverse }) => (
+const Feature = ({ id, icon: Icon, kicker, title, text, bullets, example, option, soon, visual, reverse }) => (
   <section id={id} className="scroll-mt-28 py-16 md:py-24 border-t border-white/5">
     <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center`}>
       <Reveal className={reverse ? "lg:order-2" : ""}>
@@ -532,6 +607,7 @@ const Feature = ({ id, icon: Icon, kicker, title, text, bullets, example, option
           </div>
           <span className="text-sm uppercase tracking-widest text-gray-400 font-semibold">{kicker}</span>
           {option && <OptionTag>{option}</OptionTag>}
+          {soon && <span className="inline-flex items-center rounded-full border border-sky-400/30 bg-sky-400/10 px-3 py-1 text-xs font-medium text-sky-300">Bientôt</span>}
         </div>
         <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-5">{title}</h3>
         <p className="text-gray-400 text-lg leading-relaxed">{text}</p>
@@ -591,7 +667,7 @@ const devisTabs = [
   { key: "par", label: "Particulier", icon: Home, img: "devis-par.png", rule: "Droit de rétractation de 14 jours, case « je demande que les travaux débutent avant la fin du délai », TVA réduite selon les travaux." },
   { key: "pro", label: "Professionnel", icon: Briefcase, img: "devis-pro.png", rule: "Conditions entre professionnels, SIRET du client, autoliquidation de la TVA en sous-traitance avec la bonne mention imprimée." },
   { key: "syn", label: "Syndic", icon: Building2, img: "devis-syn.png", rule: "Le syndicat des copropriétaires en client, le syndic comme représentant, le gestionnaire à l'attention, le contact sur place, la question du passage en AG." },
-  { key: "micro", label: "Auto-entrepreneur", icon: ShieldCheck, img: "devis-micro.png", rule: "« TVA non applicable, art. 293 B du CGI » sur chaque devis et facture, et un œil sur votre chiffre d'affaires de l'année." },
+  { key: "micro", label: "Auto-entrepreneur", icon: ShieldCheck, img: "devis-micro.png", rule: "Bientôt : « TVA non applicable, art. 293 B du CGI » sur chaque devis et facture, et un œil sur votre chiffre d'affaires de l'année." },
 ];
 
 const dashTabs = [
@@ -599,7 +675,7 @@ const dashTabs = [
   { key: "meteo", label: "Météo 7 jours", img: "meteo-7-jours.png", text: "Vos chantiers prévus jour par jour, sous la météo de Nice. Une vigilance orange orages jeudi : Zelus signale les chantiers sous la pluie et dans le vent, pour prévenir les clients à temps." },
   { key: "retards", label: "Qui relancer", img: "retards.png", text: "Les factures en retard, les plus grosses en premier. Un bouton pour relancer, un autre pour marquer « payée »." },
   { key: "agenda", label: "Agenda", render: "agenda", text: "Glissez un chantier de la liste « À programmer » sur un jour du mois : Zelus ouvre la programmation avec les heures, et le chantier se pose dans l'agenda." },
-  { key: "carte", label: "Carte", img: "carte.png", text: "Tous vos chantiers sur la carte. Un clic sur un point : le chantier, son rendez-vous, et le temps de trajet calculé depuis votre entreprise, avec Waze et Google Maps en un clic." },
+  { key: "carte", label: "Carte", render: "carte", img: "carte-trajet.png", text: "Tous vos chantiers sur la carte. Un clic sur un point : le chantier, son rendez-vous, et le temps de trajet calculé depuis votre entreprise, avec Waze et Google Maps en un clic." },
   { key: "chiffres", label: "Les chiffres", render: "stats", text: "Montant signé, taux de transformation, montant moyen, et l'argent signé, facturé et encaissé mois par mois, sur la période de votre choix." },
 ];
 
@@ -649,7 +725,7 @@ const allFeatures = [
     ["Catalogue de prestations avec prix et unités", B], ["Nouvelle prestation créée en cours de devis", B], ["Lieux d'intervention et contacts sur place", B],
     ["Particularités du chantier", B], ["Résumé avant génération", B], ["Devis PDF à vos couleurs", B], ["Envoi par mail depuis votre adresse", B],
     ["Modification après envoi (V2, V3)", B], ["Mentions selon le type de client", B], ["Rétractation pour les particuliers", B], ["CGV dans le devis, adaptées au client", B], ["Articles renumérotés selon le régime", B],
-    ["Auto-entrepreneur : franchise de TVA et suivi du plafond", B], ["Devis rangé dans le Drive du client", B],
+    ["Auto-entrepreneur : franchise de TVA et alertes du plafond", "À venir"], ["Devis rangé dans le Drive du client", B],
   ] },
   { cat: "Signature", items: [
     ["Signature en ligne, sur téléphone ou ordinateur", B], ["Acceptation manuelle", B], ["Devis signé régénéré avec la signature", B],
@@ -661,7 +737,7 @@ const allFeatures = [
   { cat: "Factures", items: [
     ["Facture d'acompte automatique à la signature", B], ["Facture de solde en fin de chantier", B], ["Aperçu avant émission", B],
     ["Facture d'intervention (dépannage payé sur place)", B], ["Facture acquittée", B], ["Avoirs", B], ["Facture électronique avec fichier de données", B],
-    ["Facture jointe au mail", B], ["Numérotation sans trou", B], ["Règlements et mode de paiement", B], ["Relevé comptable", B],
+    ["Facture jointe au mail", B], ["Numérotation sans trou", B], ["Règlements et mode de paiement", B], ["Relevé comptable du mois", B], ["Relevé en PDF et en Excel pour le comptable", B],
   ] },
   { cat: "Chantiers", items: [
     ["Créneaux libres de votre agenda Google", B], ["Conflit de créneau signalé", B], ["Reprogrammer, reporter, redonner une date", B],
@@ -711,7 +787,7 @@ const faqs = [
   { q: "Faut-il installer un logiciel ?", a: "Non. Zelus fonctionne dans Telegram, une application de messagerie gratuite que vous installez sur votre téléphone comme WhatsApp. Le tableau de bord s'ouvre dans votre navigateur, sur ordinateur comme sur téléphone, avec un lien qui vous est propre." },
   { q: "Pourquoi Telegram et pas une application ?", a: "Parce que vous savez déjà envoyer un message. Pas de formulaire à remplir, pas de menus cachés : des questions, des boutons, et vous pouvez dicter. Ça marche sur le chantier, entre deux rendez-vous, d'une seule main." },
   { q: "Où sont mes données ?", a: "Chez vous. Chaque artisan a sa propre base de données, que vous pouvez consulter à tout moment. Les mails partent de votre adresse, les documents sont rangés dans votre Google Drive, les chantiers dans votre agenda Google." },
-  { q: "Mes devis et factures sont-ils conformes ?", a: "Les mentions changent selon le client : rétractation pour un particulier, autoliquidation en sous-traitance, syndicat des copropriétaires représenté par son syndic, franchise de TVA pour un auto-entrepreneur. Les factures sont produites au format de la facture électronique, avec leur fichier de données intégré." },
+  { q: "Mes devis et factures sont-ils conformes ?", a: "Les mentions changent selon le client : rétractation pour un particulier, autoliquidation en sous-traitance, syndicat des copropriétaires représenté par son syndic, et bientôt la franchise de TVA pour un auto-entrepreneur. Les factures sont produites au format de la facture électronique, avec leur fichier de données intégré." },
   { q: "Je travaille seul, est-ce fait pour moi ?", a: "C'est précisément pour vous. Zelus a été pensé pour l'artisan qui fait tout lui-même et rédige ses devis le soir. Un utilisateur est inclus ; si un salarié l’utilise aussi (secrétaire, associé, chef d’équipe), c’est 19 € par mois et par utilisateur en plus." },
   { q: "Est-ce que je peux l'essayer ?", a: "Oui. Le plus simple est d'en parler : on vous montre Zelus avec des exemples de votre métier, puis on configure votre bot avec votre logo, vos couleurs et votre catalogue de prestations." },
   { q: "Combien ça coûte ?", a: "Une mise en place de 990 €, une seule fois. Ensuite, 149 € par mois pour l'abonnement de base, ou 249 € par mois pour le pack complet avec toutes les options. Sans engagement, et 10 mois payés pour 12 si vous réglez à l'année. Pour les 10 premiers clients, jusqu'au 31 décembre 2026 : le pack complet à 149 € par mois. Prix nets : TVA non applicable, art. 293 B du CGI." },
@@ -746,7 +822,7 @@ export default function ZelusClient() {
 
   const sommaire = [
     ["#tableau", "Tableau de bord"], ["#devis", "Devis"], ["#documents", "Documents"], ["#cgv", "CGV"], ["#signature", "Signature"], ["#relances", "Relances"],
-    ["#factures", "Factures"], ["#chantiers", "Chantiers"], ["#suivi", "Suivi"], ["#rapport", "Rapport"],
+    ["#factures", "Factures"], ["#releve", "Comptable"], ["#chantiers", "Chantiers"], ["#suivi", "Suivi"], ["#rapport", "Rapport"],
     ["#tarifs", "Tarifs"], ["#faq", "FAQ"],
   ];
 
@@ -939,6 +1015,7 @@ export default function ZelusClient() {
                 <div>
                   {dash.render === "agenda" ? <AgendaDemo onZoom={setZoom} />
                     : dash.render === "stats" ? <LiveStats />
+                    : dash.render === "carte" ? <MapTrajet onZoom={setZoom} />
                     : <Shot src={`${IMG}/${dash.img}`} alt={`Tableau de bord Zelus : ${dash.label}`} onZoom={setZoom} />}
                   <p className="text-gray-300 mt-4">{dash.text}</p>
                 </div>
@@ -1062,6 +1139,31 @@ export default function ZelusClient() {
           />
 
           <Feature
+            id="releve" icon={FileText} kicker="Comptabilité" reverse
+            title="Le relevé du mois, prêt pour votre comptable"
+            text="Fin du mois, votre comptable vous demande vos ventes ? Le relevé est déjà fait. Il s'ouvre sur le mois écoulé, celui que le comptable attend, et se télécharge en PDF ou en Excel en un clic."
+            bullets={[
+              "Ventes du mois, factures et avoirs : numéro, date, client, HT, TVA, TTC, état",
+              "TVA par taux (5,5 %, 10 %, 20 %) et ventes sans TVA à part",
+              "Encaissements du mois avec le mode de règlement",
+              "Factures non réglées à ce jour, et règlements à compléter",
+              "Devis signés et chantiers terminés du mois, pour suivre l'activité",
+              "Excel pour le comptable : onglets Ventes, Encaissements et TVA",
+            ]}
+            example="Le 2 novembre, votre comptable demande octobre. Vous ouvrez le relevé, « Excel pour le comptable », et le fichier part dans son mail. Deux minutes au lieu d'un dimanche à trier des factures."
+            visual={
+              <div>
+                <ScrollShot src="releve-comptable-long.png" h={7791} alt="Relevé comptable du mois dans le tableau de bord Zelus" onZoom={setZoom} />
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {["Télécharger en PDF", "Excel pour le comptable", "13 derniers mois"].map((x) => (
+                    <span key={x} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-gray-300">{x}</span>
+                  ))}
+                </div>
+              </div>
+            }
+          />
+
+          <Feature
             id="chantiers" icon={CalendarDays} kicker="Programmation" reverse
             title="Le chantier se programme, le client est prévenu"
             text="Une fois le devis signé, Zelus vous propose les créneaux libres de votre agenda Google, en tenant compte du délai de rétractation et de la durée estimée sur le devis. Le client reçoit un rappel deux jours avant. Un report, une pause, une annulation : le client est prévenu par un mail clair."
@@ -1116,19 +1218,27 @@ export default function ZelusClient() {
             visual={<TgPhone messages={convRapport} />}
           />
 
+          <Feature
+            id="micro" icon={ShieldCheck} kicker="Auto-entrepreneur" soon
+            title="Votre plafond de TVA sous surveillance"
+            text="En franchise de TVA, vos devis et factures partent sans TVA avec la mention « TVA non applicable, art. 293 B du CGI ». Zelus suit ce que vous encaissez depuis le 1er janvier et vous prévient avant le seuil, pas après."
+            bullets={[
+              "Devis, factures et facture électronique sans TVA, avec la bonne mention",
+              "Chiffre d'affaires de l'année suivi à chaque encaissement",
+              "Alerte dans Telegram à l'approche du seuil",
+              "Le jour où le seuil est dépassé : Zelus vous l'annonce et vos documents passent avec TVA",
+            ]}
+            example="Mi-novembre, vous avez encaissé 85 % du seuil de l'année. Zelus vous prévient dans Telegram : vous en parlez à votre comptable avant de signer le gros chantier de décembre, pas en janvier quand il est trop tard."
+            visual={<PlafondDemo />}
+          />
+
           {/* Fiches, micro, couleurs */}
           <section className="py-16 md:py-24 border-t border-white/5">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Reveal className="rounded-2xl border border-white/10 bg-neutral-900/50 p-7">
                 <Users className="w-6 h-6 text-red-500 mb-4" />
                 <h4 className="text-xl font-medium text-white mb-3">Fiches clients et lieux</h4>
                 <p className="text-gray-400 leading-relaxed">Chaque client a sa fiche : coordonnées, lieux d'intervention, contacts sur place, notes, devis et factures. Une fiche se corrige dans Telegram ou depuis le tableau de bord, un dossier Drive est créé pour chaque client.</p>
-              </Reveal>
-              <Reveal delay={0.08} className="rounded-2xl border border-white/10 bg-neutral-900/50 p-7">
-                <ShieldCheck className="w-6 h-6 text-red-500 mb-4" />
-                <h4 className="text-xl font-medium text-white mb-3">Auto-entrepreneur</h4>
-                <p className="text-gray-400 leading-relaxed mb-4">Devis et factures sans TVA avec la bonne mention, et un suivi de votre chiffre d'affaires de l'année. Zelus vous prévient à l'approche du plafond.</p>
-                <div className="rounded-xl bg-[#182533] text-gray-100 text-[13px] p-3 whitespace-pre-line">{convMicro[0].t}</div>
               </Reveal>
               <Reveal delay={0.16} className="rounded-2xl border border-white/10 bg-neutral-900/50 p-7">
                 <Palette className="w-6 h-6 text-red-500 mb-4" />
@@ -1355,8 +1465,8 @@ export default function ZelusClient() {
                     {c.items.map(([name, tag]) => (
                       <li key={name} className="flex items-center justify-between gap-4 px-5 py-2.5 border-b border-white/5 text-[15px] text-gray-200">
                         <span>{name}</span>
-                        <span className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${tag === B ? "bg-emerald-400/10 text-emerald-300" : "bg-amber-300/10 text-amber-300"}`}>
-                          {tag === B ? "Base" : `Option ${tag}`}
+                        <span className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${tag === B ? "bg-emerald-400/10 text-emerald-300" : tag === "À venir" ? "bg-sky-400/10 text-sky-300" : "bg-amber-300/10 text-amber-300"}`}>
+                          {tag === B ? "Base" : tag === "À venir" ? "Bientôt" : `Option ${tag}`}
                         </span>
                       </li>
                     ))}
