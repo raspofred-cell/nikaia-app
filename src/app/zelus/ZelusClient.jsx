@@ -1154,6 +1154,15 @@ export default function ZelusClient() {
             visual={
               <div>
                 <ScrollShot src="releve-comptable-long.png" h={7791} alt="Relevé comptable du mois dans le tableau de bord Zelus" onZoom={setZoom} />
+                <div className="grid grid-cols-2 gap-3 mt-4">
+                  {["releve-comptable-pdf-p1.png", "releve-comptable-pdf-p2.png"].map((f, i) => (
+                    <button key={f} type="button" onClick={() => setZoom({ src: `${IMG}/${f}`, alt: "Relevé comptable en PDF" })}
+                      className={`group relative overflow-hidden rounded-lg bg-white shadow-[0_15px_40px_rgba(0,0,0,0.5)] transition-transform duration-300 hover:-translate-y-1 ${i ? "rotate-1" : "-rotate-1"}`}>
+                      <img src={`${IMG}/${f}`} alt={`Relevé comptable en PDF, page ${i + 1}`} loading="lazy" className="w-full h-auto block aspect-[1240/1754] object-cover object-top" />
+                      <span className="absolute bottom-2 left-2 rounded-full bg-black/75 px-2.5 py-1 text-[11px] text-white">PDF · page {i + 1} / 6</span>
+                    </button>
+                  ))}
+                </div>
                 <div className="flex flex-wrap gap-2 mt-4">
                   {["Télécharger en PDF", "Excel pour le comptable", "13 derniers mois"].map((x) => (
                     <span key={x} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-gray-300">{x}</span>
