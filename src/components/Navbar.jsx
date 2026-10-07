@@ -65,9 +65,11 @@ export const Navbar = ({ onContact }) => {
             <div className="flex items-center gap-2 md:gap-3">
               <a
                 href="/zelus"
-                className="hidden md:flex items-center px-4 py-2 rounded-full border border-white/15 hover:bg-white/10 transition-colors duration-200 text-white text-sm font-medium"
+                title="Zelus, notre logiciel"
+                aria-label="Zelus, notre logiciel"
+                className="flex items-center px-1 opacity-90 hover:opacity-100 hover:scale-105 transition duration-200"
               >
-                Zelus
+                <img src="/zelus/icone-zelus-nav.svg" alt="Zelus" className="h-7 md:h-8 w-auto" />
               </a>
               <a
                 href="https://wa.me/33619251902"
