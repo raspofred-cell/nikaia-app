@@ -1141,7 +1141,7 @@ export default function ZelusClient() {
           <Feature
             id="releve" icon={FileText} kicker="Comptabilité" reverse
             title="Le relevé du mois, prêt pour votre comptable"
-            text="Fin du mois, votre comptable vous demande vos ventes ? Le relevé est déjà fait. Il s'ouvre sur le mois écoulé, celui que le comptable attend, et se télécharge en PDF ou en Excel en un clic."
+            text="Fin du mois, votre comptable vous demande vos ventes ? Le relevé est déjà fait. Il s'ouvre sur le mois écoulé, celui que le comptable attend, se sort aussi pour l'année entière, et se télécharge en PDF ou en Excel en un clic."
             bullets={[
               "Ventes du mois, factures et avoirs : numéro, date, client, HT, TVA, TTC, état",
               "TVA par taux (5,5 %, 10 %, 20 %) et ventes sans TVA à part",
@@ -1154,9 +1154,13 @@ export default function ZelusClient() {
             visual={
               <div>
                 <ScrollShot src="releve-comptable-long.png" h={7791} alt="Relevé comptable du mois dans le tableau de bord Zelus" onZoom={setZoom} />
+                <div className="relative mt-4">
+                  <Shot src={`${IMG}/releve-excel.png`} alt="Relevé comptable au format Excel, onglets Ventes, Encaissements et TVA" onZoom={setZoom} />
+                  <span className="absolute top-3 right-3 rounded-full bg-[#1e7145] px-3 py-1 text-xs font-semibold text-white shadow">Excel</span>
+                </div>
                 <div className="flex flex-wrap gap-2 mt-4">
-                  {["Télécharger en PDF", "Excel pour le comptable", "13 derniers mois"].map((x) => (
-                    <span key={x} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-gray-300">{x}</span>
+                  {["PDF", "Excel", "Par mois", "Par année"].map((x) => (
+                    <span key={x} className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-gray-200">{x}</span>
                   ))}
                 </div>
               </div>
