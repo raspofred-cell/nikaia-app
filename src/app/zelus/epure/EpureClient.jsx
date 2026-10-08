@@ -268,7 +268,9 @@ export default function EpureClient() {
                 <Ligne a="PV de réception" b="à venir" muted />
                 <div className="mt-5 mb-1 text-[12px] uppercase tracking-[0.2em] text-neutral-500">Conditions</div>
                 <Ligne a="Mise en place" sub="bot, base, Drive, Google, catalogue, 2 h de formation" b="990 €, une fois" />
+                <Ligne a="Utilisateurs inclus" b="2" />
                 <Ligne a="Utilisateur en plus" b="+19 € / mois" />
+                <Ligne a="Compte du comptable" sub="lecture seule" b="offert" />
                 <Ligne a="Paiement à l'année" b="10 mois pour 12" />
                 <Ligne a="Parrainage" b="1 mois offert" />
                 <Ligne a="Engagement" b="aucun" />

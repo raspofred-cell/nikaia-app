@@ -878,7 +878,7 @@ export const faqs = [
   { q: "Pourquoi Telegram et pas une application ?", a: "Parce que vous savez déjà envoyer un message. Pas de formulaire à remplir, pas de menus cachés : des questions, des boutons, et vous pouvez dicter. Ça marche sur le chantier, entre deux rendez-vous, d'une seule main." },
   { q: "Où sont mes données ?", a: "Chez vous. Chaque artisan a sa propre base de données, que vous pouvez consulter à tout moment. Les mails partent de votre adresse, les documents sont rangés dans votre Google Drive, les chantiers dans votre agenda Google." },
   { q: "Mes devis et factures sont-ils conformes ?", a: "Les mentions changent selon le client : rétractation pour un particulier, autoliquidation en sous-traitance, syndicat des copropriétaires représenté par son syndic, franchise de TVA pour un auto-entrepreneur. Les factures sont produites au format de la facture électronique, avec leur fichier de données intégré." },
-  { q: "Je travaille seul, est-ce fait pour moi ?", a: "C'est précisément pour vous. Zelus a été pensé pour l'artisan qui fait tout lui-même et rédige ses devis le soir. Un utilisateur est inclus ; si un salarié l’utilise aussi (secrétaire, associé, chef d’équipe), c’est 19 € par mois et par utilisateur en plus." },
+  { q: "Je travaille seul, est-ce fait pour moi ?", a: "C'est précisément pour vous. Zelus a été pensé pour l'artisan qui fait tout lui-même et rédige ses devis le soir. Deux utilisateurs sont inclus, par exemple vous et votre secrétaire. Au-delà, chaque utilisateur en plus coûte 19 € par mois. Le compte de votre comptable est offert, en lecture seule." },
   { q: "Est-ce que je peux l'essayer ?", a: "Oui. Le plus simple est d'en parler : on vous montre Zelus avec des exemples de votre métier, puis on configure votre bot avec votre logo, vos couleurs et votre catalogue de prestations." },
   { q: "Combien ça coûte ?", a: "Une mise en place de 990 €, une seule fois. Ensuite, 149 € par mois pour l'abonnement de base, ou 249 € par mois pour le pack complet avec toutes les options. Sans engagement, et 10 mois payés pour 12 si vous réglez à l'année. Pour les 10 premiers clients, jusqu'au 31 décembre 2026 : le pack complet à 149 € par mois. Prix nets : TVA non applicable, art. 293 B du CGI." },
 ];
@@ -1475,7 +1475,7 @@ export default function ZelusClient() {
               {[
                 [Wrench, "Mise en place : 990 €, une fois", "Votre bot, votre base, vos dossiers Drive, vos comptes Google, l'import de votre catalogue et 2 h de formation."],
                 [Repeat, "Sans engagement, ou à l'année", "Vous arrêtez quand vous voulez. Si vous réglez à l'année : 10 mois payés pour 12."],
-                [Users, "Utilisateur en plus : +19 € / mois", "Un utilisateur est inclus. Chaque salarié en plus qui utilise Zelus (secrétaire, associé, chef d’équipe) : 19 € par mois."],
+                [Users, "2 utilisateurs inclus", "Chaque utilisateur en plus (associé, chef d’équipe…) : 19 € par mois. Le compte de votre comptable est offert, en lecture seule."],
                 [Gift, "Parrainage : 1 mois offert", "Vous nous amenez un artisan qui s'abonne : un mois d'abonnement vous est offert."],
               ].map(([I, a, b]) => (
                 <Reveal key={a} className="rounded-2xl border border-white/10 bg-neutral-900/50 p-6">
