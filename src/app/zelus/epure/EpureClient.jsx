@@ -262,10 +262,9 @@ export default function EpureClient() {
             <div className="mt-14 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-14">
               <div>
                 <Ligne a="Abonnement de base" b="149 € / mois" />
-                <Ligne a="Pack complet" sub="toutes les options · 274 € au détail" b="249 € / mois" />
+                <Ligne a="Pack complet" sub="toutes les options · 279 € au détail" b="249 € / mois" />
                 <div className="mt-5 mb-1 text-[12px] uppercase tracking-[0.2em] text-neutral-500">Options</div>
                 {options.map((o) => <Ligne key={o.name} a={o.name} b={`+${o.price} € / mois`} />)}
-                <Ligne a="PV de réception" b="à venir" muted />
                 <div className="mt-5 mb-1 text-[12px] uppercase tracking-[0.2em] text-neutral-500">Conditions</div>
                 <Ligne a="Mise en place" sub="bot, base, Drive, Google, catalogue, 2 h de formation" b="990 €, une fois" />
                 <Ligne a="Utilisateurs inclus" b="2" />

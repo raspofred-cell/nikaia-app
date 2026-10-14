@@ -4,7 +4,7 @@ import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-mot
 import {
   ArrowRight, Check, Lock, MessageCircle, Smartphone, FileText, PenLine, Bell, Receipt,
   CalendarDays, Camera, Mic, LayoutDashboard, Users, Palette, ShieldCheck, Building2,
-  Briefcase, Home, ClipboardCheck, X, ZoomIn, ChevronDown, Moon, Clock, Search, ListChecks, MousePointer2, CloudSun, Mail, Sparkles, Gift, Wrench, Repeat,
+  Briefcase, Home, X, ZoomIn, ChevronDown, Moon, Clock, Search, ListChecks, MousePointer2, CloudSun, Mail, Sparkles, Gift, Wrench, Repeat,
 } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -791,9 +791,9 @@ export const options = [
     items: ["Syndic retrouvé dans l'annuaire officiel", "Fiche résidence avec tous ses contacts", "Devis au nom du syndicat des copropriétaires"],
   },
   {
-    icon: Camera, name: "Suivi de chantier", price: 20,
+    icon: Camera, name: "Suivi de chantier", price: 25,
     desc: "Le journal du chantier, tenu depuis le téléphone.",
-    items: ["Démarrage et heure d'arrivée", "Photos rangées automatiquement dans Drive", "Problèmes signalés, client prévenu"],
+    items: ["Démarrage et heure d'arrivée", "Photos rangées automatiquement dans Drive", "Problèmes signalés, client prévenu", "PV de réception signé avec le client"],
   },
   {
     icon: Mic, name: "Rapport de chantier", price: 30,
@@ -843,7 +843,7 @@ export const allFeatures = [
   ] },
   { cat: "Suivi de chantier", items: [
     ["Démarrage et heure d'arrivée", SUI], ["Photos rangées et numérotées dans Drive", SUI], ["Retouche des photos", SUI],
-    ["Problèmes signalés", SUI], ["Client prévenu en un message", SUI], ["Avenant", SUI],
+    ["Problèmes signalés", SUI], ["Client prévenu en un message", SUI], ["Avenant", SUI], ["PV de réception, avec ou sans réserves", SUI],
   ] },
   { cat: "Rapport de chantier", items: [
     ["Rapport en cours ou de fin de chantier", RAP], ["Note vocale transcrite", RAP], ["Rédaction par l'IA", RAP],
@@ -1412,9 +1412,9 @@ export default function ZelusClient() {
                 <div className="text-xs uppercase tracking-widest text-gray-500 mb-2">Pack complet</div>
                 <div className="flex items-baseline gap-2 mb-2">
                   <span className="text-5xl font-bold tracking-tight tabular-nums">249 €</span><span className="text-gray-400">/ mois</span>
-                  <span className="ml-2 text-gray-500 line-through tabular-nums">274 €</span>
+                  <span className="ml-2 text-gray-500 line-through tabular-nums">279 €</span>
                 </div>
-                <p className="text-gray-400 mb-6">La base et toutes les options, pour 25 € de moins qu'au détail.</p>
+                <p className="text-gray-400 mb-6">La base et toutes les options, pour 30 € de moins qu'au détail.</p>
                 <ul className="space-y-2.5 mb-8 flex-1">
                   <li className="flex gap-3 text-gray-300 text-[15px]"><Check className="w-5 h-5 text-nikaia flex-shrink-0" />Tout l'abonnement de base</li>
                   {options.map((o) => (
@@ -1456,18 +1456,6 @@ export default function ZelusClient() {
                   </ul>
                 </Reveal>
               ))}
-              <Reveal delay={0.25} className="relative flex flex-col rounded-2xl border border-dashed border-white/15 bg-neutral-900/30 p-6">
-                <div className="absolute top-4 right-4 rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-medium text-gray-300">À venir</div>
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4"><ClipboardCheck className="w-5 h-5 text-gray-400" /></div>
-                <div className="text-white font-medium">PV de réception</div>
-                <div className="text-sm text-gray-500 mt-1 mb-3">en préparation</div>
-                <p className="text-gray-400 text-sm mb-4">Le procès-verbal de fin de travaux, signé avec le client.</p>
-                <ul className="space-y-2 text-sm text-gray-400">
-                  {["Réception avec ou sans réserves", "Signature du client", "Rangé avec le dossier du chantier"].map((it) => (
-                    <li key={it} className="flex gap-2"><Check className="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5" />{it}</li>
-                  ))}
-                </ul>
-              </Reveal>
             </div>
 
             {/* Conditions */}
