@@ -290,6 +290,7 @@ export default function EpureClient() {
                   <li>— Prix garanti tant que vous restez abonné</li>
                   <li>— Sans engagement · jusqu'au 31 décembre 2026</li>
                 </ul>
+                <p className="mt-5 text-[14px] text-neutral-400">En contrepartie, vous nous signalez les problèmes rencontrés et vos idées d&apos;amélioration dans le groupe Telegram des fondateurs.</p>
                 <button onClick={() => open("Zelus — Offre fondateurs")} className="mt-8 w-full rounded-full py-3 text-[14px] text-white transition-opacity hover:opacity-90" style={{ background: RED }}>
                   Réserver ma place
                 </button>

@@ -880,6 +880,7 @@ export const faqs = [
   { q: "Mes devis et factures sont-ils conformes ?", a: "Les mentions changent selon le client : rétractation pour un particulier, autoliquidation en sous-traitance, syndicat des copropriétaires représenté par son syndic, franchise de TVA pour un auto-entrepreneur. Les factures sont produites au format de la facture électronique, avec leur fichier de données intégré." },
   { q: "Je travaille seul, est-ce fait pour moi ?", a: "C'est précisément pour vous. Zelus a été pensé pour l'artisan qui fait tout lui-même et rédige ses devis le soir. Deux utilisateurs sont inclus, par exemple vous et votre secrétaire. Au-delà, chaque utilisateur en plus coûte 19 € par mois. Le compte de votre comptable est offert, en lecture seule." },
   { q: "Est-ce que je peux l'essayer ?", a: "Oui. Le plus simple est d'en parler : on vous montre Zelus avec des exemples de votre métier, puis on configure votre bot avec votre logo, vos couleurs et votre catalogue de prestations." },
+  { q: "Zelus va-t-il changer ?", a: "Zelus deviendra aussi une application en 2027. Votre abonnement y passera sans frais et sans changement de prix : vos données sont reprises, et les liens déjà envoyés à vos clients restent valables. C'est écrit dans le contrat dès la signature." },
   { q: "Combien ça coûte ?", a: "Une mise en place de 990 €, une seule fois. Ensuite, 149 € par mois pour l'abonnement de base, ou 249 € par mois pour le pack complet avec toutes les options. Sans engagement, et 10 mois payés pour 12 si vous réglez à l'année. Pour les 10 premiers clients, jusqu'au 31 décembre 2026 : le pack complet à 149 € par mois. Prix nets : TVA non applicable, art. 293 B du CGI." },
 ];
 
@@ -1372,6 +1373,7 @@ export default function ZelusClient() {
                       <li key={it} className="flex gap-3 text-gray-200"><Check className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />{it}</li>
                     ))}
                   </ul>
+                  <p className="text-gray-400 mt-6">En contrepartie, vous nous signalez les problèmes rencontrés et vos idées d&apos;amélioration dans le groupe Telegram des fondateurs.</p>
                 </div>
                 <div className="lg:text-right lg:pl-10 lg:border-l lg:border-white/10">
                   <div className="text-gray-500 text-xl line-through tabular-nums">249 € / mois</div>
